@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <InteractionDef Name="LW_WorldTalkBase" Abstract="True">
+    <workerClass>LivingWorld.InteractionWorker_WorldTalk</workerClass>
+    <symbol>Things/Mote/SpeechSymbols/Chitchat</symbol>
+    <initiatorThought>Chitchat</initiatorThought>
+    <initiatorXpGainSkill>Social</initiatorXpGainSkill>
+    <initiatorXpGainAmount>4</initiatorXpGainAmount>
+    <recipientThought>Chitchat</recipientThought>
+  </InteractionDef>
+
+  <InteractionDef ParentName="LW_WorldTalkBase">
+    <defName>LW_TalkWar</defName>
+    <label>talk about the wars</label>
+    <modExtensions><li Class="LivingWorld.WorldTalkExtension"><topic>War</topic></li></modExtensions>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] and [RECIPIENT_nameDef] talked about the fighting out in the world.</li>
+        <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] what [INITIATOR_pronoun] had heard about the war.</li>
+        <li>r_logentry->[INITIATOR_nameDef] wondered aloud to [RECIPIENT_nameDef] who would win the war.</li>
+        <li>r_logentry->[INITIATOR_nameDef] and [RECIPIENT_nameDef] argued about which side was in the right.</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+
+  <InteractionDef ParentName="LW_WorldTalkBase">
+    <defName>LW_TalkMarkets</defName>
+    <label>talk about prices</label>
+    <modExtensions><li Class="LivingWorld.WorldTalkExtension"><topic>Markets</topic><weight>0.06</weight></li></modExtensions>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] and [RECIPIENT_nameDef] compared what things cost in the towns around.</li>
+        <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] which town would pay best for their goods.</li>
+        <li>r_logentry->[INITIATOR_nameDef] complained to [RECIPIENT_nameDef] about the traders' prices.</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+
+  <InteractionDef ParentName="LW_WorldTalkBase">
+    <defName>LW_TalkFamine</defName>
+    <label>worry about hardship</label>
+    <modExtensions><li Class="LivingWorld.WorldTalkExtension"><topic>Famine</topic></li></modExtensions>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] and [RECIPIENT_nameDef] worried about the hungry towns out there.</li>
+        <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] about the sickness spreading in a town nearby.</li>
+        <li>r_logentry->[INITIATOR_nameDef] and [RECIPIENT_nameDef] counted themselves lucky compared to the starving towns.</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+
+  <InteractionDef ParentName="LW_WorldTalkBase">
+    <defName>LW_TalkHome</defName>
+    <label>tell stories of home</label>
+    <modExtensions><li Class="LivingWorld.WorldTalkExtension"><topic>Home</topic></li></modExtensions>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] stories of the town [INITIATOR_pronoun] grew up in.</li>
+        <li>r_logentry->[INITIATOR_nameDef] described [INITIATOR_possessive] home town to [RECIPIENT_nameDef].</li>
+        <li>r_logentry->[INITIATOR_nameDef] wondered aloud to [RECIPIENT_nameDef] how [INITIATOR_possessive] old neighbours were doing.</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+
+  <InteractionDef ParentName="LW_WorldTalkBase">
+    <defName>LW_TalkFeud</defName>
+    <label>talk about the blood feud</label>
+    <!-- No chitchat mood: it is no pleasant talk (the hunted one already feels marked for vengeance). -->
+    <initiatorThought IsNull="True" />
+    <recipientThought IsNull="True" />
+    <modExtensions><li Class="LivingWorld.WorldTalkExtension"><topic>Feud</topic><weight>0.08</weight></li></modExtensions>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] and [RECIPIENT_nameDef] talked in low voices about the oath of vengeance sworn against the colony.</li>
+        <li>r_logentry->[INITIATOR_nameDef] asked [RECIPIENT_nameDef] whether the avenger would come with the next war band.</li>
+        <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] [INITIATOR_pronoun] kept a weapon close these days, because of the feud.</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+
+  <InteractionDef ParentName="LW_WorldTalkBase">
+    <defName>LW_TalkDeeds</defName>
+    <label>tell of past deeds</label>
+    <modExtensions><li Class="LivingWorld.WorldTalkExtension"><topic>Deeds</topic><weight>0.05</weight></li></modExtensions>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] the story of one of [INITIATOR_possessive] deeds, again.</li>
+        <li>r_logentry->[INITIATOR_nameDef] boasted to [RECIPIENT_nameDef] of what [INITIATOR_pronoun] had done for the colony.</li>
+        <li>r_logentry->[INITIATOR_nameDef] remembered with [RECIPIENT_nameDef] a day the colony still talks about.</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+
+  <InteractionDef ParentName="LW_WorldTalkBase">
+    <defName>LW_TalkRulers</defName>
+    <label>talk about the rulers</label>
+    <modExtensions><li Class="LivingWorld.WorldTalkExtension"><topic>Rulers</topic><weight>0.08</weight></li></modExtensions>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] and [RECIPIENT_nameDef] gossiped about the new ruler out in the world.</li>
+        <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] what travellers said about the ruling houses.</li>
+        <li>r_logentry->[INITIATOR_nameDef] wondered with [RECIPIENT_nameDef] whether the new ruler would mean war.</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+</Defs>

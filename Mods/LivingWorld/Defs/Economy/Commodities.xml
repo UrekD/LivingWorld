@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Values are daily silver-value units per inhabitant. Tech curves: x = TechLevel (2 Neolithic, 3 Medieval,
+       4 Industrial, 5 Spacer, 6 Ultra). Drivers (fertility, wildlife, hills, coast, river) are 0..1 per tile. -->
+  <LivingWorld.CommodityDef>
+    <defName>LW_Food</defName>
+    <commissionGoods><li><thing>MealSimple</thing><count>10</count></li><li><thing>Pemmican</thing><count>60</count></li></commissionGoods>
+    <silverPerUnit>20</silverPerUnit>
+    <label>food</label>
+    <description>Grain, meat, preserved and cooked food. Running out means hunger.</description>
+    <thingCategories><li>Foods</li></thingCategories>
+    <productionPerCapita>1.1</productionPerCapita>
+    <consumptionPerCapita>1.0</consumptionPerCapita>
+    <productionByTech><points><li>(2, 1.0)</li><li>(3, 1.05)</li><li>(4, 1.2)</li><li>(5, 1.35)</li></points></productionByTech>
+    <fertilityWeight>0.8</fertilityWeight>
+    <wildlifeWeight>0.25</wildlifeWeight>
+    <coastWeight>0.3</coastWeight>
+    <riverWeight>0.25</riverWeight>
+    <crowdingSensitivity>0.8</crowdingSensitivity>
+    <seasonality>0.45</seasonality>
+    <targetStockDays>15</targetStockDays>
+    <maxStockDays>80</maxStockDays>
+    <elasticity>0.7</elasticity>
+        <essential>true</essential>
+    <specialtyLabel>farming</specialtyLabel>
+    <color>(0.85, 0.75, 0.35)</color>
+  </LivingWorld.CommodityDef>
+  <LivingWorld.CommodityDef>
+    <defName>LW_Medicine</defName>
+    <commissionGoods><li><thing>MedicineHerbal</thing><count>10</count></li><li><thing>MedicineIndustrial</thing><count>6</count></li></commissionGoods>
+    <silverPerUnit>15</silverPerUnit>
+    <label>medicine</label>
+    <description>Herbal and industrial medicine.</description>
+    <thingCategories><li>Medicine</li></thingCategories>
+    <productionPerCapita>0.037</productionPerCapita>
+    <consumptionPerCapita>0.03</consumptionPerCapita>
+    <productionByTech><points><li>(2, 0.7)</li><li>(3, 0.85)</li><li>(4, 1.2)</li><li>(5, 1.5)</li></points></productionByTech>
+    <consumptionByTech><points><li>(2, 0.6)</li><li>(3, 0.8)</li><li>(4, 1.1)</li><li>(5, 1.3)</li></points></consumptionByTech>
+    <fertilityWeight>0.3</fertilityWeight>
+    <warDemandFactor>1.4</warDemandFactor>
+    <specialtyLabel>healers</specialtyLabel>
+    <color>(0.9, 0.35, 0.35)</color>
+  </LivingWorld.CommodityDef>
+  <LivingWorld.CommodityDef>
+    <defName>LW_Textiles</defName>
+    <commissionGoods><li><thing>Cloth</thing><count>40</count></li></commissionGoods>
+    <silverPerUnit>15</silverPerUnit>
+    <label>textiles</label>
+    <description>Cloth, leather and wool.</description>
+    <thingCategories><li>Textiles</li></thingCategories>
+    <productionPerCapita>0.1187</productionPerCapita>
+    <consumptionPerCapita>0.1</consumptionPerCapita>
+    <wildlifeWeight>0.5</wildlifeWeight>
+    <fertilityWeight>0.3</fertilityWeight>
+    <crowdingSensitivity>0.3</crowdingSensitivity>
+    <specialtyLabel>weavers</specialtyLabel>
+    <color>(0.7, 0.55, 0.8)</color>
+  </LivingWorld.CommodityDef>
+  <LivingWorld.CommodityDef>
+    <defName>LW_Materials</defName>
+    <commissionGoods><li><thing>WoodLog</thing><count>120</count></li><li><thing>Steel</thing><count>60</count></li></commissionGoods>
+    <silverPerUnit>10</silverPerUnit>
+    <label>materials</label>
+    <description>Wood, stone, steel and other raw resources.</description>
+    <thingCategories><li>ResourcesRaw</li><li>StoneBlocks</li></thingCategories>
+    <productionPerCapita>0.2374</productionPerCapita>
+    <consumptionPerCapita>0.2</consumptionPerCapita>
+    <productionByTech><points><li>(2, 0.8)</li><li>(4, 1.2)</li><li>(5, 1.4)</li></points></productionByTech>
+    <consumptionByTech><points><li>(2, 0.7)</li><li>(4, 1.2)</li><li>(5, 1.4)</li></points></consumptionByTech>
+    <hillsWeight>0.8</hillsWeight>
+    <fertilityWeight>0.3</fertilityWeight>
+    <crowdingSensitivity>0.3</crowdingSensitivity>
+    <specialtyLabel>mining</specialtyLabel>
+    <color>(0.6, 0.6, 0.6)</color>
+  </LivingWorld.CommodityDef>
+  <LivingWorld.CommodityDef>
+    <defName>LW_Components</defName>
+    <commissionGoods><li><thing>ComponentIndustrial</thing><count>5</count></li></commissionGoods>
+    <silverPerUnit>30</silverPerUnit>
+    <label>components</label>
+    <description>Machine parts, prosthetics and other manufactured goods.</description>
+    <thingCategories><li>Manufactured</li><li>BodyParts</li></thingCategories>
+    <productionPerCapita>0.0336</productionPerCapita>
+    <consumptionPerCapita>0.03</consumptionPerCapita>
+    <productionByTech><points><li>(2, 0)</li><li>(3, 0.15)</li><li>(4, 1.0)</li><li>(5, 1.6)</li></points></productionByTech>
+    <consumptionByTech><points><li>(2, 0.05)</li><li>(3, 0.25)</li><li>(4, 1.0)</li><li>(5, 1.5)</li></points></consumptionByTech>
+    <hillsWeight>0.3</hillsWeight>
+    <specialtyLabel>workshops</specialtyLabel>
+    <color>(0.45, 0.65, 0.85)</color>
+  </LivingWorld.CommodityDef>
+  <LivingWorld.CommodityDef>
+    <defName>LW_Weapons</defName>
+    <commissionGoods><li><thing>MeleeWeapon_Spear</thing><count>2</count></li><li><thing>Gun_BoltActionRifle</thing><count>2</count></li></commissionGoods>
+    <silverPerUnit>40</silverPerUnit>
+    <label>weapons</label>
+    <description>Melee and ranged weapons, grenades.</description>
+    <thingCategories><li>Weapons</li><li>Grenades</li></thingCategories>
+    <productionPerCapita>0.0493</productionPerCapita>
+    <consumptionPerCapita>0.04</consumptionPerCapita>
+    <hillsWeight>0.3</hillsWeight>
+    <warDemandFactor>1.6</warDemandFactor>
+    <specialtyLabel>smiths</specialtyLabel>
+    <color>(0.75, 0.45, 0.3)</color>
+  </LivingWorld.CommodityDef>
+  <LivingWorld.CommodityDef>
+    <defName>LW_Apparel</defName>
+    <commissionGoods><li><thing>Apparel_TribalA</thing><count>3</count></li><li><thing>Apparel_Parka</thing><count>2</count></li></commissionGoods>
+    <silverPerUnit>25</silverPerUnit>
+    <label>apparel</label>
+    <description>Clothing and armor.</description>
+    <thingCategories><li>Apparel</li></thingCategories>
+    <productionPerCapita>0.084</productionPerCapita>
+    <consumptionPerCapita>0.07</consumptionPerCapita>
+    <wildlifeWeight>0.3</wildlifeWeight>
+    <warDemandFactor>1.15</warDemandFactor>
+    <specialtyLabel>tailors</specialtyLabel>
+    <color>(0.55, 0.75, 0.55)</color>
+  </LivingWorld.CommodityDef>
+  <LivingWorld.CommodityDef>
+    <defName>LW_Drugs</defName>
+    <commissionGoods><li><thing>Beer</thing><count>25</count></li><li><thing>SmokeleafJoint</thing><count>12</count></li></commissionGoods>
+    <silverPerUnit>12</silverPerUnit>
+    <label>drugs</label>
+    <description>Beer, smokeleaf, psychite and other drugs.</description>
+    <thingCategories><li>Drugs</li></thingCategories>
+    <productionPerCapita>0.0302</productionPerCapita>
+    <consumptionPerCapita>0.025</consumptionPerCapita>
+    <fertilityWeight>0.6</fertilityWeight>
+    <crowdingSensitivity>0.3</crowdingSensitivity>
+    <specialtyLabel>plantations</specialtyLabel>
+    <color>(0.5, 0.8, 0.4)</color>
+  </LivingWorld.CommodityDef>
+  <LivingWorld.CommodityDef>
+    <defName>LW_Luxuries</defName>
+    <commissionGoods><li><thing>Gold</thing><count>25</count></li><li><thing>Jade</thing><count>30</count></li></commissionGoods>
+    <silverPerUnit>30</silverPerUnit>
+    <label>luxuries</label>
+    <description>Art, gold, jade, books and fine goods.</description>
+    <thingCategories><li>BuildingsArt</li><li>Books</li><li>Artifacts</li></thingCategories>
+    <thingDefs><li>Gold</li><li>Jade</li></thingDefs>
+    <productionPerCapita>0.0302</productionPerCapita>
+    <consumptionPerCapita>0.025</consumptionPerCapita>
+    <consumptionByTech><points><li>(2, 0.5)</li><li>(4, 1.2)</li><li>(5, 1.6)</li></points></consumptionByTech>
+    <hillsWeight>0.5</hillsWeight>
+    <coastWeight>0.2</coastWeight>
+    <specialtyLabel>artisans</specialtyLabel>
+    <color>(0.95, 0.8, 0.3)</color>
+  </LivingWorld.CommodityDef>
+  <LivingWorld.CommodityDef>
+    <defName>LW_Animals</defName>
+    <silverPerUnit>40</silverPerUnit>
+    <label>animals</label>
+    <description>Livestock, pack animals and pets.</description>
+    <thingCategories><li>Animals</li></thingCategories>
+    <productionPerCapita>0.0336</productionPerCapita>
+    <consumptionPerCapita>0.03</consumptionPerCapita>
+    <wildlifeWeight>1.0</wildlifeWeight>
+    <crowdingSensitivity>0.5</crowdingSensitivity>
+    <seasonality>0.3</seasonality>
+    <specialtyLabel>herders</specialtyLabel>
+    <color>(0.7, 0.5, 0.35)</color>
+  </LivingWorld.CommodityDef>
+</Defs>

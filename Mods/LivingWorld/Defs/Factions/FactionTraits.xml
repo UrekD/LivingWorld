@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <LivingWorld.FactionTraitDef>
+    <defName>LW_Warlike</defName>
+    <label>warlike</label>
+    <description>Quick to take up arms and slow to forgive.</description>
+    <warPropensity>1.6</warPropensity>
+    <militarization>1.3</militarization>
+    <tradeVolume>0.8</tradeVolume>
+    <playerTolerance>0.85</playerTolerance>
+  </LivingWorld.FactionTraitDef>
+  <LivingWorld.FactionTraitDef>
+    <defName>LW_Peaceful</defName>
+    <label>peaceful</label>
+    <description>Prefers talk to war and keeps the peace when it can.</description>
+    <permanentEnemy>false</permanentEnemy>
+    <conflictsWith><li>LW_Warlike</li></conflictsWith>
+    <warPropensity>0.5</warPropensity>
+    <militarization>0.8</militarization>
+    <treatyKeeping>1.3</treatyKeeping>
+    <playerTolerance>1.15</playerTolerance>
+  </LivingWorld.FactionTraitDef>
+  <LivingWorld.FactionTraitDef>
+    <defName>LW_Mercantile</defName>
+    <label>mercantile</label>
+    <description>Lives by trade: sends many caravans and values open roads.</description>
+    <permanentEnemy>false</permanentEnemy>
+    <tradeVolume>1.6</tradeVolume>
+    <growth>1.1</growth>
+  </LivingWorld.FactionTraitDef>
+  <LivingWorld.FactionTraitDef>
+    <defName>LW_Expansionist</defName>
+    <label>expansionist</label>
+    <description>Hungry for land: founds new settlements and covets its neighbours'.</description>
+    <expansion>1.8</expansion>
+    <warPropensity>1.2</warPropensity>
+  </LivingWorld.FactionTraitDef>
+  <LivingWorld.FactionTraitDef>
+    <defName>LW_Isolationist</defName>
+    <label>isolationist</label>
+    <description>Keeps to itself: little trade, little expansion, wary of strangers.</description>
+    <conflictsWith><li>LW_Mercantile</li><li>LW_Expansionist</li></conflictsWith>
+    <tradeVolume>0.5</tradeVolume>
+    <expansion>0.5</expansion>
+    <playerTolerance>0.85</playerTolerance>
+  </LivingWorld.FactionTraitDef>
+  <LivingWorld.FactionTraitDef>
+    <defName>LW_Honorable</defName>
+    <label>honorable</label>
+    <description>Keeps its word, remembers its debts.</description>
+    <permanentEnemy>false</permanentEnemy>
+    <treatyKeeping>1.6</treatyKeeping>
+    <playerTolerance>1.1</playerTolerance>
+  </LivingWorld.FactionTraitDef>
+  <LivingWorld.FactionTraitDef>
+    <defName>LW_Treacherous</defName>
+    <label>treacherous</label>
+    <description>Breaks treaties when it pays.</description>
+    <conflictsWith><li>LW_Honorable</li></conflictsWith>
+    <treatyKeeping>0.5</treatyKeeping>
+    <warPropensity>1.2</warPropensity>
+  </LivingWorld.FactionTraitDef>
+  <LivingWorld.FactionTraitDef>
+    <defName>LW_Prolific</defName>
+    <label>prolific</label>
+    <description>Large families and growing towns.</description>
+    <growth>1.35</growth>
+  </LivingWorld.FactionTraitDef>
+  <LivingWorld.FactionTraitDef>
+    <defName>LW_Disciplined</defName>
+    <label>disciplined</label>
+    <description>A standing army in every town.</description>
+    <militarization>1.4</militarization>
+  </LivingWorld.FactionTraitDef>
+  <LivingWorld.FactionTraitDef>
+    <defName>LW_Zealous</defName>
+    <label>zealous</label>
+    <description>Its faith drives it: hostile to unbelievers, fervent in growth.</description>
+    <warPropensity>1.25</warPropensity>
+    <growth>1.1</growth>
+    <playerTolerance>0.9</playerTolerance>
+  </LivingWorld.FactionTraitDef>
+  <LivingWorld.FactionTraitDef>
+    <defName>LW_Marauders</defName>
+    <label>marauders</label>
+    <description>Lives off plunder rather than work.</description>
+    <permanentEnemy>true</permanentEnemy>
+    <commonality>3</commonality>
+    <warPropensity>1.5</warPropensity>
+    <militarization>1.4</militarization>
+    <tradeVolume>0.3</tradeVolume>
+    <growth>0.9</growth>
+  </LivingWorld.FactionTraitDef>
+</Defs>

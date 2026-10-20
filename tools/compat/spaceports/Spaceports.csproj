@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Builds Rimsential Spaceports (Continued) (MIT, github.com/Zaljerem/RimsentialSpaceportsContinued) for RimWorld 1.7.
+       Pass -p:Src=<checkout>/Source -p:RimWorldDir=<RimWorld 1.7 install>. SharpUtils is compiled into Spaceports.dll. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>Spaceports</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <NoWarn>$(NoWarn);CS0618;CS0612;CS8632;CS0414;CS0649;CS0169;CS0108;CS0114;CS0162;CS0219;CS0168;CS0105</NoWarn>
+    <OutputPath>bin</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- 1.7 fix 1: .NET 10 adds System.Reflection.MethodInvoker; Spaceports means HarmonyLib's. -->
+    <Compile Include="MethodInvokerAlias.cs;$(Src)/Spaceports/**/*.cs;$(Src)/SharpUtils/**/*.cs" Exclude="$(Src)/**/obj/**;$(Src)/**/bin/**;$(Src)/**/Properties/**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Lib.Harmony" Version="3.0.0-rc.3" ExcludeAssets="runtime" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldDir)/Assembly-CSharp.dll</HintPath><Private>False</Private></Reference>
+    <!-- 1.7 fix 2: Material and friends live in the Waylith engine assembly now (UnityStubs forwards them). -->
+    <Reference Include="Waylith"><HintPath>$(RimWorldDir)/Waylith.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="UnityStubs"><HintPath>$(RimWorldDir)/UnityStubs.dll</HintPath><Private>False</Private></Reference>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- What visitors, traders and raiders carry from their home town (People/VisitorStories.cs). -->
+  <ThoughtDef Name="LW_VisitorHomeBase" Abstract="True">
+    <durationDays>3</durationDays>
+    <stackLimit>1</stackLimit>
+  </ThoughtDef>
+  <ThoughtDef ParentName="LW_VisitorHomeBase">
+    <defName>LW_Visitor_HomeSacked</defName>
+    <stages><li>
+      <label>home was sacked</label>
+      <description>Raiders came to my town only days ago. I don't know what is left of it.</description>
+      <baseMoodEffect>-10</baseMoodEffect>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef ParentName="LW_VisitorHomeBase">
+    <defName>LW_Visitor_HomeStarving</defName>
+    <stages><li>
+      <label>hunger at home</label>
+      <description>There is no food back home. People are going hungry.</description>
+      <baseMoodEffect>-6</baseMoodEffect>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef ParentName="LW_VisitorHomeBase">
+    <defName>LW_Visitor_HomeAtWar</defName>
+    <stages><li>
+      <label>war at home</label>
+      <description>My people are at war. I worry about the ones I left behind.</description>
+      <baseMoodEffect>-4</baseMoodEffect>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef ParentName="LW_VisitorHomeBase">
+    <defName>LW_Visitor_HomeFair</defName>
+    <stages><li>
+      <label>fair at home</label>
+      <description>The yearly fair is on back home. Music, traders, good food.</description>
+      <baseMoodEffect>5</baseMoodEffect>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef ParentName="LW_VisitorHomeBase">
+    <defName>LW_Visitor_HomeThriving</defName>
+    <stages><li>
+      <label>home is thriving</label>
+      <description>Times are good in my town.</description>
+      <baseMoodEffect>3</baseMoodEffect>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef ParentName="LW_VisitorHomeBase">
+    <defName>LW_Visitor_KinReleased</defName>
+    <stages><li>
+      <label>they let one of ours go</label>
+      <description>This colony held one of my people and let them go home. I will remember that.</description>
+      <baseMoodEffect>4</baseMoodEffect>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef ParentName="LW_VisitorHomeBase">
+    <defName>LW_Visitor_KinExecuted</defName>
+    <stages><li>
+      <label>they killed one of ours</label>
+      <description>One of my people died a prisoner here. I am among the people who did it.</description>
+      <baseMoodEffect>-10</baseMoodEffect>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>LW_FamilyVisit</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>8</durationDays>
+    <stackLimit>2</stackLimit>
+    <stackLimitForSameOtherPawn>1</stackLimitForSameOtherPawn>
+    <stages><li>
+      <label>family came to visit</label>
+      <description>I saw my family again after so long.</description>
+      <baseMoodEffect>6</baseMoodEffect>
+      <baseOpinionOffset>10</baseOpinionOffset>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>LW_BetrayedHome</defName>
+    <durationDays>20</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages><li>
+      <label>colony turned on my home</label>
+      <description>We promised to march against the town I come from. How could they?</description>
+      <baseMoodEffect>-8</baseMoodEffect>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>LW_StoodUpForHome</defName>
+    <durationDays>10</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages><li>
+      <label>colony spared my home</label>
+      <description>We were asked to march against my home town, and we said no.</description>
+      <baseMoodEffect>4</baseMoodEffect>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>LW_PactWithHome</defName>
+    <durationDays>10</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages><li>
+      <label>pact with my people</label>
+      <description>We made a trade pact with the people I come from.</description>
+      <baseMoodEffect>3</baseMoodEffect>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>LW_HostedRuler</defName>
+    <durationDays>10</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages><li>
+      <label>a ruler visited us</label>
+      <description>A real ruler came to our colony in person. People out there know who we are.</description>
+      <baseMoodEffect>4</baseMoodEffect>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>LW_HeardBitterness</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>3</stackLimit>
+    <stackLimitForSameOtherPawn>1</stackLimitForSameOtherPawn>
+    <stages><li>
+      <label>blamed for a dead prisoner</label>
+      <description>A visitor blamed me for the prisoner who died here.</description>
+      <baseMoodEffect>-2</baseMoodEffect>
+      <baseOpinionOffset>-10</baseOpinionOffset>
+    </li></stages>
+  </ThoughtDef>
+  <ThoughtDef>
+    <defName>LW_ReunionThought</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>30</durationDays>
+    <stackLimit>3</stackLimit>
+    <stackLimitForSameOtherPawn>1</stackLimitForSameOtherPawn>
+    <stages><li>
+      <label>met an old friend again</label>
+      <description>Good to see a familiar face.</description>
+      <baseMoodEffect>4</baseMoodEffect>
+      <baseOpinionOffset>8</baseOpinionOffset>
+    </li></stages>
+  </ThoughtDef>
+</Defs>

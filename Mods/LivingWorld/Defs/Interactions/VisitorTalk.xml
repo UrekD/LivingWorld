@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Told by visitors to colonists nearby (People/VisitorStories.cs); never chosen at random. -->
+  <InteractionDef Name="LW_VisitorNewsBase" Abstract="True">
+    <workerClass>InteractionWorker</workerClass>
+    <symbol>Things/Mote/SpeechSymbols/Chitchat</symbol>
+    <initiatorThought>Chitchat</initiatorThought>
+    <recipientThought>Chitchat</recipientThought>
+    <initiatorXpGainSkill>Social</initiatorXpGainSkill>
+    <initiatorXpGainAmount>4</initiatorXpGainAmount>
+  </InteractionDef>
+  <InteractionDef ParentName="LW_VisitorNewsBase">
+    <defName>LW_VisitorNewsSacked</defName>
+    <label>news of a sacked town</label>
+    <logRulesInitiator><rulesStrings>
+      <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] how raiders had sacked [INITIATOR_possessive] home town.</li>
+      <li>r_logentry->[INITIATOR_nameDef] described to [RECIPIENT_nameDef] the smoke over [INITIATOR_possessive] town.</li>
+    </rulesStrings></logRulesInitiator>
+  </InteractionDef>
+  <InteractionDef ParentName="LW_VisitorNewsBase">
+    <defName>LW_VisitorNewsStarving</defName>
+    <label>news of hunger</label>
+    <logRulesInitiator><rulesStrings>
+      <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] that people back home were going hungry.</li>
+      <li>r_logentry->[INITIATOR_nameDef] asked [RECIPIENT_nameDef] whether the colony had food to spare for [INITIATOR_possessive] town.</li>
+    </rulesStrings></logRulesInitiator>
+  </InteractionDef>
+  <InteractionDef ParentName="LW_VisitorNewsBase">
+    <defName>LW_VisitorNewsWar</defName>
+    <label>news of war</label>
+    <logRulesInitiator><rulesStrings>
+      <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] about the war [INITIATOR_possessive] people were fighting.</li>
+      <li>r_logentry->[INITIATOR_nameDef] warned [RECIPIENT_nameDef] that the roads were full of war bands.</li>
+    </rulesStrings></logRulesInitiator>
+  </InteractionDef>
+  <InteractionDef ParentName="LW_VisitorNewsBase">
+    <defName>LW_VisitorNewsFair</defName>
+    <label>news of a fair</label>
+    <logRulesInitiator><rulesStrings>
+      <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] about the fair back home and invited [RECIPIENT_objective] to come.</li>
+      <li>r_logentry->[INITIATOR_nameDef] described the fair's stalls and music to [RECIPIENT_nameDef].</li>
+    </rulesStrings></logRulesInitiator>
+  </InteractionDef>
+  <InteractionDef ParentName="LW_VisitorNewsBase">
+    <defName>LW_VisitorNewsThriving</defName>
+    <label>news of good times</label>
+    <logRulesInitiator><rulesStrings>
+      <li>r_logentry->[INITIATOR_nameDef] boasted to [RECIPIENT_nameDef] about how well [INITIATOR_possessive] town was doing.</li>
+      <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] about the new houses going up back home.</li>
+    </rulesStrings></logRulesInitiator>
+  </InteractionDef>
+  <InteractionDef ParentName="LW_VisitorNewsBase">
+    <defName>LW_VisitorNewsKinReleased</defName>
+    <label>thanks for a released prisoner</label>
+    <logRulesInitiator><rulesStrings>
+      <li>r_logentry->[INITIATOR_nameDef] thanked [RECIPIENT_nameDef] for letting one of [INITIATOR_possessive] people go home.</li>
+      <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] that [INITIATOR_possessive] town still talked about the prisoner the colony had freed.</li>
+    </rulesStrings></logRulesInitiator>
+  </InteractionDef>
+  <InteractionDef ParentName="LW_VisitorNewsBase">
+    <defName>LW_VisitorNewsKinExecuted</defName>
+    <label>bitterness over a dead prisoner</label>
+    <symbol>Things/Mote/SpeechSymbols/Insult</symbol>
+    <recipientThought>LW_HeardBitterness</recipientThought>
+    <logRulesInitiator><rulesStrings>
+      <li>r_logentry->[INITIATOR_nameDef] reminded [RECIPIENT_nameDef] coldly of the prisoner from [INITIATOR_possessive] town who had died here.</li>
+      <li>r_logentry->[INITIATOR_nameDef] refused to look at [RECIPIENT_nameDef], muttering about the dead prisoner.</li>
+    </rulesStrings></logRulesInitiator>
+  </InteractionDef>
+  <InteractionDef ParentName="LW_VisitorNewsBase">
+    <defName>LW_Reunion</defName>
+    <label>reunion</label>
+    <symbol>Things/Mote/SpeechSymbols/KindWords</symbol>
+    <initiatorThought>LW_ReunionThought</initiatorThought>
+    <recipientThought>LW_ReunionThought</recipientThought>
+    <logRulesInitiator><rulesStrings>
+      <li>r_logentry->[INITIATOR_nameDef] and [RECIPIENT_nameDef] greeted each other like old friends.</li>
+      <li>r_logentry->[INITIATOR_nameDef] was glad to see [RECIPIENT_nameDef] again and asked how [RECIPIENT_pronoun] had been.</li>
+    </rulesStrings></logRulesInitiator>
+  </InteractionDef>
+  <InteractionDef ParentName="LW_VisitorNewsBase">
+    <defName>LW_VisitorFeudWarning</defName>
+    <label>warning of a blood feud</label>
+    <logRulesInitiator><rulesStrings>
+      <li>r_logentry->[INITIATOR_nameDef] lowered [INITIATOR_possessive] voice and warned [RECIPIENT_nameDef] of a blood feud sworn against the colony.</li>
+      <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] what people were saying about an oath of vengeance.</li>
+    </rulesStrings></logRulesInitiator>
+  </InteractionDef>
+</Defs>

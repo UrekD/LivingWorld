@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <WorldObjectDef>
+    <defName>LW_Party</defName>
+    <label>party</label>
+    <description>A group travelling the world: merchants, warriors, settlers or travellers.</description>
+    <worldObjectClass>LivingWorld.WorldParty</worldObjectClass>
+    <texture>LivingWorld/World/Merchants</texture>
+    <useDynamicDrawer>true</useDynamicDrawer>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconTexture>LivingWorld/World/Merchants</expandingIconTexture>
+    <expandingIconPriority>60</expandingIconPriority>
+    <canHaveMap>false</canHaveMap>
+    <validLaunchTarget>false</validLaunchTarget>
+    <allowCaravanIncidentsWhichGenerateMap>true</allowCaravanIncidentsWhichGenerateMap>
+  </WorldObjectDef>
+
+  <LivingWorld.PartyKindDef>
+    <defName>LW_WarBand</defName>
+    <label>war band</label>
+    <workerClass>LivingWorld.PartyWorker_WarBand</workerClass>
+    <iconPath>LivingWorld/World/WarBand</iconPath>
+    <ticksPerTile>2900</ticksPerTile>
+    <expandingIconPriority>80</expandingIconPriority>
+    <hostile>true</hostile>
+    <labelOutbound>{FACTION} war band</labelOutbound>
+    <labelReturning>{FACTION} war band (returning)</labelReturning>
+  </LivingWorld.PartyKindDef>
+  <LivingWorld.PartyKindDef>
+    <defName>LW_Merchants</defName>
+    <label>merchants</label>
+    <workerClass>LivingWorld.PartyWorker_Merchants</workerClass>
+    <iconPath>LivingWorld/World/Merchants</iconPath>
+    <ticksPerTile>3300</ticksPerTile>
+    <expandingIconPriority>60</expandingIconPriority>
+    <labelOutbound>merchants of {ORIGIN}</labelOutbound>
+    <labelReturning>merchants of {ORIGIN} (homeward)</labelReturning>
+  </LivingWorld.PartyKindDef>
+  <LivingWorld.PartyKindDef>
+    <defName>LW_Visitors</defName>
+    <label>travellers</label>
+    <workerClass>LivingWorld.PartyWorker_Visitors</workerClass>
+    <iconPath>LivingWorld/World/Visitors</iconPath>
+    <ticksPerTile>3300</ticksPerTile>
+    <expandingIconPriority>50</expandingIconPriority>
+    <labelOutbound>travellers from {ORIGIN}</labelOutbound>
+    <labelReturning>travellers going home to {ORIGIN}</labelReturning>
+  </LivingWorld.PartyKindDef>
+  <LivingWorld.PartyKindDef>
+    <defName>LW_Envoy</defName>
+    <label>envoy</label>
+    <workerClass>LivingWorld.PartyWorker_Envoy</workerClass>
+    <iconPath>LivingWorld/World/Envoy</iconPath>
+    <ticksPerTile>2600</ticksPerTile>
+    <expandingIconPriority>55</expandingIconPriority>
+    <labelOutbound>envoy of {FACTION}</labelOutbound>
+    <labelReturning>envoy of {FACTION} (returning)</labelReturning>
+  </LivingWorld.PartyKindDef>
+  <LivingWorld.PartyKindDef>
+    <defName>LW_Settlers</defName>
+    <label>settlers</label>
+    <workerClass>LivingWorld.PartyWorker_Settlers</workerClass>
+    <iconPath>LivingWorld/World/Settlers</iconPath>
+    <ticksPerTile>3800</ticksPerTile>
+    <expandingIconPriority>55</expandingIconPriority>
+    <labelOutbound>settlers of {FACTION}</labelOutbound>
+    <labelReturning>settlers of {FACTION} (going back)</labelReturning>
+  </LivingWorld.PartyKindDef>
+</Defs>

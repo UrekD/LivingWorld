@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Settings -->
+  <LW_Settings_Simulation>World simulation</LW_Settings_Simulation>
+  <LW_Settings_Economy>Settlement economies</LW_Settings_Economy>
+  <LW_Settings_EconomyDesc>Settlements grow, produce and consume goods, starve or prosper.</LW_Settings_EconomyDesc>
+  <LW_Settings_Diplomacy>Faction diplomacy</LW_Settings_Diplomacy>
+  <LW_Settings_DiplomacyDesc>Factions form alliances, declare war and make peace with each other.</LW_Settings_DiplomacyDesc>
+  <LW_Settings_Warfare>Warfare between factions</LW_Settings_Warfare>
+  <LW_Settings_WarfareDesc>Factions at war send war bands against each other's settlements.</LW_Settings_WarfareDesc>
+  <LW_Settings_Conquest>Conquest and razing</LW_Settings_Conquest>
+  <LW_Settings_ConquestDesc>Settlements can be captured or destroyed, and factions can be wiped out.</LW_Settings_ConquestDesc>
+  <LW_Settings_Expansion>New settlements</LW_Settings_Expansion>
+  <LW_Settings_ExpansionDesc>Prosperous factions send settlers to found new settlements.</LW_Settings_ExpansionDesc>
+  <LW_Settings_Parties>Parties on the world map</LW_Settings_Parties>
+  <LW_Settings_PartiesDesc>Merchants, war bands, settlers and envoys travel visibly across the world map.</LW_Settings_PartiesDesc>
+  <LW_Settings_WarBands>Raids come from real settlements</LW_Settings_WarBands>
+  <LW_Settings_WarBandsDesc>When the storyteller sends a raid, a war band sets out from a hostile settlement and travels to your colony. You get a warning and can meet it on the way.</LW_Settings_WarBandsDesc>
+  <LW_Settings_Markets>Dynamic market prices</LW_Settings_Markets>
+  <LW_Settings_MarketsDesc>Trade prices follow each settlement's supply and demand.</LW_Settings_MarketsDesc>
+  <LW_Settings_Figures>Notable people</LW_Settings_Figures>
+  <LW_Settings_FiguresDesc>Leaders, warlords and merchants with their own history, who come back to your colony.</LW_Settings_FiguresDesc>
+  <LW_Settings_Presentation>News</LW_Settings_Presentation>
+  <LW_Settings_Letters>World news letters</LW_Settings_Letters>
+  <LW_LetterPolicy_Off>off (chronicle only)</LW_LetterPolicy_Off>
+  <LW_LetterPolicy_Digest>digest</LW_LetterPolicy_Digest>
+  <LW_LetterPolicy_All>every notable event</LW_LetterPolicy_All>
+  <LW_Settings_DigestDays>Digest every {0} days</LW_Settings_DigestDays>
+  <LW_Settings_Scale>Scale</LW_Settings_Scale>
+  <LW_Settings_HistoryYears>History before landing: {0} years</LW_Settings_HistoryYears>
+  <LW_Settings_HistoryYearsDesc>When a new game starts, the world lives through this many years first, so it already has wars, ruins and legends.</LW_Settings_HistoryYearsDesc>
+  <LW_Settings_MaxParties>Parties on the map at most: {0}</LW_Settings_MaxParties>
+  <LW_Settings_Pace>World pace: {0}</LW_Settings_Pace>
+  <LW_Settings_PaceDesc>How fast the world changes: growth, trade, wars.</LW_Settings_PaceDesc>
+
+  <!-- Chronicle window -->
+  <LW_Tab_News>News</LW_Tab_News>
+  <LW_Tab_Factions>Factions</LW_Tab_Factions>
+  <LW_Tab_Settlements>Settlements</LW_Tab_Settlements>
+  <LW_NewsFilter_All>Show: everything</LW_NewsFilter_All>
+  <LW_NewsFilter_Notable>Show: notable events</LW_NewsFilter_Notable>
+  <LW_NewsFilter_Player>Show: involving you</LW_NewsFilter_Player>
+  <LW_NewsCount>{0} events recorded</LW_NewsCount>
+  <LW_Faction_Settlements>{0} settlements, {1} people</LW_Faction_Settlements>
+  <LW_Faction_Strength>Strength: {0}</LW_Faction_Strength>
+  <LW_Faction_Treasury>Treasury: {0} silver</LW_Faction_Treasury>
+  <LW_Faction_AtPeace>At peace with its neighbours.</LW_Faction_AtPeace>
+  <LW_Faction_HostileTo>Hostile to: {0}</LW_Faction_HostileTo>
+  <LW_Faction_HostileToAll>Hostile to everyone.</LW_Faction_HostileToAll>
+  <LW_Faction_PlayerRelation>Toward you: {0} ({1})</LW_Faction_PlayerRelation>
+  <LW_Col_Name>Settlement</LW_Col_Name>
+  <LW_Col_Faction>Faction</LW_Col_Faction>
+  <LW_Col_Population>Size</LW_Col_Population>
+  <LW_Col_Prosperity>Prosperity</LW_Col_Prosperity>
+  <LW_Col_Specialty>Known for</LW_Col_Specialty>
+  <LW_Col_Garrison>Garrison</LW_Col_Garrison>
+  <LW_Col_Distance>Distance</LW_Col_Distance>
+  <LW_Col_Needs>Short of</LW_Col_Needs>
+
+  <!-- Inspect -->
+  <LW_Inspect_Settlement>{0} of {1} people, {2}</LW_Inspect_Settlement>
+  <LW_Inspect_Famine>Famine: {0} days of hunger</LW_Inspect_Famine>
+  <LW_Inspect_ShortOf>Short of {0} (pays ×{1})</LW_Inspect_ShortOf>
+  <LW_Prosperity_Destitute>destitute</LW_Prosperity_Destitute>
+  <LW_Prosperity_Poor>poor</LW_Prosperity_Poor>
+  <LW_Prosperity_Modest>modest</LW_Prosperity_Modest>
+  <LW_Prosperity_Prosperous>prosperous</LW_Prosperity_Prosperous>
+  <LW_Prosperity_Thriving>thriving</LW_Prosperity_Thriving>
+
+  <!-- Digest -->
+  <LW_DigestLabel>World news</LW_DigestLabel>
+  <LW_DigestIntro>Travellers and radio chatter bring news from across the world:</LW_DigestIntro>
+  <LW_DigestMore>…and {0} more events (see the Chronicle).</LW_DigestMore>
+
+  <!-- Settings: travel -->
+  <LW_Settings_WarBandHours>War bands reach you within {0} hours at most</LW_Settings_WarBandHours>
+  <LW_Settings_WarBandHoursDesc>Distant war bands force-march so a raid never takes longer than this to arrive.</LW_Settings_WarBandHoursDesc>
+  <LW_Settings_MerchantHours>Trade caravans reach you within {0} hours at most</LW_Settings_MerchantHours>
+
+  <!-- Parties -->
+  <LW_Party_HeadingTo>Heading to {0}</LW_Party_HeadingTo>
+  <LW_Party_ReturningTo>Returning home to {0}</LW_Party_ReturningTo>
+  <LW_Party_From>From {0}</LW_Party_From>
+  <LW_Party_Somewhere>somewhere</LW_Party_Somewhere>
+  <LW_Figure_FarAway>an unknown place far from any town</LW_Figure_FarAway>
+  <LW_Party_Strength>Strength: {0}</LW_Party_Strength>
+  <LW_Party_Cargo>Carrying goods worth {0} silver</LW_Party_Cargo>
+  <LW_Party_ETA>Arrives in {0}</LW_Party_ETA>
+  <LW_Party_RaidTarget>Marching to raid your colony.</LW_Party_RaidTarget>
+  <LW_WarBandSpottedLabel>War band: {0}</LW_WarBandSpottedLabel>
+  <LW_WarBandSpottedText>Scouts report a war band of {0} marching out of {ORIGIN} toward {COLONY}.
+
+They will be here in about {ETA}. Their strength is about {POINTS}.
+
+You can prepare your defenses, or meet them on the way.</LW_WarBandSpottedText>
+  <LW_WarBandTurnedBack>{0} turned back.</LW_WarBandTurnedBack>
+  <LW_MerchantsOnTheWay>A trade caravan from {ORIGIN} ({FACTION}) is on its way to {COLONY}. It will arrive in about {ETA}.</LW_MerchantsOnTheWay>
+  <LW_MerchantsTurnedBack>{0} turned back.</LW_MerchantsTurnedBack>
+
+  <!-- Diplomacy and war -->
+  <LW_WarCause_Ancient>an old feud</LW_WarCause_Ancient>
+  <LW_WarCause_Unknown>reasons of its own</LW_WarCause_Unknown>
+  <LW_WarCause_Grudge>an old grudge against {0}</LW_WarCause_Grudge>
+  <LW_WarCause_Land>hunger for land</LW_WarCause_Land>
+  <LW_WarCause_Border>a border dispute</LW_WarCause_Border>
+  <LW_WarCause_Escalation>tensions that boiled over</LW_WarCause_Escalation>
+  <LW_WarCause_Rebellion>a rebellion</LW_WarCause_Rebellion>
+  <LW_WarCause_Alliance>an alliance with {0}</LW_WarCause_Alliance>
+  <LW_WarEnd_Destroyed>{0} was destroyed.</LW_WarEnd_Destroyed>
+  <LW_WarEnd_Relations>the fighting just stopped.</LW_WarEnd_Relations>
+  <LW_Grudge_DeclaredWar>declared war on us</LW_Grudge_DeclaredWar>
+  <LW_Grudge_Plundered>plundered {0}</LW_Grudge_Plundered>
+  <LW_PeaceTribute> The losers pay {0} silver in tribute.</LW_PeaceTribute>
+  <LW_Envoy_Mission_Peace>Carrying an offer of peace to {0}.</LW_Envoy_Mission_Peace>
+  <LW_Envoy_Mission_Alliance>Proposing an alliance to {0}.</LW_Envoy_Mission_Alliance>
+  <LW_Party_Carrying>Mostly {0}</LW_Party_Carrying>
+  <LW_GeneratingHistory>The world lives through its history...</LW_GeneratingHistory>
+
+  <!-- Markets -->
+  <LW_Market_Tooltip>Market in {0}: x{1} ({2})</LW_Market_Tooltip>
+  <LW_Market_Scarce>{0} is scarce there</LW_Market_Scarce>
+  <LW_Market_Plentiful>{0} is plentiful there</LW_Market_Plentiful>
+
+  <!-- Wars and markets pages -->
+  <LW_Tab_Wars>Wars</LW_Tab_Wars>
+  <LW_Tab_Markets>Markets</LW_Tab_Markets>
+  <LW_Wars_None>The world is at peace.</LW_Wars_None>
+  <LW_Wars_Active>{0} wars are being fought</LW_Wars_Active>
+  <LW_Wars_Ended>Recently ended</LW_Wars_Ended>
+  <LW_Wars_Since>for {0}</LW_Wars_Since>
+  <LW_Wars_Lasted>lasted {0}</LW_Wars_Lasted>
+  <LW_Wars_Battles>{0} battles</LW_Wars_Battles>
+  <LW_Wars_ScoreTip>Who is winning: {0} (left) against {1} (right). War score {2}.</LW_Wars_ScoreTip>
+  <LW_Markets_Help>What each nearby settlement pays, compared to the usual price. Red: they need it (sell to them). Green: they have plenty (buy there). Click a row to find the settlement.</LW_Markets_Help>
+
+  <!-- People -->
+  <LW_FigureRole_Merchant>merchant of {0}</LW_FigureRole_Merchant>
+  <LW_FigureRole_Traveller>traveller from {0}</LW_FigureRole_Traveller>
+  <LW_FigureRole_Warlord>warlord of {0}</LW_FigureRole_Warlord>
+  <LW_FigureRole_Merchant_Renowned>merchant prince of {0}</LW_FigureRole_Merchant_Renowned>
+  <LW_FigureRole_Warlord_Renowned>dread warlord of {0}</LW_FigureRole_Warlord_Renowned>
+  <LW_People_Status_Retired>retired</LW_People_Status_Retired>
+  <LW_Career_PrinceSilver>{PAWN_nameDef}, merchant prince of {HOME}, brings a heavy purse: {SILVER} more silver to trade with.</LW_Career_PrinceSilver>
+  <LW_FigureRole_Freed>freed captive from {0}</LW_FigureRole_Freed>
+  <LW_FigureRole_Kin>a colonist's family, in {0}</LW_FigureRole_Kin>
+  <LW_KinVisitLabel>Family visits {0}</LW_KinVisitLabel>
+  <LW_KinVisitText>{PARENT_nameFull} has come with the visitors from {HOME} to see {PARENT_possessive} child, {CHILD_nameDef}.</LW_KinVisitText>
+  <LW_KinDiedLabel>{0}'s family</LW_KinDiedLabel>
+  <LW_KinDiedText>When {HOME} was razed, {PARENT_nameFull} died there. {CHILD_nameDef} has lost {CHILD_possessive} {PARENT_gender ? father : mother}.</LW_KinDiedText>
+  <LW_KinFled>{PARENT_nameDef}, family of {CHILD_nameDef}, escaped the fall of {HOME} and now lives in {REFUGE}.</LW_KinFled>
+  <LW_FreedReturnsLabel>{0} comes back</LW_FreedReturnsLabel>
+  <LW_FreedReturnsText>{PAWN_nameFull}, whom your colony once held prisoner and set free, has come back with the visitors from {HOME}.\n\n{PAWN_pronoun} brings {SILVER} silver as thanks, and looks for the people who were kind to {PAWN_objective}.</LW_FreedReturnsText>
+  <LW_MerchantReturns>{PAWN_nameDef}, the merchant from {HOME}, is back with the caravan (visit {VISITS}).</LW_MerchantReturns>
+  <LW_WarBandLedBy>Scouts say {PAWN_nameFull}, warlord of {HOME}, leads them in person: {PAWN_possessive} raid number {VISITS} on you. Kill or capture {PAWN_objective}, and {HOME} will feel it.</LW_WarBandLedBy>
+  <LW_WarlordReturns>{PAWN_nameFull}, warlord of {HOME}, is here again (raid number {VISITS}).</LW_WarlordReturns>
+  <LW_Grudge_KilledWarlord>killed our warlord {0}</LW_Grudge_KilledWarlord>
+  <LW_RevengeIntro>{0} want revenge. Warriors from {ORIGIN} have sworn to avenge their fallen.</LW_RevengeIntro>
+  <LW_Tab_People>People</LW_Tab_People>
+  <LW_People_None>Nobody of note yet. Merchants who trade with you and warlords who raid you will be remembered here.</LW_People_None>
+  <LW_People_Visits>Visits: {0}</LW_People_Visits>
+  <LW_People_Status_Active>alive</LW_People_Status_Active>
+  <LW_People_Status_Dead>dead</LW_People_Status_Dead>
+  <LW_People_Status_Captured>your prisoner</LW_People_Status_Captured>
+  <LW_People_Status_Joined>joined you</LW_People_Status_Joined>
+  <LW_VisitorsOnTheWay>Travellers from {ORIGIN} ({FACTION}) are on their way to visit {COLONY}. They will arrive in about {ETA}.</LW_VisitorsOnTheWay>
+  <LW_Market_Fame>Your reputation there: {0} (better prices)</LW_Market_Fame>
+  <LW_Market_Fair>A great fair is on there (better prices)</LW_Market_Fair>
+  <LW_Inspect_Fair>Great fair: {0} left</LW_Inspect_Fair>
+  <LW_Tab_Growth_Growing>Growing</LW_Tab_Growth_Growing>
+  <LW_Tab_Growth_FedSize>Not growing: as many people as the land and trade can feed</LW_Tab_Growth_FedSize>
+  <LW_Tab_Growth_Crowded>Not growing: the land is full</LW_Tab_Growth_Crowded>
+  <LW_Tab_Growth_Poor>Not growing: too poor</LW_Tab_Growth_Poor>
+  <LW_Tab_Growth_Famine>Shrinking: famine</LW_Tab_Growth_Famine>
+  <LW_Tab_Harvest>Harvest time: food output ×{0}; stores for {1} days</LW_Tab_Harvest>
+  <LW_Tab_LeanSeason>Lean season: food output ×{0}, living off stores for {1} days</LW_Tab_LeanSeason>
+  <LW_Tab_FoodReserve>Food stores for {0} days</LW_Tab_FoodReserve>
+  <LW_Tab_YearlyFair>Holds a yearly fair in {0}</LW_Tab_YearlyFair>
+  <LW_FairComing>{SETTLEMENT} ({FACTION}) will hold its yearly fair within a few days. Traders are gathering.</LW_FairComing>
+  <LW_Inspect_Restless>Restless (unrest {0})</LW_Inspect_Restless>
+  <LW_Faction_WarWeary>war-weary ({0})</LW_Faction_WarWeary>
+  <LW_Faction_GrudgeVsYou>They hold a grudge against you: {0}</LW_Faction_GrudgeVsYou>
+  <LW_FairLabel>Great fair at {0}</LW_FairLabel>
+  <LW_FairText>{SETTLEMENT} ({FACTION}) is holding its yearly fair for the next {DAYS} days. Traders have come from all around.\n\nA caravan that trades there during the fair buys {PCT}% cheaper and sells {PCT}% dearer, and its merchants may come to you.</LW_FairText>
+  <LW_InterceptLabel>War band met on the road</LW_InterceptLabel>
+  <LW_InterceptText>{CARAVAN} has run into {PARTY} from {ORIGIN}. They attack!</LW_InterceptText>
+  <LW_InterceptStoppedRaid>This war band was on its way to raid your colony. If you beat it here, it will never get there.</LW_InterceptStoppedRaid>
+
+  <!-- Aid requests -->
+  <LW_AidLabel>Plea from {0}</LW_AidLabel>
+  <LW_AidText>A messenger from {SETTLEMENT} ({FACTION}) has come to your colony: {WHY}\n\nThey ask for {GOOD}, about {AMOUNT} silver worth, within {DAYS} days. They pay ×{PRICE} the usual price for it.\n\nSell it to them, by caravan or to their merchants, and they will not forget it.</LW_AidText>
+  <LW_AidWhy_Famine>the town is starving.</LW_AidWhy_Famine>
+  <LW_AidWhy_Shortage>they have run out of {0}.</LW_AidWhy_Shortage>
+  <LW_AidExpired>{0} no longer waits for your {1}.</LW_AidExpired>
+  <LW_Inspect_Aid>Asks you for {0}: {1} silver worth still wanted ({2} left)</LW_Inspect_Aid>
+
+  <!-- Roots -->
+  <LW_HomeNews_Razed>{PAWN_nameDef} learns that {PAWN_possessive} home town, {HOME}, was razed.</LW_HomeNews_Razed>
+  <LW_HomeNews_Conquered>{PAWN_nameDef} learns that {PAWN_possessive} home town, {HOME}, was conquered.</LW_HomeNews_Conquered>
+  <LW_HomeNews_Plundered>{PAWN_nameDef} learns that raiders plundered {PAWN_possessive} home town, {HOME}.</LW_HomeNews_Plundered>
+  <LW_HomeNews_Helped>{PAWN_nameDef} is glad: the colony helped {PAWN_possessive} home town, {HOME}.</LW_HomeNews_Helped>
+  <LW_TradeWithParty>Trade with {0}</LW_TradeWithParty>
+  <LW_TradeWithPartyDesc>These merchants are on the road. They will wait a few hours for you to trade.</LW_TradeWithPartyDesc>
+  <LW_Inspect_Occupied>Occupied: its people still feel they belong to {0}</LW_Inspect_Occupied>
+  <LW_Grudge_DestroyedTown>destroyed our town {0}</LW_Grudge_DestroyedTown>
+  <LW_NewsFromVisitors>Travellers from {0} bring news:</LW_NewsFromVisitors>
+  <LW_TravellerReturns>{PAWN_nameDef} from {HOME} has come to visit again (visit {VISITS}).</LW_TravellerReturns>
+  <LW_Tab_SettlementLife>Living world</LW_Tab_SettlementLife>
+  <LW_Tab_Garrison>Garrison {0}, unrest {1}</LW_Tab_Garrison>
+  <LW_Tab_KnownFor>Known for: {0}</LW_Tab_KnownFor>
+  <LW_Tab_MarketHeader>Stores (line = what the town wants to keep) and the price it pays</LW_Tab_MarketHeader>
+  <LW_Tab_Relations>Relations</LW_Tab_Relations>
+  <LW_RefugeesFromRazed>They had found shelter in {0}, until it was burned to the ground.</LW_RefugeesFromRazed>
+  <LW_RefugeesFromFamine>They tried {0} first, but its people are starving and could not take them in.</LW_RefugeesFromFamine>
+  <LW_Settings_PerfLog>Performance log</LW_Settings_PerfLog>
+  <LW_Settings_PerfLogDesc>Writes one line per in-game day to a CSV file in the save-data folder (LivingWorld/perf-….csv): how long the day took in real seconds, the average cost of a tick and a frame, and the time spent in Living World's systems, all map components, Spaceports and Hospitality. Send the file to the mod author when reporting lag. Costs almost nothing; stays on until switched off and the game restarted.</LW_Settings_PerfLogDesc>
+  <LW_Settings_PerfLogFile>Log file: {0}</LW_Settings_PerfLogFile>
+  <LW_Settings_PerfLogStarted>Living World performance log started: {0}</LW_Settings_PerfLogStarted>
+  <LW_Settings_PrepareRemoval>Prepare this save for removing the mod</LW_Settings_PrepareRemoval>
+  <LW_Settings_PrepareRemovalConfirm>Disband all parties on the world map and switch the whole simulation off in this save, so it can be loaded without Living World? Other saves are not affected. Save the game afterwards.</LW_Settings_PrepareRemovalConfirm>
+  <LW_Settings_PreparedRemoval>Living World is off: {0} parties disbanded. Save the game now; it can be loaded without the mod.</LW_Settings_PreparedRemoval>
+
+  <!-- Demands -->
+  <LW_WarRequestLabel>Call to arms: {0}</LW_WarRequestLabel>
+  <LW_WarRequestText>{ASKER} are at war with {ENEMY} and ask for your help.\n\nDestroy their settlement {TARGET} within {DAYS} days, and {ASKER} will send you {REWARD} silver and remember the favour.</LW_WarRequestText>
+  <LW_TributeLabel>Tribute demanded: {0}</LW_TributeLabel>
+  <LW_TributeText>A messenger from {ORIGIN} brings word from {FACTION}: pay {AMOUNT} silver, and they will leave your colony alone for a season.\n\nRefuse, and their warriors will come. The messenger waits two days; silence counts as a refusal.</LW_TributeText>
+  <LW_TributePay>Pay {0} silver</LW_TributePay>
+  <LW_TributeNoSilver>Not enough silver in your stores (unforbidden, on the home map)</LW_TributeNoSilver>
+  <LW_WarRequestMoot>{1} is no longer in enemy hands: the request from {0} lapses.</LW_WarRequestMoot>
+  <LW_WarRequestExpired>{0} asked you to destroy {1}, and you did nothing. They will remember.</LW_WarRequestExpired>
+  <LW_Settings_ReEnable>Switch Living World back on for this save</LW_Settings_ReEnable>
+  <LW_Settings_ReEnabled>Living World is running again in this save.</LW_Settings_ReEnabled>
+  <LW_TributeRefuse>Refuse</LW_TributeRefuse>
+
+  <!-- Player diplomacy -->
+  <LW_Envoy_Mission_PlayerPeace>Carrying your offer of peace to {0}.</LW_Envoy_Mission_PlayerPeace>
+  <LW_Envoy_Mission_PlayerCallToArms>Asking {0} to march against {1}.</LW_Envoy_Mission_PlayerCallToArms>
+  <LW_Envoy_Mission_PlayerTribute>Demanding tribute from {0}.</LW_Envoy_Mission_PlayerTribute>
+  <LW_Envoy_Silver>Carrying {0} silver.</LW_Envoy_Silver>
+  <LW_Dipl_Button>Diplomacy</LW_Dipl_Button>
+  <LW_Dipl_Title>Send an envoy to {0}</LW_Dipl_Title>
+  <LW_Dipl_Intro>An envoy walks from your colony to {TOWN}, about {ETA} away, and brings their answer back. Current relations: {RELATION}.</LW_Dipl_Intro>
+  <LW_Dipl_Chance>Chance they agree, as things stand now: {0}</LW_Dipl_Chance>
+  <LW_Dipl_Send>Send</LW_Dipl_Send>
+  <LW_Dipl_PeaceGift>Offer peace, with a gift of {0} silver</LW_Dipl_PeaceGift>
+  <LW_Dipl_PeaceGiftDesc>The gift goes with the envoy. If they refuse, they keep half of it (treacherous hosts may keep all of it, and the envoy).</LW_Dipl_PeaceGiftDesc>
+  <LW_Dipl_PeaceNoGift>Offer peace, without a gift</LW_Dipl_PeaceNoGift>
+  <LW_Dipl_PeaceNoGiftDesc>Weary, honourable factions with few grudges against you are most willing.</LW_Dipl_PeaceNoGiftDesc>
+  <LW_Dipl_Call>Ask them to march against {0}</LW_Dipl_Call>
+  <LW_Dipl_CallDesc>As your allies, they may declare war (if not at war already) and attack the town of {0} nearest to you.</LW_Dipl_CallDesc>
+  <LW_Dipl_Tribute>Demand {0} silver in tribute</LW_Dipl_Tribute>
+  <LW_Dipl_TributeDesc>They are weaker than you. Paying or not, they will resent it (goodwill falls, more if they refuse).</LW_Dipl_TributeDesc>
+  <LW_Dipl_NoOptions>There is nothing to ask of them now (a goodwill limit may keep them hostile). Peace can be offered to enemies, allies can be called to arms, and weaker factions can be made to pay tribute.</LW_Dipl_NoOptions>
+  <LW_Dipl_Off>Diplomacy or world parties are switched off in this save</LW_Dipl_Off>
+  <LW_Dipl_NoColony>No colony on the planet's surface to send an envoy from</LW_Dipl_NoColony>
+  <LW_Dipl_NoTalk>They do not receive envoys</LW_Dipl_NoTalk>
+  <LW_Dipl_NoTowns>They have no towns left</LW_Dipl_NoTowns>
+  <LW_Dipl_EnvoyGoing>Your envoy ({0}) reaches {1} in about {2}</LW_Dipl_EnvoyGoing>
+  <LW_Dipl_EnvoyReturning>Your envoy ({0}) is coming home, back in about {1}</LW_Dipl_EnvoyReturning>
+  <LW_Dipl_EnvoyReturningSilver>Your envoy ({0}) is coming home with {1} silver, back in about {2}</LW_Dipl_EnvoyReturningSilver>
+  <LW_Dipl_MissionShort_PlayerPeace>peace offer</LW_Dipl_MissionShort_PlayerPeace>
+  <LW_Dipl_MissionShort_PlayerCallToArms>call to arms</LW_Dipl_MissionShort_PlayerCallToArms>
+  <LW_Dipl_MissionShort_PlayerTribute>tribute demand</LW_Dipl_MissionShort_PlayerTribute>
+  <LW_Dipl_Cooldown>They will not receive another envoy for {0}</LW_Dipl_Cooldown>
+  <LW_Dipl_NoRoute>None of their towns can be reached from your colony</LW_Dipl_NoRoute>
+  <LW_Dipl_NotEnoughSilver>Not enough silver in your stores</LW_Dipl_NotEnoughSilver>
+  <LW_Dipl_EnvoySent>Your envoy sets out for {0} ({1}); about {2} to get there.</LW_Dipl_EnvoySent>
+  <LW_Dipl_EnvoyHome>Your envoy is home with {0} silver.</LW_Dipl_EnvoyHome>
+  <LW_Dipl_PeaceYesLabel>Peace with {0}</LW_Dipl_PeaceYesLabel>
+  <LW_Dipl_PeaceYesText>At {TOWN}, {FACTION} accepted your offer of peace and the gift of {SILVER} silver. They are no longer your enemies.</LW_Dipl_PeaceYesText>
+  <LW_Dipl_PeaceNoLabel>Peace refused: {0}</LW_Dipl_PeaceNoLabel>
+  <LW_Dipl_PeaceNoText>At {TOWN}, {FACTION} heard your envoy out and sent them away, keeping {SILVER} silver of the gift for their trouble. The war goes on. Your envoy is walking home.</LW_Dipl_PeaceNoText>
+  <LW_Dipl_PeaceNoTextNoGift>At {TOWN}, {FACTION} heard your envoy out and sent them away. The war goes on. Your envoy is walking home.</LW_Dipl_PeaceNoTextNoGift>
+  <LW_Dipl_PeaceMootLabel>No war with {0}</LW_Dipl_PeaceMootLabel>
+  <LW_Dipl_PeaceMootText>By the time your envoy reached {TOWN}, {FACTION} were no longer at war with you. Your envoy is walking home.</LW_Dipl_PeaceMootText>
+  <LW_Dipl_PeaceBlockedLabel>Peace impossible: {0}</LW_Dipl_PeaceBlockedLabel>
+  <LW_Dipl_PeaceBlockedText>{FACTION} would have accepted, but something binds them to this war for now. Your envoy is walking home with the gift.</LW_Dipl_PeaceBlockedText>
+  <LW_Dipl_EnvoyKilledLabel>Envoy murdered by {0}</LW_Dipl_EnvoyKilledLabel>
+  <LW_Dipl_EnvoyKilledText>At {TOWN}, {FACTION} took the gift of {SILVER} silver and killed your envoy. There will be no peace with them for now.</LW_Dipl_EnvoyKilledText>
+  <LW_Dipl_CallYesLabel>{0} march to war</LW_Dipl_CallYesLabel>
+  <LW_Dipl_CallYesText>{FACTION} answered your call. Their warriors are marching on {TARGET} of {ENEMY}.</LW_Dipl_CallYesText>
+  <LW_Dipl_CallYesNoArmyText>{FACTION} answered your call and stand against {ENEMY}, but they have no warriors to spare just now.</LW_Dipl_CallYesNoArmyText>
+  <LW_Dipl_CallNoLabel>{0} decline</LW_Dipl_CallNoLabel>
+  <LW_Dipl_CallNoText>{FACTION} will not march against {ENEMY} for you, not now.</LW_Dipl_CallNoText>
+  <LW_Dipl_CallMootLabel>Call to arms came to nothing: {0}</LW_Dipl_CallMootLabel>
+  <LW_Dipl_CallMootText>By the time your envoy reached {TOWN}, the call against {ENEMY} could no longer be answered.</LW_Dipl_CallMootText>
+  <LW_Dipl_TributeYesLabel>{0} pay tribute</LW_Dipl_TributeYesLabel>
+  <LW_Dipl_TributeYesText>At {TOWN}, {FACTION} gave in and handed over {SILVER} silver. Your envoy is bringing it home. They will not forget this.</LW_Dipl_TributeYesText>
+  <LW_Dipl_TributeNoLabel>{0} refuse tribute</LW_Dipl_TributeNoLabel>
+  <LW_Dipl_TributeNoText>At {TOWN}, {FACTION} refused to pay and sent your envoy away with insults.</LW_Dipl_TributeNoText>
+  <LW_WarCause_PlayerCall>a call to arms from {0}</LW_WarCause_PlayerCall>
+  <LW_Grudge_CalledAllies>called {0} to war against us</LW_Grudge_CalledAllies>
+  <LW_Grudge_Tribute>demanded tribute from us</LW_Grudge_Tribute>
+
+  <!-- Rulers -->
+  <LW_RulerGoal_Hold>hold what they have</LW_RulerGoal_Hold>
+  <LW_RulerGoal_Conquer>conquer {0}</LW_RulerGoal_Conquer>
+  <LW_RulerGoal_Avenge>take revenge on {0}</LW_RulerGoal_Avenge>
+  <LW_RulerGoal_Prosper>make their people rich</LW_RulerGoal_Prosper>
+  <LW_RulerGoal_Expand>found new towns</LW_RulerGoal_Expand>
+  <LW_Ruler_TheColony>your colony</LW_Ruler_TheColony>
+  <LW_Ruler_House>of House {0} ({1} of the line)</LW_Ruler_House>
+  <LW_Ruler_HouseFounder>founder of House {0}</LW_Ruler_HouseFounder>
+  <LW_Ruler_Line>{TITLE}: {NAME} — {TRAITS}; wants to {GOAL}</LW_Ruler_Line>
+  <LW_WarCause_Usurper>House {0}'s claim against the usurping House {1}</LW_WarCause_Usurper>
+  <LW_WarCause_Succession>a contested succession</LW_WarCause_Succession>
+  <LW_WarCause_OldWays>keeping the old ways</LW_WarCause_OldWays>
+  <LW_WarCause_RulerVow>{0}'s vow to {1}</LW_WarCause_RulerVow>
+  <LW_WarBandRulerVengeance>Their ruler, {NAME}, has sworn revenge on your colony.</LW_WarBandRulerVengeance>
+
+  <!-- Visitors -->
+  <LW_RaidersWeary>The raiders of {0} look tired of war. They may not fight to the last.</LW_RaidersWeary>
+  <LW_RaidersHomeLost>The raiders of {0} have lost their home town. Their hearts are not in this fight.</LW_RaidersHomeLost>
+  <LW_RaidersSworn>The raiders of {0} have sworn vengeance on your colony. They will not break easily.</LW_RaidersSworn>
+  <LW_Reunion>{VISITOR_nameDef} and {COLONIST_nameDef} meet again and greet each other like old friends.</LW_Reunion>
+  <LW_RulerVisitsLabel>{0} of {1} visits</LW_RulerVisitsLabel>
+  <LW_RulerVisitsText>{PAWN_nameFull}, {TITLE} of {FACTION}, has come in person with the visitors from {HOME}.\n\nA ruler's visit is an honour. Treat {PAWN_objective} well — what happens to {PAWN_objective} here will be remembered.</LW_RulerVisitsText>
+  <LW_Audience_TradePact>{PAWN_nameDef} proposes a trade pact: for {DAYS} days their merchants come more often, and your name is better in all their towns.</LW_Audience_TradePact>
+  <LW_Audience_MarchWithUs>{PAWN_nameDef} asks you to march with them against {ENEMY}: destroy {TARGET}, and they will pay you well.</LW_Audience_MarchWithUs>
+  <LW_Audience_SettleNearby>{PAWN_nameDef} asks your leave to found a town of their people near your colony. A friendly neighbour, and a debt of gratitude.</LW_Audience_SettleNearby>
+  <LW_Audience_Gift>{PAWN_nameDef} brings a gift of {SILVER} silver as a sign of friendship.</LW_Audience_Gift>
+  <LW_Audience_Accept_TradePact>Agree to the trade pact</LW_Audience_Accept_TradePact>
+  <LW_Audience_Accept_MarchWithUs>Promise to march with them</LW_Audience_Accept_MarchWithUs>
+  <LW_Audience_Accept_SettleNearby>Let them settle nearby</LW_Audience_Accept_SettleNearby>
+  <LW_Audience_Accept_Gift>Accept the gift with thanks</LW_Audience_Accept_Gift>
+  <LW_Audience_Objects>{PAWN_nameDef} objects: {HOME} is {PAWN_possessive} home town.</LW_Audience_Objects>
+  <LW_Audience_Supports>{PAWN_nameDef} is for it: {PAWN_possessive} people live in {HOME}.</LW_Audience_Supports>
+  <LW_Audience_Decline>Decline politely (goodwill -{0})</LW_Audience_Decline>
+  <LW_Audience_MarchAccepted>You promised to destroy {0}. Do it within 30 days and they will pay {1} silver.</LW_Audience_MarchAccepted>
+  <LW_Audience_SettleAccepted>{0} found {1} near your colony.</LW_Audience_SettleAccepted>
+
+  <LW_KnowHow_Learning>(learning {0}: {1})</LW_KnowHow_Learning>
+  <LW_Plea_BuyFoodLabel>Visitors from {0} ask for food</LW_Plea_BuyFoodLabel>
+  <LW_Plea_BuyFoodText>The visitors from {HOME} ({FACTION}) say their town is going hungry. They ask to buy {COUNT} meals from your stores, and {FACTION} will pay {SILVER} silver for them — more than the market.\n\nThe food goes home with them; {HOME} will remember who helped.</LW_Plea_BuyFoodText>
+  <LW_Plea_BuyFoodAccept>Sell them the meals ({0} silver)</LW_Plea_BuyFoodAccept>
+  <LW_Plea_RefugeLabel>A visitor from {0} asks to stay</LW_Plea_RefugeLabel>
+  <LW_Plea_RefugeText>{PAWN_nameFull} came with the visitors from {HOME} ({FACTION}). Raiders sacked {HOME} days ago, and {PAWN_pronoun} has nothing to go back to.\n\n{PAWN_pronoun} asks to stay and join your colony.</LW_Plea_RefugeText>
+  <LW_Plea_RefugeAccept>Welcome {0} to the colony</LW_Plea_RefugeAccept>
+  <LW_Plea_MercenaryLabel>Visitors from {0} want to hire a fighter</LW_Plea_MercenaryLabel>
+  <LW_Plea_MercenaryText>The visitors from {HOME} ({FACTION}) say their town is at war and short of fighters. They ask whether {PAWN_nameDef} would come back with them and fight for a few days, for {SILVER} silver and a share of the plunder.\n\n{PAWN_pronoun} would travel to {HOME} and return when it is over — most likely richer, perhaps wounded, possibly not at all.</LW_Plea_MercenaryText>
+  <LW_Plea_MercenaryAccept>Send {0} ({1} silver)</LW_Plea_MercenaryAccept>
+  <LW_Merc_SetOut>{PAWN_nameDef} sets out to fight for {TOWN}; about {ETA} to get there.</LW_Merc_SetOut>
+  <LW_Merc_Label>{0} fought abroad</LW_Merc_Label>
+  <LW_Merc_Paid>{PAWN_nameDef} fought for {TOWN} and came through unharmed. {PAWN_pronoun} is on the way home with {SILVER} silver in pay and plunder.</LW_Merc_Paid>
+  <LW_Merc_Wounded>{PAWN_nameDef} fought for {TOWN} and was wounded. {PAWN_possessive} wounds were dressed in the field; {PAWN_pronoun} is on the way home with {SILVER} silver. Let {PAWN_objective} rest when {PAWN_pronoun} arrives.</LW_Merc_Wounded>
+  <LW_Merc_Killed>{PAWN_nameDef} fell fighting for {TOWN}. {TOWN} sends {PAWN_possessive} body home with {SILVER} silver.</LW_Merc_Killed>
+  <LW_Merc_TurnedBack>{PAWN_nameDef} found no one to fight for at {TOWN} (the town changed hands, or its people turned on the colony) and is coming home unpaid.</LW_Merc_TurnedBack>
+  <LW_Merc_Back>{PAWN_nameDef} is back from the fighting abroad.</LW_Merc_Back>
+  <LW_Merc_CannotGo>{PAWN_nameDef} cannot set out now (drafted, not in the colony, or the town is gone).</LW_Merc_CannotGo>
+  <LW_PartyStrandedLabel>Colonist stranded abroad</LW_PartyStrandedLabel>
+  <LW_PartyStrandedText>{PAWN_nameDef} was on the way home, but the colony's home is gone. {PAWN_pronoun} goes on as a caravan from where {PAWN_pronoun} stands.</LW_PartyStrandedText>
+  <LW_Envoy_Mission_PlayerMercenary>Taking a fighter of yours to {0}.</LW_Envoy_Mission_PlayerMercenary>
+  <LW_Dipl_MissionShort_PlayerMercenary>mercenary contract</LW_Dipl_MissionShort_PlayerMercenary>
+  <LW_Plea_RefugeJoined>{PAWN_nameDef} has joined the colony.</LW_Plea_RefugeJoined>
+  <LW_Commission_OfferLabel>An order from {0}</LW_Commission_OfferLabel>
+  <LW_Commission_OfferText>{PAWN_nameFull} says {HOME} is short of goods and asks whether your colony could make {COUNT} {THING} for {PAWN_objective} to collect on {PAWN_possessive} next visit, in about {DAYS} days.\n\n{PAWN_pronoun} offers {SILVER} silver for them — more than the market pays. Forbid them once made, so your colonists don't use them up; they are handed over all the same.</LW_Commission_OfferText>
+  <LW_Commission_Accept>Take the order ({0} silver on delivery)</LW_Commission_Accept>
+  <LW_Commission_DeliveryLabel>{0} has come for the order</LW_Commission_DeliveryLabel>
+  <LW_Commission_DeliveryText>{PAWN_nameFull} has come to collect the {COUNT} {THING} you promised, and brings {SILVER} silver.</LW_Commission_DeliveryText>
+  <LW_Commission_Deliver>Hand over the goods ({0} silver)</LW_Commission_Deliver>
+  <LW_Commission_NotEnough>Not enough {1} in your stores (needed: {0}).</LW_Commission_NotEnough>
+  <LW_Commission_NotYet>{PAWN_nameDef} asks after the {COUNT} {THING}; it is not due yet, and {PAWN_pronoun} will come back for it.</LW_Commission_NotYet>
+  <LW_Commission_Missing>{PAWN_nameDef} came for {COUNT} {THING}, but your stores do not have them. {PAWN_pronoun} leaves disappointed.</LW_Commission_Missing>
+  <LW_Inspect_From>From {0} ({1})</LW_Inspect_From>
+  <LW_Inspect_FameThere>your name there {0}</LW_Inspect_FameThere>
+  <LW_Inspect_Figure>{0}, visit {1}</LW_Inspect_Figure>
+  <LW_Inspect_Traded>traded {0} silver with you</LW_Inspect_Traded>
+  <LW_Inspect_Knows>Knows: {0}</LW_Inspect_Knows>
+  <LW_Inspect_Order>Ordered {0} {1} from you (due in {2})</LW_Inspect_Order>
+  <LW_Inspect_Ruler>Ruler: {0}; wants to {1}</LW_Inspect_Ruler>
+  <LW_Inspect_Story_Sacked>home was sacked</LW_Inspect_Story_Sacked>
+  <LW_Inspect_Story_Starving>hunger at home</LW_Inspect_Story_Starving>
+  <LW_Inspect_Story_War>war at home</LW_Inspect_Story_War>
+  <LW_Inspect_Story_Fair>fair at home</LW_Inspect_Story_Fair>
+  <LW_Inspect_Story_Thriving>home is thriving</LW_Inspect_Story_Thriving>
+  <LW_Inspect_Story_KinReleased>you freed one of theirs</LW_Inspect_Story_KinReleased>
+  <LW_Inspect_Story_KinExecuted>one of theirs died your prisoner</LW_Inspect_Story_KinExecuted>
+  <LW_Tab_Legends>Legends</LW_Tab_Legends>
+  <LW_Legends_Renown>{0}: {2} (renown {1})</LW_Legends_Renown>
+  <LW_Legends_RenownTip>Your name travels: friendly neighbours visit {0}% more often, and merchants who know you place orders more readily.</LW_Legends_RenownTip>
+  <LW_Renown_0>unknown to the world</LW_Renown_0>
+  <LW_Renown_1>known to its neighbours</LW_Renown_1>
+  <LW_Renown_2>known across the region</LW_Renown_2>
+  <LW_Renown_3>renowned</LW_Renown_3>
+  <LW_Renown_4>legendary</LW_Renown_4>
+  <LW_Legends_None>The colony's legend is yet to be written.</LW_Legends_None>
+  <LW_Legends_Dead>{0} (dead)</LW_Legends_Dead>
+  <LW_Legends_NoDeeds>No deeds remembered yet.</LW_Legends_NoDeeds>
+  <LW_Deed_FeudEnded>ended the blood feud: slew {0}, who had sworn to avenge {1}</LW_Deed_FeudEnded>
+  <LW_FeudArrived>{PAWN_nameDef} has come for {SLAYER}.</LW_FeudArrived>
+  <LW_Feud_NameFor>{0} (for {1})</LW_Feud_NameFor>
+  <LW_Grudge_BloodPrice>took a blood price from the colony</LW_Grudge_BloodPrice>
+  <LW_Dipl_Weregild>Offer a blood price of {0} silver</LW_Dipl_Weregild>
+  <LW_Dipl_WeregildDesc>End the blood feuds sworn against your colonists: {0}. If they take the silver, the oaths are renounced and old grudges ease; if not, your envoy brings it home.</LW_Dipl_WeregildDesc>
+  <LW_Dipl_WeregildYesLabel>Blood price taken: {0}</LW_Dipl_WeregildYesLabel>
+  <LW_Dipl_WeregildYesText>{FACTION} took {SILVER} silver at {TOWN} as the blood price. {TARGET} has renounced the oath; the feud is over.</LW_Dipl_WeregildYesText>
+  <LW_Dipl_WeregildNoLabel>Blood price spurned: {0}</LW_Dipl_WeregildNoLabel>
+  <LW_Dipl_WeregildNoText>{FACTION} will not sell their dead. Your envoy leaves {TOWN} with the {SILVER} silver; the feud goes on.</LW_Dipl_WeregildNoText>
+  <LW_Dipl_WeregildMootLabel>No feud left: {0}</LW_Dipl_WeregildMootLabel>
+  <LW_Dipl_WeregildMootText>By the time your envoy reached {TOWN}, no one of {FACTION} was sworn against your colony any more. The {SILVER} silver comes home.</LW_Dipl_WeregildMootText>
+  <LW_Envoy_Mission_PlayerWeregild>Offering a blood price to {0}.</LW_Envoy_Mission_PlayerWeregild>
+  <LW_Dipl_MissionShort_PlayerWeregild>blood price</LW_Dipl_MissionShort_PlayerWeregild>
+  <LW_FeudWarning>{TELLER_nameDef} warns that {AVENGER} of {HOME} has sworn to kill {SLAYER}.</LW_FeudWarning>
+  <LW_FeudWarningComing>{TELLER_nameDef} warns that {AVENGER} of {HOME}, sworn to kill {SLAYER}, is gathering a war band and will come soon.</LW_FeudWarningComing>
+  <LW_Feud_Child>child</LW_Feud_Child>
+  <LW_Feud_Comrade>sworn comrade</LW_Feud_Comrade>
+  <LW_Feud_ByHand>by {PAWN_possessive} own hand</LW_Feud_ByHand>
+  <LW_Feud_ByBand>by the hands of {PAWN_possessive} war band</LW_Feud_ByBand>
+  <LW_Inspect_Sworn>Sworn to kill {0} (avenging {1})</LW_Inspect_Sworn>
+  <LW_WarBandAvenger>Scouts say {PAWN_nameFull} leads them, sworn to kill {SLAYER} for the death of {FALLEN}. End {PAWN_objective} here and the feud with {HOME} ends too.</LW_WarBandAvenger>
+  <LW_Deed_SlewFigure>slew {0}, {1}</LW_Deed_SlewFigure>
+  <LW_Deed_Merc>fought as a mercenary for {0}</LW_Deed_Merc>
+  <LW_Deed_MercFell>fell fighting as a mercenary for {0}</LW_Deed_MercFell>
+  <LW_Deed_SpokeForHome>spoke up for {0}, and the colony listened</LW_Deed_SpokeForHome>
+  <LW_Deed_Refuge>came to the colony from {0}, which raiders had sacked</LW_Deed_Refuge>
+  <!-- Prisoners -->
+  <LW_PrisonerFrom>{PAWN_nameDef} is from {HOME} ({FACTION}). {PAWN_pronoun} may be worth a ransom to them.</LW_PrisonerFrom>
+  <LW_RansomLabel>Ransom offered: {0}</LW_RansomLabel>
+  <LW_RansomText>A messenger from {HOME} brings an offer from {FACTION}: {AMOUNT} silver for the return of {PAWN_nameFull}.\n\nIf you accept, {PAWN_pronoun} goes home and the silver is yours. What happens to prisoners is remembered in their towns — freeing them earns goodwill there, letting them die in your cells earns the opposite.</LW_RansomText>
+  <LW_RansomAccept>Accept {0} silver</LW_RansomAccept>
+  <LW_RansomGone>The prisoner is no longer yours to give</LW_RansomGone>
+  <LW_Grudge_PrisonerDied>{0} died as their prisoner</LW_Grudge_PrisonerDied>
+  <LW_Grudge_PrisonerReleased>they set {0} free</LW_Grudge_PrisonerReleased>
+</LanguageData>

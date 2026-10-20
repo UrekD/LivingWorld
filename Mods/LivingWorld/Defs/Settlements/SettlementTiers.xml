@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <LivingWorld.SettlementTierDef>
+    <defName>LW_Hamlet</defName>
+    <label>hamlet</label>
+    <minPopulation>0</minPopulation>
+    <order>0</order>
+    <garrisonPerCapita>2.2</garrisonPerCapita>
+    <tradeFactor>0.6</tradeFactor>
+    <fortification>1.0</fortification>
+  </LivingWorld.SettlementTierDef>
+  <LivingWorld.SettlementTierDef>
+    <defName>LW_Village</defName>
+    <label>village</label>
+    <minPopulation>40</minPopulation>
+    <order>1</order>
+    <garrisonPerCapita>2.0</garrisonPerCapita>
+    <tradeFactor>1.0</tradeFactor>
+    <fortification>1.15</fortification>
+  </LivingWorld.SettlementTierDef>
+  <LivingWorld.SettlementTierDef>
+    <defName>LW_Town</defName>
+    <label>town</label>
+    <minPopulation>150</minPopulation>
+    <order>2</order>
+    <garrisonPerCapita>1.8</garrisonPerCapita>
+    <tradeFactor>1.4</tradeFactor>
+    <fortification>1.4</fortification>
+  </LivingWorld.SettlementTierDef>
+  <LivingWorld.SettlementTierDef>
+    <defName>LW_City</defName>
+    <label>city</label>
+    <minPopulation>450</minPopulation>
+    <order>3</order>
+    <garrisonPerCapita>1.6</garrisonPerCapita>
+    <tradeFactor>2.0</tradeFactor>
+    <fortification>1.8</fortification>
+  </LivingWorld.SettlementTierDef>
+</Defs>

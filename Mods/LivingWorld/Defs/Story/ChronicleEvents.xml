@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_Unknown</defName>
+    <label>forgotten event</label>
+    <text>Something happened that nobody remembers.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_SettlementGrew</defName>
+    <label>settlement grew</label>
+    <category>Settlement</category>
+    <text>{SETTLEMENT} of {FACTION} has grown into a {TIER}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_SettlementShrank</defName>
+    <label>settlement declined</label>
+    <category>Settlement</category>
+    <text>{SETTLEMENT} of {FACTION} has dwindled to a {TIER}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_Famine</defName>
+    <label>famine</label>
+    <category>Disaster</category>
+    <importance>Notable</importance>
+    <letterDef>NegativeEvent</letterDef>
+    <text>Famine grips {SETTLEMENT} of {FACTION}. Its people go hungry, and food fetches high prices there.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_LeaderChanged</defName>
+    <label>new leader</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <text>{FACTION} has a new {TITLE}: {NEW}{HOUSE} succeeds {OLD}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_WarBandMarches</defName>
+    <label>war band marches</label>
+    <category>War</category>
+    <importance>Notable</importance>
+    <text>A war band of {FACTION} marched out of {ORIGIN} against {COLONY}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_RaidEnded</defName>
+    <label>raid ended</label>
+    <category>War</category>
+    <importance>Notable</importance>
+    <text>{COUNT} warriors of {FACTION} from {ORIGIN} attacked {COLONY}; {FALLEN} of them did not come back.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_WarDeclared</defName>
+    <label>war declared</label>
+    <category>War</category>
+    <importance>Major</importance>
+    <text>{A} declared war on {B} ({CAUSE}).</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_JoinedWar</defName>
+    <label>joined a war</label>
+    <category>War</category>
+    <importance>Notable</importance>
+    <text>{ALLY} took up arms for its ally {FRIEND} against {ENEMY}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_PeaceMade</defName>
+    <label>peace</label>
+    <category>Diplomacy</category>
+    <importance>Major</importance>
+    <text>{A} and {B} made peace.{TERMS}</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_AllianceFormed</defName>
+    <label>alliance</label>
+    <category>Diplomacy</category>
+    <importance>Notable</importance>
+    <text>{A} and {B} sealed an alliance.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_WarEnded</defName>
+    <label>war ended</label>
+    <category>War</category>
+    <importance>Notable</importance>
+    <text>The war between {A} and {B} is over: {REASON}</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_FactionDefeated</defName>
+    <label>faction destroyed</label>
+    <category>War</category>
+    <importance>Major</importance>
+    <text>{FACTION} is no more: its last settlement fell to {BY}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_SettlementRazed</defName>
+    <label>settlement razed</label>
+    <category>War</category>
+    <importance>Major</importance>
+    <text>{ATTACKER} razed {SETTLEMENT} of {DEFENDER} to the ground.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_SettlementCaptured</defName>
+    <label>settlement captured</label>
+    <category>War</category>
+    <importance>Major</importance>
+    <text>{ATTACKER} conquered {SETTLEMENT}, taking it from {DEFENDER}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_SettlementPlundered</defName>
+    <label>settlement plundered</label>
+    <category>War</category>
+    <importance>Notable</importance>
+    <text>A war band of {ATTACKER} from {ORIGIN} stormed {SETTLEMENT} of {DEFENDER} and carried off its goods.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_AttackRepelled</defName>
+    <label>attack repelled</label>
+    <category>War</category>
+    <importance>Minor</importance>
+    <text>{DEFENDER} drove off an attack by {ATTACKER} on {SETTLEMENT}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_SettlementFounded</defName>
+    <label>settlement founded</label>
+    <category>Settlement</category>
+    <importance>Notable</importance>
+    <text>Settlers of {FACTION} from {ORIGIN} founded {SETTLEMENT}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_RuinResettled</defName>
+    <label>ruins resettled</label>
+    <category>Settlement</category>
+    <importance>Notable</importance>
+    <text>Settlers of {FACTION} from {ORIGIN} rebuilt the ruins as {SETTLEMENT}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_StoryBegins</defName>
+    <label>your story begins</label>
+    <category>Player</category>
+    <importance>Major</importance>
+    <text>After {YEARS} years of history, your story begins.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_WarlordFell</defName>
+    <label>warlord fell</label>
+    <category>People</category>
+    <importance>Major</importance>
+    <letterDef>PositiveEvent</letterDef>
+    <text>{NAME}, {ROLE}, fell at {PLACE}. {FACTION} will not forget.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_FigureDied</defName>
+    <label>death of a notable</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <text>{NAME}, {ROLE}, died at {PLACE}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_FigureJoined</defName>
+    <label>notable joined you</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <letterDef>PositiveEvent</letterDef>
+    <text>{NAME}, {ROLE}, has joined you.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_FigureCaptured</defName>
+    <label>notable captured</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <text>{NAME}, {ROLE}, is now your prisoner.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_GuestsPraised</defName>
+    <label>guests praise you</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>Travellers back home in {ORIGIN} speak warmly of their stay at {COLONY}. Your name is good among {FACTION}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_GuestsComplained</defName>
+    <label>guests complain</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>Travellers back home in {ORIGIN} complain about how they were treated at {COLONY}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_WarBandIntercepted</defName>
+    <label>war band intercepted</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>{CARAVAN} met a war band of {FACTION} from {ORIGIN} on the road.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_AidDelivered</defName>
+    <label>aid delivered</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <letterDef>PositiveEvent</letterDef>
+    <text>The people of {SETTLEMENT} received the {GOOD} they begged for. They will remember who helped them.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <HistoryEventDef>
+    <defName>LW_SentAid</defName>
+    <label>sent aid</label>
+  </HistoryEventDef>
+  <HistoryEventDef>
+    <defName>LW_FoughtOurEnemies</defName>
+    <label>destroyed a town of our enemies</label>
+  </HistoryEventDef>
+  <HistoryEventDef>
+    <defName>LW_IgnoredOurCall</defName>
+    <label>ignored our call for help</label>
+  </HistoryEventDef>
+  <HistoryEventDef>
+    <defName>LW_MadePeace</defName>
+    <label>made peace</label>
+  </HistoryEventDef>
+  <HistoryEventDef>
+    <defName>LW_DemandedTribute</defName>
+    <label>demanded tribute</label>
+  </HistoryEventDef>
+  <HistoryEventDef>
+    <defName>LW_AcceptedProposal</defName>
+    <label>accepted our ruler's proposal</label>
+  </HistoryEventDef>
+  <HistoryEventDef>
+    <defName>LW_DeclinedProposal</defName>
+    <label>turned down our ruler's proposal</label>
+  </HistoryEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_Plague</defName>
+    <label>plague</label>
+    <category>Disaster</category>
+    <importance>Notable</importance>
+    <text>Plague sweeps through {SETTLEMENT} of {FACTION}; {COUNT} people die.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_Blight</defName>
+    <label>blight</label>
+    <category>Disaster</category>
+    <importance>Minor</importance>
+    <text>Blight ruins the harvest of {SETTLEMENT} ({FACTION}). Food will be dear there.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_GreatFair</defName>
+    <label>great fair</label>
+    <category>Economy</category>
+    <importance>Minor</importance>
+    <text>A great fair in {SETTLEMENT} ({FACTION}) draws merchants from far and wide.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_Rebellion</defName>
+    <label>rebellion</label>
+    <category>War</category>
+    <importance>Major</importance>
+    <text>{SETTLEMENT} rose up against {PARENT}. The rebels call themselves {REBELS}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_TownLiberated</defName>
+    <label>town liberated</label>
+    <category>War</category>
+    <importance>Notable</importance>
+    <text>The people of {SETTLEMENT} rose against {OCCUPIER} and returned to {FOUNDERS}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_PlayerDestroyedSettlement</defName>
+    <label>colony destroyed a settlement</label>
+    <category>Player</category>
+    <importance>Major</importance>
+    <text>{COLONY} destroyed {SETTLEMENT} of {FACTION}. {FACTION} will remember.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_RulerFell</defName>
+    <label>ruler fell</label>
+    <category>People</category>
+    <importance>Major</importance>
+    <text>{NAME}, {TITLE} of {FACTION}, died when {CONQUEROR} took {SETTLEMENT}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_WarRequestDone</defName>
+    <label>war request fulfilled</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <letterDef>PositiveEvent</letterDef>
+    <text>Your colony destroyed {TARGET} as {ASKER} asked. They sent {REWARD} silver and their thanks.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_RulerVow</defName>
+    <label>new ruler</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <text>{NAME}, the new {TITLE} of {FACTION}, is said to be {TRAITS}, and means to {GOAL}.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_CommissionDelivered</defName>
+    <label>commission delivered</label>
+    <category>Player</category>
+    <importance>Minor</importance>
+    <text>{COLONY} delivered {COUNT} {THING} that {NAME} had ordered for {HOME}.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_NewPeopleArrive</defName>
+    <label>a new people arrives</label>
+    <category>Settlement</category>
+    <importance>Major</importance>
+    <text>{FACTION}, a people of the {TECH} age from beyond the known lands, have settled at {SETTLEMENT}.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_KnowHowGained</defName>
+    <label>a faction learns</label>
+    <category>Economy</category>
+    <importance>Major</importance>
+    <text>{FACTION}, once a people of the {OLD} age, have learned the ways of the {TECH} age.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_PrisonerRansomed</defName>
+    <label>prisoner ransomed</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>{FACTION} paid {SILVER} silver to {COLONY} for {NAME} of {HOME}, who went home.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_PrisonerDied</defName>
+    <label>prisoner died in captivity</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>{NAME} of {HOME} died a prisoner of {COLONY}. {FACTION} will not forget it.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_PrisonerReleased</defName>
+    <label>prisoner released</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>{COLONY} set {NAME} of {HOME} free.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_RulerVisited</defName>
+    <label>a ruler visits the colony</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>{NAME}, {TITLE} of {FACTION}, visited {COLONY} in person.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_RulerNewGoal</defName>
+    <label>ruler's new goal</label>
+    <category>People</category>
+    <importance>Minor</importance>
+    <text>{NAME}, {TITLE} of {FACTION}, now means to {GOAL}.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_RulerGoalDone</defName>
+    <label>ruler's goal achieved</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <text>{NAME}, {TITLE} of {FACTION}, set out to {GOAL} — and did.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_RulerGoalAbandoned</defName>
+    <label>ruler's goal abandoned</label>
+    <category>People</category>
+    <importance>Minor</importance>
+    <text>{NAME}, {TITLE} of {FACTION}, has given up trying to {GOAL}.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_PlayerPeace</defName>
+    <label>peace with the colony</label>
+    <category>Player</category>
+    <importance>Major</importance>
+    <text>{FACTION} accepted the peace offered by {COLONY}.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_PlayerEnvoyKilled</defName>
+    <label>envoy murdered</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>{FACTION} murdered the envoy of {COLONY} and kept the {SILVER} silver gift.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_PlayerCallToArms</defName>
+    <label>call to arms answered</label>
+    <category>Player</category>
+    <importance>Major</importance>
+    <text>{FACTION} answered the call of {COLONY} and marched against {ENEMY}.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_PlayerTributePaid</defName>
+    <label>tribute paid to the colony</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>{FACTION} paid {SILVER} silver in tribute to {COLONY}.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_PlayerTributeRefused</defName>
+    <label>tribute refused</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>{FACTION} refused the tribute demanded by {COLONY}.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_FeudSworn</defName>
+    <label>blood feud sworn</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <letterDef>ThreatSmall</letterDef>
+    <text>{NAME}, {REL} of {FALLEN}, has sworn to kill {SLAYER} and now leads the war bands of {HOME}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_FeudAvenged</defName>
+    <label>blood feud avenged</label>
+    <category>People</category>
+    <importance>Major</importance>
+    <letterDef>NegativeEvent</letterDef>
+    <text>{NAME} has avenged {FALLEN}: {SLAYER} is dead, {HOW}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_FeudEnded</defName>
+    <label>blood feud ended</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <letterDef>PositiveEvent</letterDef>
+    <text>{SLAYER} slew {NAME}, who had sworn to avenge {FALLEN}. The blood feud with {HOME} is over.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_FeudBroken</defName>
+    <label>blood feud broken</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <letterDef>PositiveEvent</letterDef>
+    <text>{NAME}, sworn to avenge {FALLEN}, is in the hands of {COLONY}. The blood feud with {HOME} is over.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_FeudSettled</defName>
+    <label>blood price paid</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <text>{COLONY} paid {SILVER} silver in blood price for {FALLEN}. {NAME} of {HOME} has renounced the oath to kill {SLAYER}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_NewHouse</defName>
+    <label>new ruling house</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <text>House {HOUSE} seizes the rule of {FACTION}: {NAME} ends the line of House {OLD} after {GENERATIONS} rulers.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_FigureRenowned</defName>
+    <label>a name made</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <text>{NAME} of {HOME} is known far and wide now: {ROLE}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_FigureRetired</defName>
+    <label>a figure retired</label>
+    <category>People</category>
+    <importance>Notable</importance>
+    <text>{NAME}, {ROLE}, has grown old and handed on the work to {HEIR}.</text>
+  </LivingWorld.ChronicleEventDef>
+</Defs>

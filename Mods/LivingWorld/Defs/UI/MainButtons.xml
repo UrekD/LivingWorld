@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <MainButtonDef>
+    <defName>LW_Chronicle</defName>
+    <label>chronicle</label>
+    <description>The living world: news, factions, settlements and their history.</description>
+    <tabWindowClass>LivingWorld.MainTabWindow_Chronicle</tabWindowClass>
+    <order>91</order>
+    <validWithoutMap>true</validWithoutMap>
+    <minimized>True</minimized>
+    <iconPath>LivingWorld/UI/Chronicle</iconPath>
+  </MainButtonDef>
+</Defs>

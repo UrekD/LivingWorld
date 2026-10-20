@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- All numeric tuning of the simulation. Defaults live in LivingWorldTuningDef; override fields here. -->
+  <LivingWorld.LivingWorldTuningDef>
+    <defName>LW_Tuning</defName>
+  </LivingWorld.LivingWorldTuningDef>
+</Defs>

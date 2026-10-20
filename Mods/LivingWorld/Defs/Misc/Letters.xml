@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <LetterDef ParentName="CustomChoiceLetterBase">
+    <defName>LW_TributeDemand</defName>
+    <letterClass>LivingWorld.ChoiceLetter_TributeDemand</letterClass>
+    <color>(200, 90, 60)</color>
+  </LetterDef>
+  <LetterDef ParentName="CustomChoiceLetterBase">
+    <defName>LW_RansomOffer</defName>
+    <letterClass>LivingWorld.ChoiceLetter_Ransom</letterClass>
+    <color>(200, 170, 80)</color>
+  </LetterDef>
+  <LetterDef ParentName="CustomChoiceLetterBase">
+    <defName>LW_RulerAudience</defName>
+    <letterClass>LivingWorld.ChoiceLetter_RulerAudience</letterClass>
+    <color>(130, 170, 220)</color>
+  </LetterDef>
+  <LetterDef ParentName="CustomChoiceLetterBase">
+    <defName>LW_VisitorPlea</defName>
+    <letterClass>LivingWorld.ChoiceLetter_VisitorPlea</letterClass>
+    <color>(180, 160, 120)</color>
+  </LetterDef>
+  <LetterDef ParentName="CustomChoiceLetterBase">
+    <defName>LW_Commission</defName>
+    <letterClass>LivingWorld.ChoiceLetter_Commission</letterClass>
+    <color>(150, 190, 120)</color>
+  </LetterDef>
+</Defs>

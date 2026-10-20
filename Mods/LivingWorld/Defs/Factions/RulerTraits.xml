@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <LivingWorld.RulerTraitDef>
+    <defName>LW_Ruler_Ambitious</defName>
+    <label>ambitious</label>
+    <description>Wants more land, more power and a name in the histories.</description>
+    <conflictsWith><li>LW_Ruler_Cautious</li></conflictsWith>
+    <warPropensity>1.25</warPropensity>
+    <expansion>1.3</expansion>
+    <conquerWeight>2</conquerWeight>
+    <expandWeight>1.5</expandWeight>
+    <prosperWeight>0.6</prosperWeight>
+  </LivingWorld.RulerTraitDef>
+  <LivingWorld.RulerTraitDef>
+    <defName>LW_Ruler_Cautious</defName>
+    <label>cautious</label>
+    <description>Avoids risks; fights only when there is no other way.</description>
+    <warPropensity>0.7</warPropensity>
+    <treatyKeeping>1.15</treatyKeeping>
+    <conquerWeight>0.4</conquerWeight>
+    <prosperWeight>1.5</prosperWeight>
+  </LivingWorld.RulerTraitDef>
+  <LivingWorld.RulerTraitDef>
+    <defName>LW_Ruler_Greedy</defName>
+    <label>greedy</label>
+    <description>Counts silver before people. Trades hard and plunders gladly.</description>
+    <conflictsWith><li>LW_Ruler_Generous</li></conflictsWith>
+    <tradeVolume>1.2</tradeVolume>
+    <playerTolerance>0.9</playerTolerance>
+    <prosperWeight>1.6</prosperWeight>
+    <conquerWeight>1.2</conquerWeight>
+  </LivingWorld.RulerTraitDef>
+  <LivingWorld.RulerTraitDef>
+    <defName>LW_Ruler_Generous</defName>
+    <label>generous</label>
+    <description>Open-handed with friends and strangers alike.</description>
+    <playerTolerance>1.25</playerTolerance>
+    <treatyKeeping>1.1</treatyKeeping>
+    <growth>1.1</growth>
+    <avengeWeight>0.6</avengeWeight>
+  </LivingWorld.RulerTraitDef>
+  <LivingWorld.RulerTraitDef>
+    <defName>LW_Ruler_Cruel</defName>
+    <label>cruel</label>
+    <description>Rules by fear and remembers every slight.</description>
+    <conflictsWith><li>LW_Ruler_Just</li></conflictsWith>
+    <warPropensity>1.2</warPropensity>
+    <playerTolerance>0.8</playerTolerance>
+    <treatyKeeping>0.8</treatyKeeping>
+    <avengeWeight>2</avengeWeight>
+  </LivingWorld.RulerTraitDef>
+  <LivingWorld.RulerTraitDef>
+    <defName>LW_Ruler_Just</defName>
+    <label>just</label>
+    <description>Keeps the law and their word, and expects others to do the same.</description>
+    <treatyKeeping>1.3</treatyKeeping>
+    <playerTolerance>1.1</playerTolerance>
+    <avengeWeight>1.2</avengeWeight>
+    <conquerWeight>0.7</conquerWeight>
+  </LivingWorld.RulerTraitDef>
+  <LivingWorld.RulerTraitDef>
+    <defName>LW_Ruler_Warlike</defName>
+    <label>warlike</label>
+    <description>Happiest at the head of an army.</description>
+    <conflictsWith><li>LW_Ruler_Peaceable</li><li>LW_Ruler_Cautious</li></conflictsWith>
+    <warPropensity>1.4</warPropensity>
+    <militarization>1.2</militarization>
+    <conquerWeight>1.8</conquerWeight>
+    <prosperWeight>0.5</prosperWeight>
+  </LivingWorld.RulerTraitDef>
+  <LivingWorld.RulerTraitDef>
+    <defName>LW_Ruler_Peaceable</defName>
+    <label>peaceable</label>
+    <description>Would rather pay than fight, and rather talk than pay.</description>
+    <warPropensity>0.6</warPropensity>
+    <treatyKeeping>1.2</treatyKeeping>
+    <conquerWeight>0.3</conquerWeight>
+    <avengeWeight>0.5</avengeWeight>
+    <prosperWeight>1.8</prosperWeight>
+  </LivingWorld.RulerTraitDef>
+  <LivingWorld.RulerTraitDef>
+    <defName>LW_Ruler_Paranoid</defName>
+    <label>paranoid</label>
+    <description>Sees plots everywhere and keeps a large guard.</description>
+    <militarization>1.25</militarization>
+    <playerTolerance>0.85</playerTolerance>
+    <tradeVolume>0.85</tradeVolume>
+    <avengeWeight>1.5</avengeWeight>
+  </LivingWorld.RulerTraitDef>
+  <LivingWorld.RulerTraitDef>
+    <defName>LW_Ruler_Builder</defName>
+    <label>builder</label>
+    <description>Founds towns, digs wells and builds roads.</description>
+    <expansion>1.4</expansion>
+    <growth>1.15</growth>
+    <expandWeight>2</expandWeight>
+    <prosperWeight>1.2</prosperWeight>
+  </LivingWorld.RulerTraitDef>
+</Defs>

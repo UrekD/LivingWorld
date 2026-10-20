@@ -1,0 +1,14 @@
+# Clone this repo next to the RimWorld install (e.g. ~/RimWorld and ~/rim-mods/living-world), not into it:
+# 1.7 keeps hundreds of game files in the install root. Never commit game files or decompiled game code.
+
+# Local tool state and scratch (decompiled game code goes in .work/ and must never be committed)
+/.serena/
+/graphify-out/
+/.work/
+worktrees/
+
+# Build outputs
+bin/
+obj/
+/Mods/LivingWorld/Assemblies/
+/dist/

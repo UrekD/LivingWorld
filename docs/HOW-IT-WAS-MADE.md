@@ -20,7 +20,7 @@ human review.
 | Design, implementation, fixes, test harness, test runs, docs | [Claude Code](https://claude.com/claude-code) with Claude Opus 5.5 |
 | Research (other world-simulation mods, Hospitality and Spaceports, the 1.7 game API) | Claude agents run by a local agent orchestrator in isolated git worktrees |
 | Independent reviews | Claude Fable 5.1 and GPT-6 Astra (OpenAI Codex CLI) reviewed the design, then each batch of features |
-| Icons | Drawn by code: `tools/gen-art.py` (written by the agent) renders simple glyphs to PNG. No image-generation model was used |
+| Icons | Drawn by code: `tools/gen-art.py` (written by GPT-6.1 Sol in the OpenAI Codex CLI, after a first glyph version by Claude) paints shaded greyscale icons to PNG that the game tints with the faction colour. No image-generation model was used |
 
 The game's code was decompiled locally with ILSpy so the agents could read vanilla methods. The decompiled code was
 used only as reference and is not in this repository.

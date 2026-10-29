@@ -56,12 +56,15 @@ used only as reference and is not in this repository.
 def field and cross-reference of the mod against the game's types.
 
 **In-game autotests** (`tools/autotest.sh`, `make test`). The real game runs headless: the Windows 1.7.4980 build under
-Wine, or the native Linux 1.7.4979 build, both offline, with all expansions. Each run starts a quick game on a fixed
-seed, runs the given in-game days at full speed, saves and reloads halfway, and checks invariants. It fails on any
-error in the log that isn't a known vanilla or third-party one. The regression suite has 10 plans, each aimed at a
-group of features, with forced events where waiting would take too long; the README lists them. All 10 passed with 0
-errors on the code published here. Hospitality and Spaceports were built from source for 1.7 to run the
-two integration plans.
+Wine, or the native Linux 1.7.4979 build, both offline, with all expansions unless a plan says otherwise. Each run
+starts a quick game on a fixed seed, runs the given in-game days at full speed, saves and reloads halfway, and checks
+invariants. It fails on any error in the log that isn't a known vanilla or third-party one. The regression suite runs 12
+plans (each aimed at a group of features, with forced events where waiting would take too long; the README lists them),
+then normal and history again without expansions and agency with Core only, then a removal check that loads saves in a
+game without the mod. On the code published here all of them passed with 0 errors, except the normal plan without
+expansions on its first try: the raid it fails on purpose (to test the retry) also failed its retry, so the war band
+turned back. It passed on a rerun. This is a known intermittent failure: rarely, a raid announced in a letter does not
+come. Hospitality and Spaceports were built from source for 1.7 to run the two integration plans.
 
 Longer runs:
 
@@ -70,16 +73,16 @@ Longer runs:
 - **stress:** a full planet of about 920 towns and 314,000 people after 5 history years. The mod took about 1.2 s of
   the 25 s of tick time per in-game day.
 
-All three passed with 0 errors.
+All three passed with 0 errors when first published (2026-10-20). They were not rerun for later updates.
 
 **UI tour** (`tools/uitour.sh`): a windowed run under Xvfb with software Vulkan that opens every Chronicle page,
 dialog and inspect tab and takes a screenshot of each. The screenshots in the README come from it.
 
 ## What has not been tested
 
-- **Real play.** As of publishing it has only run in the automated harness. It has not been played on a normal install
-  or on a real long-running save. Balance (prices, war frequency, how often visitors come) is tuned from automated
-  runs only.
+- **Real play.** Apart from one short play test by the maintainer ("seemed workable"), it has only run in the
+  automated harness. It has not been played on a real long-running save. Balance (prices, war frequency, how often
+  visitors come) is tuned from automated runs only.
 - **Large mod lists.** Other mods that replace the raid, trader or visitor incident workers are detected and left
   alone, but no real modded save was tried. Only Hospitality and Spaceports were tested together with it.
 - **Old saves.** Adding the mod to a running save and the *Prepare this save for removing the mod* switch are covered

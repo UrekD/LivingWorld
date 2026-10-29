@@ -10,6 +10,8 @@
   <LW_Settings_WarfareDesc>Factions at war send war bands against each other's settlements.</LW_Settings_WarfareDesc>
   <LW_Settings_Conquest>Conquest and razing</LW_Settings_Conquest>
   <LW_Settings_ConquestDesc>Settlements can be captured or destroyed, and factions can be wiped out.</LW_Settings_ConquestDesc>
+  <LW_Settings_Tributaries>Hold conquered towns</LW_Settings_Tributaries>
+  <LW_Settings_TributariesDesc>When your people win an assault on a settlement, you may hold it instead of razing it: its people keep their homes and it becomes a free town allied to you, and its old masters will want it back. A held town pays you tribute (you set the rate) and may rise against you if pressed too hard. Off: a won assault destroys the town, as in vanilla. Towns you already hold stay as they are, but pay nothing and do not rise.</LW_Settings_TributariesDesc>
   <LW_Settings_Expansion>New settlements</LW_Settings_Expansion>
   <LW_Settings_ExpansionDesc>Prosperous factions send settlers to found new settlements.</LW_Settings_ExpansionDesc>
   <LW_Settings_Parties>Parties on the world map</LW_Settings_Parties>
@@ -20,12 +22,51 @@
   <LW_Settings_MarketsDesc>Trade prices follow each settlement's supply and demand.</LW_Settings_MarketsDesc>
   <LW_Settings_Figures>Notable people</LW_Settings_Figures>
   <LW_Settings_FiguresDesc>Leaders, warlords and merchants with their own history, who come back to your colony.</LW_Settings_FiguresDesc>
+  <LW_Settings_Borders>Territory and borders</LW_Settings_Borders>
+  <LW_Settings_BordersDesc>Settlements claim the land around them. Factions whose lands touch grow rivalrous faster, new towns are only founded on free or their own land, and nobody settles inside your colony's reach. Off: the older rivalry by distance alone, and founding anywhere.</LW_Settings_BordersDesc>
+  <LW_Settings_TownMaps>Town maps follow the world</LW_Settings_TownMaps>
+  <LW_Settings_TownMapsDesc>When you attack a town, its map reflects the town's state in the simulation: bigger towns have larger grounds, defenders follow how full its garrison is against what it wants, and loot follows its wealth. Quest settlements keep vanilla maps. Switch off for vanilla maps; maps already generated stay as they are.</LW_Settings_TownMapsDesc>
+  <LW_Settings_Roads>Roads</LW_Settings_Roads>
+  <LW_Settings_RoadsDesc>Towns that trade a lot build roads between them (and let them decay when the trade stops or war comes), and your caravans can build roads. A road joins your colony to the towns along it: their merchants and visitors come more often and think better of you. Built roads stay when this is switched off.</LW_Settings_RoadsDesc>
   <LW_Settings_Presentation>News</LW_Settings_Presentation>
   <LW_Settings_Letters>World news letters</LW_Settings_Letters>
   <LW_LetterPolicy_Off>off (chronicle only)</LW_LetterPolicy_Off>
   <LW_LetterPolicy_Digest>digest</LW_LetterPolicy_Digest>
   <LW_LetterPolicy_All>every notable event</LW_LetterPolicy_All>
   <LW_Settings_DigestDays>Digest every {0} days</LW_Settings_DigestDays>
+  <LW_Settings_ShowBorders>World map overlay</LW_Settings_ShowBorders>
+  <LW_Overlay_Toggle>World overlay: {0}</LW_Overlay_Toggle>
+  <LW_Overlay_Mode_Off>off</LW_Overlay_Mode_Off>
+  <LW_Overlay_Mode_Borders>faction territory and borders</LW_Overlay_Mode_Borders>
+  <LW_Overlay_Mode_WarFronts>war fronts and recent battles</LW_Overlay_Mode_WarFronts>
+  <LW_Overlay_Mode_Trade>trade routes and merchants</LW_Overlay_Mode_Trade>
+  <LW_Overlay_Mode_Prosperity>prosperity of each town's land</LW_Overlay_Mode_Prosperity>
+  <LW_Overlay_Mode_Shortage>overall shortage of goods</LW_Overlay_Mode_Shortage>
+  <LW_Overlay_Mode_ShortageAnyTip>Each town's price factor over the goods it consumes, weighted by how much of each it consumes and never below 1: a scarce good shows in proportion to how much the town needs it.</LW_Overlay_Mode_ShortageAnyTip>
+  <LW_Overlay_Mode_ShortageOf>shortage of {0}</LW_Overlay_Mode_ShortageOf>
+  <LW_Overlay_Menu_Shortage>Shortage of a good...</LW_Overlay_Menu_Shortage>
+  <LW_Overlay_AnyGood>All goods (by consumption)</LW_Overlay_AnyGood>
+  <LW_Overlay_Famine>famine</LW_Overlay_Famine>
+  <LW_Overlay_Surplus>surplus</LW_Overlay_Surplus>
+  <LW_Overlay_Plenty>plenty</LW_Overlay_Plenty>
+  <LW_Overlay_Balanced>balanced</LW_Overlay_Balanced>
+  <LW_Overlay_Short>short</LW_Overlay_Short>
+  <LW_Overlay_Scarce>scarce</LW_Overlay_Scarce>
+  <LW_Overlay_Desperate>desperate</LW_Overlay_Desperate>
+  <LW_Overlay_Legend_WarTitle>War fronts: battles of the last {0} days</LW_Overlay_Legend_WarTitle>
+  <LW_Overlay_Legend_Wars>wars: {0}</LW_Overlay_Legend_Wars>
+  <LW_Overlay_Legend_Repelled>repelled</LW_Overlay_Legend_Repelled>
+  <LW_Overlay_Legend_Plundered>plundered</LW_Overlay_Legend_Plundered>
+  <LW_Overlay_Legend_Captured>captured</LW_Overlay_Legend_Captured>
+  <LW_Overlay_Legend_Razed>razed</LW_Overlay_Legend_Razed>
+  <LW_Overlay_Legend_WarBand>war band marching</LW_Overlay_Legend_WarBand>
+  <LW_Overlay_Legend_TradeRoute>trade route (wider: busier)</LW_Overlay_Legend_TradeRoute>
+  <LW_Overlay_Legend_TradeNone>no trade recorded yet</LW_Overlay_Legend_TradeNone>
+  <LW_Overlay_Legend_TradeQuiet>no busy trade route yet</LW_Overlay_Legend_TradeQuiet>
+  <LW_Overlay_Legend_Merchants>merchants travelling</LW_Overlay_Legend_Merchants>
+  <LW_Overlay_NeedsTerritory>Needs territory (Settings, Territory and borders)</LW_Overlay_NeedsTerritory>
+  <LW_Overlay_NeedsEconomy>Needs the economy simulation</LW_Overlay_NeedsEconomy>
+  <LW_Overlay_Prepared>This save is prepared for removing the mod</LW_Overlay_Prepared>
   <LW_Settings_Scale>Scale</LW_Settings_Scale>
   <LW_Settings_HistoryYears>History before landing: {0} years</LW_Settings_HistoryYears>
   <LW_Settings_HistoryYearsDesc>When a new game starts, the world lives through this many years first, so it already has wars, ruins and legends.</LW_Settings_HistoryYearsDesc>
@@ -41,9 +82,16 @@
   <LW_NewsFilter_Notable>Show: notable events</LW_NewsFilter_Notable>
   <LW_NewsFilter_Player>Show: involving you</LW_NewsFilter_Player>
   <LW_NewsCount>{0} events recorded</LW_NewsCount>
-  <LW_Faction_Settlements>{0} settlements, {1} people</LW_Faction_Settlements>
+  <LW_NewsCount_One>{0} event recorded</LW_NewsCount_One>
+  <LW_Faction_Settlements>{0}, {1}</LW_Faction_Settlements>
+  <LW_Count_Settlements>{0} settlements</LW_Count_Settlements>
+  <LW_Count_Settlements_One>{0} settlement</LW_Count_Settlements_One>
+  <LW_Count_People>{0} people</LW_Count_People>
+  <LW_Count_People_One>{0} person</LW_Count_People_One>
   <LW_Faction_Strength>Strength: {0}</LW_Faction_Strength>
   <LW_Faction_Treasury>Treasury: {0} silver</LW_Faction_Treasury>
+  <LW_Faction_Borders>Borders: {0}</LW_Faction_Borders>
+  <LW_Faction_BordersNone>Borders: none</LW_Faction_BordersNone>
   <LW_Faction_AtPeace>At peace with its neighbours.</LW_Faction_AtPeace>
   <LW_Faction_HostileTo>Hostile to: {0}</LW_Faction_HostileTo>
   <LW_Faction_HostileToAll>Hostile to everyone.</LW_Faction_HostileToAll>
@@ -59,7 +107,18 @@
 
   <!-- Inspect -->
   <LW_Inspect_Settlement>{0} of {1} people, {2}</LW_Inspect_Settlement>
+  <LW_Inspect_Territory>Territory: {0} tiles</LW_Inspect_Territory>
+  <LW_Inspect_Territory_One>Territory: {0} tile</LW_Inspect_Territory_One>
   <LW_Inspect_Famine>Famine: {0} days of hunger</LW_Inspect_Famine>
+  <LW_Inspect_Scarred>Scarred by an attack {0} days ago</LW_Inspect_Scarred>
+  <LW_Inspect_Scarred_One>Scarred by an attack {0} day ago</LW_Inspect_Scarred_One>
+  <LW_Inspect_Scarred_Today>Scarred by an attack today</LW_Inspect_Scarred_Today>
+  <LW_Inspect_Defenders>Would defend with: {0}{1}</LW_Inspect_Defenders>
+  <LW_Inspect_Defenders_Handful>a handful</LW_Inspect_Defenders_Handful>
+  <LW_Inspect_Defenders_Company>a company</LW_Inspect_Defenders_Company>
+  <LW_Inspect_Defenders_Strong>a strong garrison</LW_Inspect_Defenders_Strong>
+  <LW_Inspect_Defenders_Fortress>a fortress</LW_Inspect_Defenders_Fortress>
+  <LW_Inspect_DefendersWeakened> (weakened)</LW_Inspect_DefendersWeakened>
   <LW_Inspect_ShortOf>Short of {0} (pays ×{1})</LW_Inspect_ShortOf>
   <LW_Prosperity_Destitute>destitute</LW_Prosperity_Destitute>
   <LW_Prosperity_Poor>poor</LW_Prosperity_Poor>
@@ -126,12 +185,50 @@ You can prepare your defenses, or meet them on the way.</LW_WarBandSpottedText>
   <LW_Tab_Markets>Markets</LW_Tab_Markets>
   <LW_Wars_None>The world is at peace.</LW_Wars_None>
   <LW_Wars_Active>{0} wars are being fought</LW_Wars_Active>
+  <LW_Wars_Active_One>{0} war is being fought</LW_Wars_Active_One>
   <LW_Wars_Ended>Recently ended</LW_Wars_Ended>
   <LW_Wars_Since>for {0}</LW_Wars_Since>
   <LW_Wars_Lasted>lasted {0}</LW_Wars_Lasted>
   <LW_Wars_Battles>{0} battles</LW_Wars_Battles>
+  <LW_Wars_Battles_One>{0} battle</LW_Wars_Battles_One>
   <LW_Wars_ScoreTip>Who is winning: {0} (left) against {1} (right). War score {2}.</LW_Wars_ScoreTip>
   <LW_Markets_Help>What each nearby settlement pays, compared to the usual price. Red: they need it (sell to them). Green: they have plenty (buy there). Click a row to find the settlement.</LW_Markets_Help>
+  <LW_Markets_ViewPrices>Prices</LW_Markets_ViewPrices>
+  <LW_Markets_ViewRoutes>Routes</LW_Markets_ViewRoutes>
+
+  <!-- Markets: the Routes view -->
+  <LW_Routes_Help>Where goods sell best and which trips look worth making, from the nearest towns that will trade with you. Factors compare what you would pay or get with a normal price, with fame and fairs included, so they differ from the Prices view. Times are for a caravan leaving now. Click a row to find the settlement.</LW_Routes_Help>
+  <LW_Routes_Good>Good: {0}</LW_Routes_Good>
+  <LW_Routes_AllGoods>All goods</LW_Routes_AllGoods>
+  <LW_Routes_OnlyHave>What I have</LW_Routes_OnlyHave>
+  <LW_Routes_OnlyHaveDesc>Under "Where to sell", list only goods the colony has stockpiled.</LW_Routes_OnlyHaveDesc>
+  <LW_Routes_Refresh>Refresh</LW_Routes_Refresh>
+  <LW_Routes_ShowOnMap>Show on map</LW_Routes_ShowOnMap>
+  <LW_Routes_ShowOnMapDesc>Shade the world map by where this good is in short supply, which is where it pays well.</LW_Routes_ShowOnMapDesc>
+  <LW_Routes_PricesOff>Dynamic market prices are switched off in the mod settings, so there is nothing to compare.</LW_Routes_PricesOff>
+  <LW_Routes_NoColony>The colony is not on the planet's surface, so there is no road to plan from.</LW_Routes_NoColony>
+  <LW_Routes_NoHome>No colony to plan from.</LW_Routes_NoHome>
+  <LW_Routes_Searching>Working out which towns can be reached...</LW_Routes_Searching>
+  <LW_Routes_SellHeader>Where to sell</LW_Routes_SellHeader>
+  <LW_Routes_SellHelp>A comparison of markets, not a profit: what each town pays for a good, against a normal price.</LW_Routes_SellHelp>
+  <LW_Routes_NoSell>No town nearby pays notably more than a normal price for these goods.</LW_Routes_NoSell>
+  <LW_Routes_RoutesHeader>Trade routes</LW_Routes_RoutesHeader>
+  <LW_Routes_RoutesHelp>Buy at one town, sell at another: the estimated profit after the usual trade markup, with your best negotiator.</LW_Routes_RoutesHelp>
+  <LW_Routes_NoRoutes>No trip between these towns looks worth making right now.</LW_Routes_NoRoutes>
+  <LW_Routes_SellRow>{TOWN} pays ×{FACTOR} of a normal price for {GOOD}, {TIME}{ROAD}.{NOTE} You have {HAVE}.</LW_Routes_SellRow>
+  <LW_Routes_RouteRow>{REP}, bought at {BUY} and sold at {SELL}, est. +{PROFIT}% with {NEGOTIATOR}; {LEG1} + {LEG2}. {BUY} may not have it in stock.</LW_Routes_RouteRow>
+  <LW_Routes_SellTip>The price you would get for a thing of this good, compared to a normal price, before your negotiator's bonus. The town never pays more for a thing than it would sell it for. Click to find the town.</LW_Routes_SellTip>
+  <LW_Routes_RouteTip>Worked out from the game's trade rules: you buy at 1.4 times a thing's value and sell at 0.6 times, each scaled by the town's market, the thing's own sell factor, the difficulty and your negotiator (the best one at home: colonists away with a caravan are not counted). What a town pays is held to what it would sell the thing for. A town's stock is never looked at, so check it when you arrive. Click to find the town to buy at.</LW_Routes_RouteTip>
+  <LW_Routes_Days>{0} days</LW_Routes_Days>
+  <LW_Routes_DaysApprox>~{0} days</LW_Routes_DaysApprox>
+  <LW_Routes_DaysEstimating>~{0} days (estimating...)</LW_Routes_DaysEstimating>
+  <LW_Routes_Leg>{0} d</LW_Routes_Leg>
+  <LW_Routes_LegEstimating>~{0} d (estimating...)</LW_Routes_LegEstimating>
+  <LW_Routes_LegApprox>~{0} d</LW_Routes_LegApprox>
+  <LW_Routes_ByRoad>, by road</LW_Routes_ByRoad>
+  <LW_Routes_NoneCounted>—</LW_Routes_NoneCounted>
+  <LW_Routes_NoNegotiator>no trade bonus</LW_Routes_NoNegotiator>
+  <LW_Routes_NeedsTitle>Needs a royal title.</LW_Routes_NeedsTitle>
 
   <!-- People -->
   <LW_FigureRole_Merchant>merchant of {0}</LW_FigureRole_Merchant>
@@ -171,9 +268,9 @@ You can prepare your defenses, or meet them on the way.</LW_WarBandSpottedText>
   <LW_Tab_Growth_Crowded>Not growing: the land is full</LW_Tab_Growth_Crowded>
   <LW_Tab_Growth_Poor>Not growing: too poor</LW_Tab_Growth_Poor>
   <LW_Tab_Growth_Famine>Shrinking: famine</LW_Tab_Growth_Famine>
-  <LW_Tab_Harvest>Harvest time: food output ×{0}; stores for {1} days</LW_Tab_Harvest>
-  <LW_Tab_LeanSeason>Lean season: food output ×{0}, living off stores for {1} days</LW_Tab_LeanSeason>
-  <LW_Tab_FoodReserve>Food stores for {0} days</LW_Tab_FoodReserve>
+  <LW_Tab_Harvest>Harvest time: food output ×{0}; stores for {1}</LW_Tab_Harvest>
+  <LW_Tab_LeanSeason>Lean season: food output ×{0}, living off stores for {1}</LW_Tab_LeanSeason>
+  <LW_Tab_FoodReserve>Food stores for {0}</LW_Tab_FoodReserve>
   <LW_Tab_YearlyFair>Holds a yearly fair in {0}</LW_Tab_YearlyFair>
   <LW_FairComing>{SETTLEMENT} ({FACTION}) will hold its yearly fair within a few days. Traders are gathering.</LW_FairComing>
   <LW_Inspect_Restless>Restless (unrest {0})</LW_Inspect_Restless>
@@ -400,6 +497,80 @@ You can prepare your defenses, or meet them on the way.</LW_WarBandSpottedText>
   <LW_Dipl_WeregildMootText>By the time your envoy reached {TOWN}, no one of {FACTION} was sworn against your colony any more. The {SILVER} silver comes home.</LW_Dipl_WeregildMootText>
   <LW_Envoy_Mission_PlayerWeregild>Offering a blood price to {0}.</LW_Envoy_Mission_PlayerWeregild>
   <LW_Dipl_MissionShort_PlayerWeregild>blood price</LW_Dipl_MissionShort_PlayerWeregild>
+  <!-- Hired war bands -->
+  <LW_Settings_HireBands>Hire war bands</LW_Settings_HireBands>
+  <LW_Settings_HireBandsDesc>Pay a faction that is not your enemy, and is already at war with one of yours, to send a war band against one of that enemy's towns. Needs faction diplomacy, parties on the world map and warfare between factions as well. Off: nothing can be hired, and a hire whose envoy has not yet answered comes to nothing (the silver comes home). A band already marching still fights.</LW_Settings_HireBandsDesc>
+  <LW_Envoy_Mission_PlayerHireBand>Carrying silver to {0} to hire a war band against {1}.</LW_Envoy_Mission_PlayerHireBand>
+  <LW_Dipl_MissionShort_PlayerHireBand>war band hire</LW_Dipl_MissionShort_PlayerHireBand>
+  <LW_Hire_Off_Setting>Hiring war bands is switched off in the settings</LW_Hire_Off_Setting>
+  <LW_Hire_Off_Diplomacy>Hiring war bands needs faction diplomacy, which is switched off</LW_Hire_Off_Diplomacy>
+  <LW_Hire_Off_Parties>Hiring war bands needs parties on the world map, which are switched off</LW_Hire_Off_Parties>
+  <LW_Hire_Off_Warfare>Hiring war bands needs warfare between factions, which is switched off</LW_Hire_Off_Warfare>
+  <LW_Hire_Hostile>{0} is your enemy: they do not hire out to you</LW_Hire_Hostile>
+  <LW_Hire_Goodwill>{0} think too little of you to hire out (they need at least {1} goodwill)</LW_Hire_Goodwill>
+  <LW_Hire_EnemyNotHostile>{0} is not an enemy of your colony</LW_Hire_EnemyNotHostile>
+  <LW_Hire_NotAtWar>{0} is not at war with {1}</LW_Hire_NotAtWar>
+  <LW_Hire_NoTarget>{0} have no town of theirs that a band can march on now</LW_Hire_NoTarget>
+  <LW_Hire_TargetProtected>{0} cannot be marched on now: a map or a quest of its own holds it</LW_Hire_TargetProtected>
+  <LW_Hire_NoSource>{0} have no town with 120 men to spare within {2} tiles of {1}</LW_Hire_NoSource>
+  <LW_Hire_CapHirer>{0} already has a hire under way for you</LW_Hire_CapHirer>
+  <LW_Hire_CapTotal>You already have {0} hires under way, the most at once</LW_Hire_CapTotal>
+  <LW_Hire_Why_Disabled>hiring war bands is switched off</LW_Hire_Why_Disabled>
+  <LW_Hire_Why_HirerHostile>{0} has turned against your colony</LW_Hire_Why_HirerHostile>
+  <LW_Hire_Why_EnemyPeace>{1} is no longer an enemy of your colony</LW_Hire_Why_EnemyPeace>
+  <LW_Hire_Why_Peace>{0} and {1} are no longer at war</LW_Hire_Why_Peace>
+  <LW_Hire_Why_TargetGone>{2} is gone</LW_Hire_Why_TargetGone>
+  <LW_Hire_Why_TargetHands>{2} has changed hands and is no longer {1}'s</LW_Hire_Why_TargetHands>
+  <LW_Hire_Why_TargetProtected>{2} is tied up in a fight or a quest of its own</LW_Hire_Why_TargetProtected>
+  <LW_Hire_Why_SourceShort>{3} can no longer spare the men</LW_Hire_Why_SourceShort>
+  <LW_Hire_Why_NoRoute>there is no way left to {2}</LW_Hire_Why_NoRoute>
+  <LW_Hire_Why_HirerGone>{0} is no more</LW_Hire_Why_HirerGone>
+  <LW_Hire_Why_SourceLost>the way to {3} is lost</LW_Hire_Why_SourceLost>
+  <LW_Hire_QuoteChanged>{0} now asks {2} silver, not the {1} you were shown. Nothing was paid yet: please confirm the new price.</LW_Hire_QuoteChanged>
+  <LW_Hire_Void_Hostile>{0} has turned against your colony. The band hired against {2} is theirs again, and they keep the fee.</LW_Hire_Void_Hostile>
+  <LW_Hire_Void_BandLost>The war band {0} sent against {2} for your colony was lost on the road. The fee is gone.</LW_Hire_Void_BandLost>
+  <LW_Hire_MootLabel>Hire came to nothing: {0}</LW_Hire_MootLabel>
+  <LW_Hire_VoidLabel>Hired band no longer yours: {0}</LW_Hire_VoidLabel>
+  <LW_Hire_MootEarlyText>Your envoy turned back before it could be answered, and nothing came of the hire against {TARGET}: {WHY}. The {PRICE} silver comes home with the envoy.</LW_Hire_MootEarlyText>
+  <LW_Hire_MootText>Your envoy reached {SOURCE}, but nothing came of the hire against {TARGET}: {WHY}. The envoy is walking home with the {SILVER} silver.</LW_Hire_MootText>
+  <LW_Hire_NoLabel>{0} will not send a band</LW_Hire_NoLabel>
+  <LW_Hire_NoText>{HIRER} heard your envoy out and would not send the men of {SOURCE} against {ENEMY} for {SILVER} silver, not now. The envoy is walking home with the silver.</LW_Hire_NoText>
+  <LW_Hire_YesLabel>{0} sends a war band</LW_Hire_YesLabel>
+  <LW_Hire_YesText>{HIRER} took {SILVER} silver. {SENT} fighters from {SOURCE} are marching on {TARGET} of {ENEMY}, there in about {ETA}. If the town changes hands, or the war ends before they get there, they turn back, and part of the fee comes back to you.</LW_Hire_YesText>
+  <LW_Hire_YesPartial>{BACK} silver comes home with your envoy: the band is smaller than quoted, so they keep less.</LW_Hire_YesPartial>
+  <LW_Hire_ResultLabel_Razed>{0} razed</LW_Hire_ResultLabel_Razed>
+  <LW_Hire_ResultLabel_Captured>{0} taken</LW_Hire_ResultLabel_Captured>
+  <LW_Hire_ResultLabel_Plundered>{0} plundered</LW_Hire_ResultLabel_Plundered>
+  <LW_Hire_ResultLabel_Repelled>Hired band beaten at {0}</LW_Hire_ResultLabel_Repelled>
+  <LW_Hire_ResultText_Razed>The war band {HIRER} sent from {SOURCE} beat the defenders of {TARGET} and razed it. {ENEMY} has lost the town.</LW_Hire_ResultText_Razed>
+  <LW_Hire_ResultText_Captured>The war band {HIRER} sent from {SOURCE} beat the defenders of {TARGET} and took it for {HIRER}. {ENEMY} has lost the town.</LW_Hire_ResultText_Captured>
+  <LW_Hire_ResultText_Plundered>The war band {HIRER} sent from {SOURCE} beat the defenders of {TARGET} and plundered it. The town still stands, and the survivors are marching home.</LW_Hire_ResultText_Plundered>
+  <LW_Hire_ResultText_Repelled>The war band {HIRER} sent from {SOURCE} was beaten at {TARGET}: the defenders of {ENEMY} held. The survivors are marching home.</LW_Hire_ResultText_Repelled>
+  <LW_Hire_Outcome_Razed>the town was razed</LW_Hire_Outcome_Razed>
+  <LW_Hire_Outcome_Captured>the town was taken</LW_Hire_Outcome_Captured>
+  <LW_Hire_Outcome_Plundered>the town was plundered</LW_Hire_Outcome_Plundered>
+  <LW_Hire_Outcome_Repelled>the attack was repelled</LW_Hire_Outcome_Repelled>
+  <LW_Hire_CalledOffLabel>War band called off: {0}</LW_Hire_CalledOffLabel>
+  <LW_Hire_CalledOffText>The war band {HIRER} sent against {TARGET} turned back without fighting: {WHY}.</LW_Hire_CalledOffText>
+  <LW_Hire_CalledOffRefund>Part of the fee, {SILVER} silver, is dropped by pod in your stores.</LW_Hire_CalledOffRefund>
+  <LW_Hire_CalledOffNoRefund>No refund reached you.</LW_Hire_CalledOffNoRefund>
+  <LW_Hire_RefundLostLabel>Refund lost: {0}</LW_Hire_RefundLostLabel>
+  <LW_Hire_RefundLostText>{HIRER} owed you {SILVER} silver for the band called off against {TARGET}, but you have no colony on the surface to send it to. It is forfeited.</LW_Hire_RefundLostText>
+  <LW_Grudge_HiredBand>hired a war band against our town</LW_Grudge_HiredBand>
+  <LW_Hire_Inspect>Paid by {0} to attack {1}</LW_Hire_Inspect>
+  <LW_Hire_Gizmo>Hire a war band</LW_Hire_Gizmo>
+  <LW_Hire_GizmoDesc>Pay a faction that is not your enemy, and is already at war with the people of {0}, to send one of its towns' war bands against this town. You see the price, the strength and the odds before you pay.</LW_Hire_GizmoDesc>
+  <LW_Hire_MenuOption>{0}: {1} fighters from {2}, {3} silver</LW_Hire_MenuOption>
+  <LW_Hire_MenuCannot>{0}: {1}</LW_Hire_MenuCannot>
+  <LW_Hire_MenuNone>No faction that is not your enemy is at war with {0}.</LW_Hire_MenuNone>
+  <LW_Hire_Details>{0} would send {1} fighters from {2} against {3} of {4} for {5} silver. Odds that the band wins: {6}. About {7} until it reaches the town. Chance they agree, as things stand: {8}.</LW_Hire_Details>
+  <LW_Hire_ConfirmRules>The silver goes with an envoy to the source town. If they refuse, or the deal no longer applies when the envoy arrives, the envoy brings it home. If the band is called off before it fights, {0}% of the fee they kept comes back once, by drop pod.</LW_Hire_ConfirmRules>
+  <LW_Hire_OddsLikely>likely ({0})</LW_Hire_OddsLikely>
+  <LW_Hire_OddsEven>even ({0})</LW_Hire_OddsEven>
+  <LW_Hire_OddsUnlikely>unlikely ({0})</LW_Hire_OddsUnlikely>
+  <LW_Hire_Option>Hire a war band against {0}: {1} from {2} against {3}, {4} silver</LW_Hire_Option>
+  <LW_Hire_NoneLabel>Hire a war band against {0}</LW_Hire_NoneLabel>
+  <LW_Hire_NoneDesc>They fight this enemy, but they cannot send a band against it now.</LW_Hire_NoneDesc>
   <LW_FeudWarning>{TELLER_nameDef} warns that {AVENGER} of {HOME} has sworn to kill {SLAYER}.</LW_FeudWarning>
   <LW_FeudWarningComing>{TELLER_nameDef} warns that {AVENGER} of {HOME}, sworn to kill {SLAYER}, is gathering a war band and will come soon.</LW_FeudWarningComing>
   <LW_Feud_Child>child</LW_Feud_Child>
@@ -421,4 +592,201 @@ You can prepare your defenses, or meet them on the way.</LW_WarBandSpottedText>
   <LW_RansomGone>The prisoner is no longer yours to give</LW_RansomGone>
   <LW_Grudge_PrisonerDied>{0} died as their prisoner</LW_Grudge_PrisonerDied>
   <LW_Grudge_PrisonerReleased>they set {0} free</LW_Grudge_PrisonerReleased>
+  <!-- Roads -->
+  <LW_Inspect_RoadJoined>Joined to {0} by road</LW_Inspect_RoadJoined>
+  <LW_Roads_Build>Build road…</LW_Roads_Build>
+  <LW_Roads_BuildDesc>Have the colonists of this caravan build a road, one world tile at a time, to a tile you choose. The caravan stops on every tile while they work, then walks on. What is built stays if you stop.</LW_Roads_BuildDesc>
+  <LW_Roads_Stop>Stop building road</LW_Roads_Stop>
+  <LW_Roads_StopDesc>Stop building the road. What has been built stays.</LW_Roads_StopDesc>
+  <LW_Roads_Dirt>Dirt road (work only)</LW_Roads_Dirt>
+  <LW_Roads_Stone>Stone road (looks only): {0} stone blocks per tile (the caravan has {1})</LW_Roads_Stone>
+  <LW_Roads_Stone_One>Stone road (looks only): {0} stone block per tile (the caravan has {1})</LW_Roads_Stone_One>
+  <LW_Roads_NoWorkers>No colonist in the caravan can do construction work.</LW_Roads_NoWorkers>
+  <LW_Roads_CantMove>The caravan cannot move now.</LW_Roads_CantMove>
+  <LW_Roads_Moving>The caravan is on the move.</LW_Roads_Moving>
+  <LW_Roads_TargetLabel>Road to here: about {0} tiles (at most {1})</LW_Roads_TargetLabel>
+  <LW_Roads_TargetLabel_One>Road to here: about {0} tile (at most {1})</LW_Roads_TargetLabel_One>
+  <LW_Roads_Reject_Invalid>That is not a place a road can lead to.</LW_Roads_Reject_Invalid>
+  <LW_Roads_Reject_SameTile>The caravan is already there.</LW_Roads_Reject_SameTile>
+  <LW_Roads_Reject_Unreachable>The caravan cannot get there.</LW_Roads_Reject_Unreachable>
+  <LW_Roads_Reject_TooLong>Too far for one road: at most {0} tiles.</LW_Roads_Reject_TooLong>
+  <LW_Roads_Reject_TooLong_One>Too far for one road: at most {0} tile.</LW_Roads_Reject_TooLong_One>
+  <LW_Roads_Reject_Unbuildable>The way there crosses land where no road can be built (ice, water or bare rock).</LW_Roads_Reject_Unbuildable>
+  <LW_Roads_Reject_Caravan>The caravan can no longer start a road here.</LW_Roads_Reject_Caravan>
+  <LW_Roads_Started>{0} sets out to build a {1} over {2} tiles.</LW_Roads_Started>
+  <LW_Roads_Started_One>{0} sets out to build a {1} over {2} tile.</LW_Roads_Started_One>
+  <LW_Roads_Waiting>{0} has the work done for the next tile but needs {1} stone blocks to pave it.</LW_Roads_Waiting>
+  <LW_Roads_Waiting_One>{0} has the work done for the next tile but needs {1} stone block to pave it.</LW_Roads_Waiting_One>
+  <LW_Roads_Finished>{0} has finished the road.</LW_Roads_Finished>
+  <LW_Roads_Cancelled_Stopped>{0} stopped building the road. What is built stays.</LW_Roads_Cancelled_Stopped>
+  <LW_Roads_Cancelled_Moved>{0} is no longer where it was building: the road work is dropped.</LW_Roads_Cancelled_Moved>
+  <LW_Roads_Cancelled_Ordered>{0} was given another order: the road work is dropped.</LW_Roads_Cancelled_Ordered>
+  <LW_Roads_Cancelled_Failed>{0} could not get to the next tile: the road work is dropped.</LW_Roads_Cancelled_Failed>
+  <LW_Roads_Cancelled_Invalid>The road {0} was building cannot go on (the land changed): the road work is dropped.</LW_Roads_Cancelled_Invalid>
+  <LW_Roads_Inspect>Building a {2}: tile {0} of {1}</LW_Roads_Inspect>
+  <LW_Roads_InspectWaiting>waiting for {0} stone blocks</LW_Roads_InspectWaiting>
+  <LW_Roads_InspectWaiting_One>waiting for {0} stone block</LW_Roads_InspectWaiting_One>
+  <LW_Roads_InspectNoWorkers>no one can work</LW_Roads_InspectNoWorkers>
+  <LW_Roads_InspectResting>resting for the night</LW_Roads_InspectResting>
+  <LW_Roads_AndMore>and {0} more</LW_Roads_AndMore>
+  <LW_Roads_Deed>Led the building of the road to {0}.</LW_Roads_Deed>
+  <!-- Legends export (Story/LegendsExport.cs) -->
+  <LW_Legends_Export>Export legends</LW_Legends_Export>
+  <LW_Legends_ExportTip>Write the world's legends (factions, wars, settlements, figures, the colony's deeds and the whole chronicle by year) to a web page and a plain-text file.</LW_Legends_ExportTip>
+  <LW_Legends_OpenFolder>Open folder</LW_Legends_OpenFolder>
+  <LW_Legends_OpenFolderTip>Open the folder the legends are written to: {0}</LW_Legends_OpenFolderTip>
+  <LW_Legends_ShowFolder>Show folder</LW_Legends_ShowFolder>
+  <LW_Legends_ShowFolderTip>Show where the legends are written: {0}</LW_Legends_ShowFolderTip>
+  <LW_Export_Writing>Writing the legends…</LW_Export_Writing>
+  <LW_Export_Done>Legends written to the Legends folder: {0} and {1}.</LW_Export_Done>
+  <LW_Export_Entry>{0}: {1}</LW_Export_Entry>
+  <LW_Export_SeeAlso>See also:</LW_Export_SeeAlso>
+  <LW_Export_FactionRulers>Rulers of {0}</LW_Export_FactionRulers>
+  <LW_Export_FactionHistory>History of {0}</LW_Export_FactionHistory>
+  <LW_Export_Failed>Could not write the legends: {0}</LW_Export_Failed>
+  <LW_Export_Title>Legends of {0}</LW_Export_Title>
+  <LW_Export_Subtitle>The world as it stands on {0}. Written {1}.</LW_Export_Subtitle>
+  <LW_Export_Sec_World>The world and its factions</LW_Export_Sec_World>
+  <LW_Export_Sec_Wars>Wars</LW_Export_Sec_Wars>
+  <LW_Export_Sec_Settlements>Settlements</LW_Export_Sec_Settlements>
+  <LW_Export_Sec_Figures>Figures</LW_Export_Sec_Figures>
+  <LW_Export_Sec_Colony>The colony's deeds and renown</LW_Export_Sec_Colony>
+  <LW_Export_Sec_Chronicle>The chronicle, year by year</LW_Export_Sec_Chronicle>
+  <LW_Export_Overview>Overview</LW_Export_Overview>
+  <LW_Export_World>World: {0} (seed {1})</LW_Export_World>
+  <LW_Export_Colony>The colony: {0}</LW_Export_Colony>
+  <LW_Export_Summary>{0}; {1}; {2}; {3}; {4}.</LW_Export_Summary>
+  <LW_Export_Count_Factions>{0} peoples remain</LW_Export_Count_Factions>
+  <LW_Export_Count_Factions_One>{0} people remains</LW_Export_Count_Factions_One>
+  <LW_Export_Count_Wars>{0} wars fought</LW_Export_Count_Wars>
+  <LW_Export_Count_Wars_One>{0} war fought</LW_Export_Count_Wars_One>
+  <LW_Export_Count_Places>{0} places</LW_Export_Count_Places>
+  <LW_Export_Count_Places_One>{0} place</LW_Export_Count_Places_One>
+  <LW_Export_Count_Ruins>{0} of them ruins</LW_Export_Count_Ruins>
+  <LW_Export_Count_Ruins_One>{0} of them a ruin</LW_Export_Count_Ruins_One>
+  <LW_Export_Count_Figures>{0} figures</LW_Export_Count_Figures>
+  <LW_Export_Count_Figures_One>{0} figure</LW_Export_Count_Figures_One>
+  <LW_Export_Count_Events>{0} events</LW_Export_Count_Events>
+  <LW_Export_Count_Events_One>{0} event</LW_Export_Count_Events_One>
+  <LW_Export_NoFactions>No peoples are known.</LW_Export_NoFactions>
+  <LW_Export_GoneFaction>a people now gone</LW_Export_GoneFaction>
+  <LW_Export_FactionKind>{0}; technology: {1}</LW_Export_FactionKind>
+  <LW_Export_Traits>Traits: {0}</LW_Export_Traits>
+  <LW_Export_Defeated>Destroyed: no settlement of theirs is left.</LW_Export_Defeated>
+  <LW_Export_DefeatedOn>Destroyed on {0}: no settlement of theirs is left.</LW_Export_DefeatedOn>
+  <LW_Export_AlliedWith>Allied with: {0}</LW_Export_AlliedWith>
+  <LW_Export_WarTitle>{0} against {1}</LW_Export_WarTitle>
+  <LW_Export_WarCause>Cause: {0}</LW_Export_WarCause>
+  <LW_Export_WarAncient>An old hostility, from before the chronicle began.</LW_Export_WarAncient>
+  <LW_Export_WarStarted>Began on {0}.</LW_Export_WarStarted>
+  <LW_Export_WarOngoing>Still being fought, for {0}.</LW_Export_WarOngoing>
+  <LW_Export_WarEnded>Ended on {0}, after {1}.</LW_Export_WarEnded>
+  <LW_Export_WarEven>Neither side has the upper hand.</LW_Export_WarEven>
+  <LW_Export_WarScore>{1} leads on points ({0}).</LW_Export_WarScore>
+  <LW_Export_NoPlaces>No settlements are known.</LW_Export_NoPlaces>
+  <LW_Export_PlacesSummary>{0}, {1}.</LW_Export_PlacesSummary>
+  <LW_Export_UnnamedPlace>A forgotten place (tile {0})</LW_Export_UnnamedPlace>
+  <LW_Export_PlaceHeld>Held by {0}: {1}, {2}.</LW_Export_PlaceHeld>
+  <LW_Export_PlaceFounded>Founded by {0}.</LW_Export_PlaceFounded>
+  <LW_Export_PlaceResettled>Resettled by {0}.</LW_Export_PlaceResettled>
+  <LW_Export_PlaceHeldPlain>Held by {0}.</LW_Export_PlaceHeldPlain>
+  <LW_Export_PlaceFoundedOccupied>Founded by {0}; occupied since {1}.</LW_Export_PlaceFoundedOccupied>
+  <LW_Export_PlaceSacked>Last sacked on {0}; the sack destroyed {1} of the town.</LW_Export_PlaceSacked>
+  <LW_Export_PlaceScarShows>The scars still show ({0}).</LW_Export_PlaceScarShows>
+  <LW_Export_PlaceRuins>No settlement stands here now.</LW_Export_PlaceRuins>
+  <LW_Export_Figures_Warlords>{0} warlords</LW_Export_Figures_Warlords>
+  <LW_Export_Figures_Warlords_One>{0} warlord</LW_Export_Figures_Warlords_One>
+  <LW_Export_Figures_Merchants>{0} merchants</LW_Export_Figures_Merchants>
+  <LW_Export_Figures_Merchants_One>{0} merchant</LW_Export_Figures_Merchants_One>
+  <LW_Export_Figures_Kin>{0} kin of colonists</LW_Export_Figures_Kin>
+  <LW_Export_Figures_Kin_One>{0} kinsman of a colonist</LW_Export_Figures_Kin_One>
+  <LW_Export_Figures_Others>{0} other travellers</LW_Export_Figures_Others>
+  <LW_Export_Figures_Others_One>{0} other traveller</LW_Export_Figures_Others_One>
+  <LW_Export_Figure>{0}, {1} ({2}): {3}</LW_Export_Figure>
+  <LW_Export_Kills>Kills: {0}</LW_Export_Kills>
+  <LW_Export_Feuds>Blood feuds</LW_Export_Feuds>
+  <LW_Export_NoFeuds>No blood feud has been sworn.</LW_Export_NoFeuds>
+  <LW_Export_ColonyChronicle>What the world remembers of the colony</LW_Export_ColonyChronicle>
+  <LW_Export_NothingYet>Nothing has been recorded yet.</LW_Export_NothingYet>
+  <LW_Export_Year>Year {0}</LW_Export_Year>
+  <!-- Holding conquered towns -->
+  <LW_Hold_Title>{0} has fallen</LW_Hold_Title>
+  <LW_Hold_Text>The last defenders of {TOWN} have fallen or fled. About {POP} people still live there. Raze it as conquerors do, or hold it: its people keep their homes and become a free town, as friendly to you as it can be (an ally, when nothing stands in the way), and its old masters will want it back. It will pay you tribute every {DAYS} days, and if you press it too hard it may rise against you. You cannot settle on a town you hold.</LW_Hold_Text>
+  <LW_Hold_Option>Hold {0}</LW_Hold_Option>
+  <LW_Hold_Raze>Raze {0}</LW_Hold_Raze>
+  <LW_Hold_Cap>you already hold {0} towns, the most you can</LW_Hold_Cap>
+  <LW_Hold_Budget>no more free towns can be founded in this world</LW_Hold_Budget>
+  <LW_Hold_NoKind>no kind of people can live in it as a free town</LW_Hold_NoKind>
+  <LW_Hold_NoColony>you have no colony it could answer to</LW_Hold_NoColony>
+  <LW_Hold_NoLongerApplies>That no longer applies.</LW_Hold_NoLongerApplies>
+  <LW_Hold_YieldedLabel>Town yielded</LW_Hold_YieldedLabel>
+  <LW_Hold_YieldedText>{TOWN} has yielded. It becomes a free town of yours when your people leave its map. Until then it is still {FACTION}'s.</LW_Hold_YieldedText>
+  <LW_Hold_HeldLabel>Free town: {0}</LW_Hold_HeldLabel>
+  <LW_Hold_HeldText>Your people have left {TOWN}. Its people keep their homes under {LEADER}, and the town is a free town now, {RELATION}.</LW_Hold_HeldText>
+  <LW_Hold_HeldTribute>It will pay you tribute every {0} days (you set how much with the town's buttons); press it too hard and it may rise against you.</LW_Hold_HeldTribute>
+  <LW_Hold_HeldWar>{OLD} wants it back and is at war with it.</LW_Hold_HeldWar>
+  <LW_Hold_RelationAlly>your ally</LW_Hold_RelationAlly>
+  <LW_Hold_RelationNeutral>neutral toward you</LW_Hold_RelationNeutral>
+  <LW_Hold_NoLeader>a leader of its own</LW_Hold_NoLeader>
+  <LW_Hold_RefusedLabel>{0} would not bow</LW_Hold_RefusedLabel>
+  <LW_Hold_RefusedText>The people of {TOWN} would not live as a free town allied to you. It stays with {FACTION}.</LW_Hold_RefusedText>
+  <LW_Hold_ChangedHands>{0} changed hands before it could become a free town: it is no longer yours to hold.</LW_Hold_ChangedHands>
+  <LW_Hold_DrivenOut>Your people left {0} with its defenders still standing: it stays with {1}.</LW_Hold_DrivenOut>
+  <LW_Hold_QuestKept>{0} is bound up in a quest, so it stays with {1}.</LW_Hold_QuestKept>
+  <LW_Client_Name>Free town of {0}</LW_Client_Name>
+  <LW_WarCause_Reconquest>the loss of {0}</LW_WarCause_Reconquest>
+  <LW_Grudge_TookTown>took our town {0}</LW_Grudge_TookTown>
+  <LW_PlayerTookTownAgain>{COLONY} took {SETTLEMENT} again, and its people submitted to the colony once more.</LW_PlayerTookTownAgain>
+  <LW_Tributary_LostLabel>Free town lost: {0}</LW_Tributary_LostLabel>
+  <LW_Tributary_LostText>{TOWN}, the free town you held, is no longer its own: {OWNER} rules it now.</LW_Tributary_LostText>
+  <LW_Tributary_GoneText>{TOWN}, the free town you held, is gone.</LW_Tributary_GoneText>
+  <LW_Tributary_NoOwner>nobody</LW_Tributary_NoOwner>
+  <LW_Tributary_Revolted>The free town of {0} has turned on you: it is hostile to you now.</LW_Tributary_Revolted>
+  <LW_Tributary_ReleaseButton>Release town</LW_Tributary_ReleaseButton>
+  <LW_Tributary_ReleaseDesc>Let {0} go. It keeps its people, its ruler and its faction, but you no longer hold it.</LW_Tributary_ReleaseDesc>
+  <LW_Tributary_ReleaseConfirm>Release {0}? It stays a free town of its own, but you will no longer hold it. This cannot be undone.</LW_Tributary_ReleaseConfirm>
+  <LW_Tributary_Released>{0} is released. You no longer hold it.</LW_Tributary_Released>
+  <LW_Inspect_Yielded>Yielded to {0}: yours when your people leave</LW_Inspect_Yielded>
+  <LW_Inspect_Held>Free town under {0}</LW_Inspect_Held>
+  <LW_Inspect_HeldTribute>Free town under {0} · {1} tribute, next in ~{2}</LW_Inspect_HeldTribute>
+  <LW_Inspect_HeldNoTribute>Free town under {0} · no tribute asked</LW_Inspect_HeldNoTribute>
+  <LW_Tab_Tributary>Free town under {0}</LW_Tab_Tributary>
+  <LW_Tab_Tributary_Since>Held for {0}</LW_Tab_Tributary_Since>
+  <LW_Tab_Tributary_War>At war with {0}, which wants the town back.</LW_Tab_Tributary_War>
+  <LW_Tab_Tribute_Rate>Tribute: {0} ({1} of its income)</LW_Tab_Tribute_Rate>
+  <LW_Tab_Tribute_Suspended>No tribute is asked of it now.</LW_Tab_Tribute_Suspended>
+  <LW_Tab_Tribute_NoColony>No colony of yours it could pay: nothing accrues.</LW_Tab_Tribute_NoColony>
+  <LW_Tab_Tribute_Accrued>Taken since the last payment: {0} silver</LW_Tab_Tribute_Accrued>
+  <LW_Tab_Tribute_Next>Next payment in about {0}: about {1} silver</LW_Tab_Tribute_Next>
+  <LW_Tab_Tribute_NextGoods>Next payment in about {0}: about {1} silver and {2} units of {3}</LW_Tab_Tribute_NextGoods>
+  <LW_Tab_Tribute_Paid>Paid so far: {0} in value over {1} payments, {2} fell short</LW_Tab_Tribute_Paid>
+  <LW_Tab_Tribute_Restless>The people are restless ({0}): it may rise against you.</LW_Tab_Tribute_Restless>
+  <LW_TributeRate_Suspended>suspended</LW_TributeRate_Suspended>
+  <LW_TributeRate_Light>light</LW_TributeRate_Light>
+  <LW_TributeRate_Normal>normal</LW_TributeRate_Normal>
+  <LW_TributeRate_Heavy>heavy</LW_TributeRate_Heavy>
+  <LW_Tributary_RateButton>Tribute: {0}</LW_Tributary_RateButton>
+  <LW_Tributary_RateDesc>How much of the income of {0} you take as tribute, paid every {1} days of tribute in silver and, from what its stores can spare, goods. A heavier hand makes its people restless and costs it defenders, and a town pushed too far may rise against you. The rate can be changed once in {1} days.</LW_Tributary_RateDesc>
+  <LW_Tributary_RateOption>{0}: takes {1} of its income · unrest target +{2} · defenders funded {3}</LW_Tributary_RateOption>
+  <LW_Tributary_RateCurrent>(now)</LW_Tributary_RateCurrent>
+  <LW_Tributary_RateLocked>The rate was changed lately: it can be changed again in {0}.</LW_Tributary_RateLocked>
+  <LW_Tributary_NoColony>you have no colony it could pay tribute to</LW_Tributary_NoColony>
+  <LW_Tributary_NoLongerApplies>That no longer applies.</LW_Tributary_NoLongerApplies>
+  <LW_Tributary_GiftButton>Send a gift ({0} silver)</LW_Tributary_GiftButton>
+  <LW_Tributary_GiftDesc>Send {1} silver to {0} at once: it goes into the town's treasury and calms its people. A gift can be sent once in {2} days.</LW_Tributary_GiftDesc>
+  <LW_Tributary_GiftWait>A gift was sent lately: another can go in {0}.</LW_Tributary_GiftWait>
+  <LW_Tributary_GiftNoSilver>you do not have {0} silver at hand in your colony</LW_Tributary_GiftNoSilver>
+  <LW_Tributary_GiftSent>{0} silver sent to {1}: its people are calmer.</LW_Tributary_GiftSent>
+  <LW_Tributary_Restless>The people of {0} are restless ({1}): press them less, or they may rise.</LW_Tributary_Restless>
+  <LW_Tributary_RevoltedLabel>{0} has risen</LW_Tributary_RevoltedLabel>
+  <LW_Tributary_RevoltedText>The people of {TOWN}, the free town you held, have risen against you. {FACTION} will not answer to your colony any more, and is hostile to it now.</LW_Tributary_RevoltedText>
+  <LW_Grudge_TributaryRevolt>rose against the colony that held {0}</LW_Grudge_TributaryRevolt>
+  <LW_Tribute_Arrived>Tribute from {0} has come: {1}.</LW_Tribute_Arrived>
+  <LW_Tribute_Silver>{0} silver</LW_Tribute_Silver>
+  <LW_Tribute_SilverAndGoods>{0} silver and {1}</LW_Tribute_SilverAndGoods>
+  <LW_Tribute_Short>{0} could not pay what was asked of it: its treasury ran short.</LW_Tribute_Short>
+  <LW_Party_TributeFor>Tribute for {0}: {1} silver</LW_Party_TributeFor>
+  <LW_Party_TributeHome>Tribute turned back to {0}: {1} silver</LW_Party_TributeHome>
+  <LW_Faction_FreeTown>Free town under your colony ({0})</LW_Faction_FreeTown>
+  <LW_Faction_FormerClient>Formerly under your colony</LW_Faction_FormerClient>
 </LanguageData>

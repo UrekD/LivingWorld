@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Living World removal probe</name>
+  <author>UrekD</author>
+  <packageId>UrekD.LivingWorldRemovalProbe</packageId>
+  <supportedVersions>
+    <li>1.7</li>
+  </supportedVersions>
+  <description>Test only, never shipped. Loads a save made with Living World (and prepared for removing it) in a game without Living World, and checks that the held towns work: tools/removal-check.sh. No Harmony.</description>
+</ModMetaData>

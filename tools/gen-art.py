@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Original, faction-tintable Living World art; Python standard library only.
 
-Run python3 tools/gen-art.py to regenerate all seven transparent RGBA textures.
+Run python3 tools/gen-art.py to regenerate all nine transparent RGBA textures.
 Add --preview to also write /tmp/lw-art-preview.png, including faction-multiplied
 24/32 px samples and 64/128 px views on a map-like background. All drawing is
 specified here in 128 px art coordinates and rasterized at 4x resolution. Curved,
@@ -307,10 +307,52 @@ def chronicle(c):
         c.stroke(curve((77,y+6), (86,y+2,93,y,end,y)), (162,162,162,235), 2.2)
 
 
+def borders(c):
+    # One landmass split in two along a wandering, dashed frontier; a pennant stands in the darker land.
+    line = curve((66,22), (56,42,76,58,66,78), (58,92,70,102,62,110))
+    west = (curve((66,22), (48,17,30,22,20,32), (6,40,4,62,10,78), (14,96,34,110,62,110))
+            + line[::-1][1:-1])
+    east = (curve((66,22), (86,16,108,24,114,40), (124,56,120,84,106,100), (92,112,76,112,62,110))
+            + line[::-1][1:-1])
+    c.shape(west, 236, 3)
+    c.shape(east, 160, 3)
+    c.polygon(curve((20,36), (34,26,50,26,60,29), (56,42), (40,40,28,42,20,48)), PALE)
+    c.stroke(curve((16,66), (26,62,34,68,45,64)), CREASE, 2.2)
+    c.stroke(curve((22,88), (32,84,42,91,53,87)), CREASE, 2.2)
+    c.polygon(curve((78,30), (92,26,106,31,112,42), (100,40,88,40,78,44)), 196)
+    c.stroke(curve((84,92), (92,89,100,94,108,90)), 118, 2.2)
+    # The frontier itself: heavy ink dashes with a pale core.
+    for i in range(0, len(line) - 8, 14):
+        c.stroke(line[i:i+8], INK, 5)
+        c.stroke(line[i+1:i+7], PALE, 1.8)
+    # Pennant on a staff.
+    c.stroke([(94,100), (94,52)], INK, 4.4)
+    c.stroke([(94,100), (94,53)], 228, 1.9)
+    c.shape(curve((95,52), (103,49,111,56,119,53), (113,63,106,67,95,69)), 244, 2.6)
+    c.polygon(curve((97,56), (103,55,109,57,113,57), (109,62,103,64,97,64)), PALE)
+
+
+def roads(c):
+    # A dirt road winding across the land from one small town to another, dashed down the middle.
+    land = curve((14,40), (30,22,66,18,100,26), (116,32,120,52,114,72), (108,96,84,112,56,110),
+                 (28,108,8,92,8,70), (6,58,8,48,14,40))
+    c.shape(land, 232, 3)
+    c.polygon(curve((22,44), (38,32,62,30,82,34), (60,42,38,46,22,52)), PALE)
+    road = curve((26,92), (44,92,48,72,62,66), (78,60,70,44,86,40), (96,38,100,34,104,30))
+    c.stroke(road, INK, 15)
+    c.stroke(road, 190, 11)
+    for i in range(0, len(road) - 6, 12):
+        c.stroke(road[i:i+5], PALE, 2.4)
+    for x, y in ((24, 96), (104, 34)):
+        c.shape([(x-11, y), (x, y-11), (x+11, y), (x+9, y+11), (x-9, y+11)], BODY, 2.6)
+        c.stroke([(x-4, y+11), (x-4, y+3), (x+3, y+3), (x+3, y+11)], CREASE, 2)
+
+
 ART = [('World', 'WarBand', war_band), ('World', 'Merchants', merchants),
        ('World', 'Settlers', settlers), ('World', 'Envoy', envoy),
        ('World', 'Visitors', visitors), ('World', 'Refugees', refugees),
-       ('UI', 'Chronicle', chronicle)]
+       ('UI', 'Chronicle', chronicle), ('UI', 'Borders', borders),
+       ('UI', 'Roads', roads)]
 
 
 def write_png(path, data, width=SIZE, height=SIZE):
@@ -352,7 +394,7 @@ def label(c, x, y, text, scale=2):
 
 
 def preview(icons):
-    width, height = 1200, 1120
+    width, height = 1200, 1264
     c = Canvas(width, height)
     # Broad olive/earth patches and subdued watercourses suggest the world map
     # without borrowing a game asset or hiding the icons in a busy screenshot.
@@ -389,7 +431,7 @@ def preview(icons):
                       (28,34,38,255))
             stamp(c,data,32,1089,y+48,(255,255,255))
             stamp(c,data,24,1136,y+52,(255,255,255))
-    label(c, 20, 1100, 'RGBA / GREYSCALE / 4X SUPERSAMPLING / FACTION MULTIPLY', 2)
+    label(c, 20, height-20, 'RGBA / GREYSCALE / 4X SUPERSAMPLING / FACTION MULTIPLY', 2)
     write_png('/tmp/lw-art-preview.png', c.data, width, height)
 
 

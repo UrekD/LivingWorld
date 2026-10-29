@@ -38,18 +38,22 @@ namespace LivingWorld
             Text.Font = GameFont.Small;
             Line(ref y, view.width, "LW_Inspect_Settlement".Translate(s.Tier.LabelCap, Mathf.RoundToInt(s.population), CompSettlementLife.ProsperityLabel(s.prosperity)));
             Line(ref y, view.width, "LW_Tab_Garrison".Translate(Mathf.RoundToInt(s.garrison), s.unrest.ToStringPercent()));
+            int territory = Territory.TileCount(st);
+            if (territory > 0) Line(ref y, view.width, CountLabel.Of("LW_Inspect_Territory", territory));
+            if (Roads.InspectLine(st) is string road) Line(ref y, view.width, road);
             if (s.specialty != null) Line(ref y, view.width, "LW_Tab_KnownFor".Translate(s.specialty.specialtyLabel));
             if (s.growthState != GrowthState.Unknown) Line(ref y, view.width, ("LW_Tab_Growth_" + s.growthState).Translate()); // known after the first day
             float season = s.SeasonFactor(LWDefOf.LW_Food, s.TwelfthNow);
             float eat = s.DailyConsumption(LWDefOf.LW_Food);
             int reserve = eat <= 0f ? 0 : Mathf.RoundToInt(s.Stock(LWDefOf.LW_Food) / eat);
             if (Mathf.Abs(season - 1f) >= 0.15f)
-                Line(ref y, view.width, (season > 1f ? "LW_Tab_Harvest" : "LW_Tab_LeanSeason").Translate(season.ToString("F2"), reserve));
-            else Line(ref y, view.width, "LW_Tab_FoodReserve".Translate(reserve));
+                Line(ref y, view.width, (season > 1f ? "LW_Tab_Harvest" : "LW_Tab_LeanSeason").Translate(season.ToString("F2"), CountLabel.Days(reserve)));
+            else Line(ref y, view.width, "LW_Tab_FoodReserve".Translate(CountLabel.Days(reserve)));
             if (s.HoldsFairs) Line(ref y, view.width, "LW_Tab_YearlyFair".Translate(s.FairTwelfth.GetQuadrum().Label()));
             if (Mathf.Abs(s.fame) > 0.05f) Line(ref y, view.width, "LW_Market_Fame".Translate(s.fame.ToStringPercent()));
             AidRequest aid = AidRequests.ActiveFor(st.ID);
             if (aid != null) Line(ref y, view.width, "LW_Inspect_Aid".Translate(aid.commodity.label, Mathf.RoundToInt(aid.wanted - aid.delivered), (aid.deadlineTicks - Find.TickManager.TicksGame).ToStringTicksToPeriod()));
+            if (Tributaries.HeldFor(st) is TributaryRecord held) TributaryBlock(ref y, view.width, held, st);
             y += 8f;
             // Market: stock against what the town wants, and the price it pays.
             Text.Font = GameFont.Tiny;
@@ -104,6 +108,36 @@ namespace LivingWorld
             Text.Font = GameFont.Small;
             lastHeight = y + 10f;
             Widgets.EndScrollView();
+        }
+
+        /// <summary>A town the colony holds: since when, how its faction stands with the colony, and the war its old masters wage for it.</summary>
+        private static void TributaryBlock(ref float y, float width, TributaryRecord held, Settlement st)
+        {
+            LivingWorldComponent comp = LivingWorldComponent.Instance;
+            y += 6f;
+            GUI.color = new Color(0.75f, 0.9f, 1f);
+            Line(ref y, width, "LW_Tab_Tributary".Translate(Tributaries.ColonyLabel(st)));
+            GUI.color = Color.white;
+            Line(ref y, width, "LW_Tab_Tributary_Since".Translate((SimClock.Now - held.heldSinceTicks).ToStringTicksToPeriod()));
+            Faction client = comp.FactionById(held.clientFactionId);
+            if (client != null) Line(ref y, width, "LW_Faction_PlayerRelation".Translate(client.PlayerRelationKind.GetLabelCap(), client.PlayerGoodwill.ToStringWithSign()));
+            foreach (War w in comp.wars)
+                if (w.Active && w.id == held.reconquestWarId)
+                    Line(ref y, width, "LW_Tab_Tributary_War".Translate(held.oldFactionName));
+            if (!Tributaries.Enabled) return;
+            CompSettlementLife life = st.GetComponent<CompSettlementLife>();
+            Line(ref y, width, "LW_Tab_Tribute_Rate".Translate(Tributaries.RateLabel(held.rate), Tributaries.Share(held.rate).ToStringPercent()));
+            if (held.rate == TributeRate.Suspended) Line(ref y, width, "LW_Tab_Tribute_Suspended".Translate());
+            else if (!Tributaries.Demanded(held, st)) Line(ref y, width, "LW_Tab_Tribute_NoColony".Translate());
+            else
+            {
+                Line(ref y, width, "LW_Tab_Tribute_Accrued".Translate(Mathf.RoundToInt(held.accruedSilver)));
+                int silver = Tributaries.EstimateNextPayment(held, out CommodityDef goods, out float units);
+                string soon = CountLabel.Days(Tributaries.DaysToPayment(held));
+                Line(ref y, width, goods == null ? "LW_Tab_Tribute_Next".Translate(soon, silver).Resolve() : "LW_Tab_Tribute_NextGoods".Translate(soon, silver, Mathf.RoundToInt(units), goods.label).Resolve());
+            }
+            if (held.payments > 0 || held.missed > 0) Line(ref y, width, "LW_Tab_Tribute_Paid".Translate(Mathf.RoundToInt(held.paidTotal), held.payments, held.missed));
+            if (life != null && life.unrest >= Tuning.T.tributaryWarnUnrest) Line(ref y, width, "LW_Tab_Tribute_Restless".Translate(life.unrest.ToStringPercent()));
         }
 
         private static void Line(ref float y, float width, string text)

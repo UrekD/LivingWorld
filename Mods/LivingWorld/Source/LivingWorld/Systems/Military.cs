@@ -65,7 +65,14 @@ namespace LivingWorld
             return best;
         }
 
-        public static void Attack(LivingWorldComponent comp, FactionState fs, CompSettlementLife from, CompSettlementLife target, float strength)
+        public static void Attack(LivingWorldComponent comp, FactionState fs, CompSettlementLife from, CompSettlementLife target, float strength) =>
+            LaunchBand(comp, fs, from, target, strength);
+
+        /// <summary>
+        /// Sends part of a town's garrison against another town: a war band on the map, or (no room for one) the battle at once with the
+        /// survivors home again and the loot in the treasury. Either way the caller gets what happened.
+        /// </summary>
+        public static BandLaunch LaunchBand(LivingWorldComponent comp, FactionState fs, CompSettlementLife from, CompSettlementLife target, float strength)
         {
             from.garrison -= strength;
             if (PartyBudget.CanLaunchNpc())
@@ -73,14 +80,23 @@ namespace LivingWorld
                 WorldParty p = WorldParty.Launch(LWPartyDefOf.LW_WarBand, fs.faction, from.Settlement, target.Settlement);
                 p.strength = strength;
                 p.strengthPaid = strength;
-                return;
+                return new BandLaunch { party = p };
             }
             // No room on the map: the battle happens at once and the survivors are home again.
             BattleResult r = Battle.Resolve(fs.faction, from.Settlement, target, strength);
             from.garrison += r.attackerSurvivors;
             FactionState home = comp.StateFor(fs.faction);
             if (home != null) home.treasury += r.loot;
+            return new BandLaunch { instant = true, result = r };
         }
+    }
+
+    /// <summary>What <see cref="Military.LaunchBand"/> did: the band that set out, or (<see cref="instant"/>) the battle already fought.</summary>
+    public struct BandLaunch
+    {
+        public WorldParty party;
+        public bool instant;
+        public BattleResult result;
     }
 
     public struct BattleResult
@@ -94,6 +110,28 @@ namespace LivingWorld
 
     public static class Battle
     {
+        /// <summary>Test switch: the raze/capture roll is skipped, so a won attack only plunders (used by TownMapChecks).</summary>
+        internal static bool TestNoFall;
+        /// <summary>Test switch: the fall roll of a won attack is not rolled but forced (1: razed, 2: captured); null: the real roll.</summary>
+        internal static int? TestFall;
+
+        /// <summary>
+        /// The chance an attack beats the defence when its strength is <paramref name="ratio"/> times the defence (both before the dice): P(U1·ratio &gt; U2)
+        /// for U1, U2 independent uniform on the 0.75..1.25 that <see cref="Resolve"/> multiplies both sides by. Exact, no sampling.
+        /// </summary>
+        public static float WinChance(float ratio)
+        {
+            const float a = 0.75f, b = 1.25f;
+            if (ratio <= 0f) return 0f;
+            if (ratio > 1f) return 1f - WinChance(1f / ratio); // the two dice are alike, so the mirrored match gives the rest
+            if (ratio <= a / b) return 0f;
+            float w = (b - a) * (b - a);
+            return Mathf.Clamp01((ratio * b * b / 2f + a * a / (2f * ratio) - a * b) / w);
+        }
+
+        /// <summary>How hard a lost attack hit the town (0..1): 0.35 at an even match, 0.85 at twice the defence, 1 when it was captured.</summary>
+        public static float SackSeverity(float ratio, bool captured) => captured ? 1f : Mathf.Clamp01(0.35f + 0.5f * (ratio - 1f));
+
         /// <summary>An attack on a settlement. Applies everything to the defender and the war; returns what the attacker keeps.</summary>
         public static BattleResult Resolve(Faction attacker, Settlement origin, CompSettlementLife target, float strength)
         {
@@ -106,6 +144,8 @@ namespace LivingWorld
             float def = (target.garrison + 10f) * target.Tier.fortification * hills * Rand.Range(0.75f, 1.25f) * KnowHow.BattleFactor(defender);
             War war = defender != null ? Diplomacy.ActiveWar(comp, attacker, defender) : null;
             var r = new BattleResult { plunder = new float[Commodities.Count] };
+            HistoryTotals.Battles++;
+            if (attacker.def == FactionDefOf.Empire) HistoryTotals.BattlesEmpire++;
             ChronicleEventDef ce;
             string text;
             if (att > def)
@@ -132,20 +172,28 @@ namespace LivingWorld
                 war?.AddScore(attacker.loadID, lost + 50f);
                 float ratio = att / def;
                 bool marauder = attacker.def.permanentEnemy || (fa != null && fa.TraitFactor(t => t.tradeVolume) < 0.5f);
-                if (SettlementOps.CanFall(ts) && ratio > 1.5f)
+                if (!TestNoFall && SettlementOps.CanFall(ts) && ratio > 1.5f && !Tributaries.IsClient(attacker)) // a free town's army never takes a town
                 {
                     float razeChance = marauder ? 0.12f : 0.015f;
                     // Big factions overreach: each town beyond the typical size makes holding a new one harder.
                     float overreach = fa == null ? 1f : 1f / (1f + 0.15f * Mathf.Max(0f, fa.settlements.Count - LivingWorldComponent.Instance.initialAvgSettlements));
                     float captureChance = attacker.def.permanentEnemy ? 0f : 0.35f * (fa?.TraitFactor(t => t.expansion) ?? 1f) * Mathf.Clamp01(ratio - 1.4f) * overreach;
-                    if (Rand.Chance(razeChance)) r.razed = true;
+                    if (TestFall != null)
+                    {
+                        r.razed = TestFall == 1;
+                        r.captured = TestFall == 2;
+                    }
+                    else if (Rand.Chance(razeChance)) r.razed = true;
                     else if (Rand.Chance(captureChance)) r.captured = true;
                 }
+                // A razed town is gone; a captured one keeps its comp, so the new owner's town shows the scars.
+                if (!r.razed) target.Notify_Sacked(SackSeverity(ratio, r.captured));
                 if (r.razed)
                 {
                     ce = LWChronicleDefOf.LW_SettlementRazed;
                     text = ce.text.Formatted(attacker.Name.Named("ATTACKER"), ts.Label.Named("SETTLEMENT"), defender.Name.Named("DEFENDER")).Resolve();
                     comp.chronicle.Record(ce, text, attacker, defender, ts, causeId: war?.chronicleId ?? -1);
+                    HistoryTotals.Razes++;
                     Roots.Notify(ts, HomeNews.Razed);
                     Refugees.Notify_Disaster(ts, razed: true);
                     SettlementOps.Raze(ts, attacker);
@@ -155,6 +203,7 @@ namespace LivingWorld
                     ce = LWChronicleDefOf.LW_SettlementCaptured;
                     text = ce.text.Formatted(attacker.Name.Named("ATTACKER"), ts.Label.Named("SETTLEMENT"), defender.Name.Named("DEFENDER")).Resolve();
                     comp.chronicle.Record(ce, text, attacker, defender, ts, causeId: war?.chronicleId ?? -1);
+                    HistoryTotals.Captures++;
                     // Part of the war band stays as the new garrison.
                     target.garrison = r.attackerSurvivors * 0.6f;
                     r.attackerSurvivors *= 0.4f;

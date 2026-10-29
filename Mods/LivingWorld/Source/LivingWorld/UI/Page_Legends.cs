@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
@@ -6,7 +7,7 @@ using Verse;
 
 namespace LivingWorld
 {
-    /// <summary>The colony's legend: its renown and the deeds of its people, newest first.</summary>
+    /// <summary>The colony's legend: its renown and the deeds of its people, newest first; buttons export the whole world's legends to a file and open the folder.</summary>
     public class Page_Legends : ChroniclePage
     {
         private Vector2 scroll;
@@ -23,13 +24,22 @@ namespace LivingWorld
             LivingWorldComponent comp = LivingWorldComponent.Instance;
             Text.Font = GameFont.Medium;
             int renown = Legends.Renown(comp), tier = Legends.Tier(renown);
-            Widgets.Label(new Rect(rect.x, rect.y, rect.width, 32f), "LW_Legends_Renown".Translate(Faction.OfPlayer.Name, renown, ("LW_Renown_" + tier).Translate()));
+            const float buttonW = 150f;
+            float headW = rect.width - 2f * buttonW - 12f;
+            Widgets.Label(new Rect(rect.x, rect.y, headW, 32f), "LW_Legends_Renown".Translate(Faction.OfPlayer.Name, renown, ("LW_Renown_" + tier).Translate()));
             if (tier > 0)
             {
-                Rect hint = new Rect(rect.x, rect.y, rect.width, 32f);
+                Rect hint = new Rect(rect.x, rect.y, headW, 32f);
                 TooltipHandler.TipRegion(hint, "LW_Legends_RenownTip".Translate(Mathf.RoundToInt((Legends.RenownFactor(renown) - 1f) * 100f)));
             }
             Text.Font = GameFont.Small;
+            var export = new Rect(rect.xMax - 2f * buttonW - 6f, rect.y, buttonW, 30f);
+            if (Widgets.ButtonText(export, "LW_Legends_Export".Translate())) Export();
+            TooltipHandler.TipRegion(export, "LW_Legends_ExportTip".Translate());
+            var folder = new Rect(rect.xMax - buttonW, rect.y, buttonW, 30f);
+            bool canOpen = LegendsExport.CanOpenFolder;
+            if (Widgets.ButtonText(folder, (canOpen ? "LW_Legends_OpenFolder" : "LW_Legends_ShowFolder").Translate())) OpenFolder();
+            TooltipHandler.TipRegion(folder, (canOpen ? "LW_Legends_OpenFolderTip" : "LW_Legends_ShowFolderTip").Translate(LegendsExport.FolderPath));
             var outer = new Rect(rect.x, rect.y + 38f, rect.width, rect.height - 38f);
             List<Pawn> colonists = new List<Pawn>();
             foreach (Map m in Find.Maps)
@@ -67,6 +77,45 @@ namespace LivingWorld
             }
             lastHeight = y;
             Widgets.EndScrollView();
+        }
+
+        /// <summary>
+        /// Writes the legends (page and text) behind a "writing" screen, since a long chronicle takes a moment, and says where they went;
+        /// a failure is a message, not an exception in the window.
+        /// </summary>
+        private static void Export()
+        {
+            LongEventHandler.QueueLongEvent(DoExport, "LW_Export_Writing", doAsynchronously: false, exceptionHandler: null);
+        }
+
+        private static void DoExport()
+        {
+            try
+            {
+                LegendsExport.Result r = LegendsExport.Export();
+                Messages.Message("LW_Export_Done".Translate(Path.GetFileName(r.htmlPath), Path.GetFileName(r.textPath)), MessageTypeDefOf.TaskCompletion, historical: false);
+                LWLog.Message($"legends written: {r.htmlPath}, {r.textPath} (gathered in {r.buildMs} ms, written in {r.writeMs} ms)");
+            }
+            catch (System.Exception e)
+            {
+                LWLog.Error("legends export: " + e);
+                Messages.Message("LW_Export_Failed".Translate(e.Message), MessageTypeDefOf.RejectInput, historical: false);
+            }
+        }
+
+        /// <summary>As vanilla's options dialog: the file browser on Windows, the folder's full path in a message box elsewhere.</summary>
+        private static void OpenFolder()
+        {
+            try
+            {
+                if (LegendsExport.CanOpenFolder) LegendsExport.OpenFolder();
+                else Find.WindowStack.Add(new Dialog_MessageBox(LegendsExport.FullFolderPath));
+            }
+            catch (System.Exception e)
+            {
+                LWLog.Error("legends folder: " + e);
+                Messages.Message("LW_Export_Failed".Translate(e.Message), MessageTypeDefOf.RejectInput, historical: false);
+            }
         }
 
         /// <summary>Who the colonists are (not just how many): a departure and an arrival the same day change it.</summary>

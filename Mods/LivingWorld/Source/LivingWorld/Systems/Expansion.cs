@@ -9,13 +9,19 @@ namespace LivingWorld
     /// <summary>Crowded, prosperous settlements send settlers to found new ones (ruins are resettled first).</summary>
     public static class Expansion
     {
+        /// <summary>Settlements founded through <see cref="Settle"/>, and arrivals turned away by the border rule (history logs).</summary>
+        public static int StatSettled, StatSettleRejected;
+
+        /// <summary>A new world: the counters start over (same boundary as <see cref="Territory.Reset"/>).</summary>
+        public static void ResetStatics() => StatSettled = StatSettleRejected = 0;
+
         public static void DailyStep(LivingWorldComponent comp, float pace)
         {
             if (!LivingWorldMod.Settings.allowExpansion) return;
             foreach (FactionState fs in comp.factionStates)
             {
                 Faction f = fs.faction;
-                if (f == null || f.defeated || fs.settlements.Count == 0 || fs.treasury < 600f) continue;
+                if (f == null || f.defeated || fs.settlements.Count == 0 || fs.treasury < 600f || Tributaries.IsClient(f)) continue;
                 float exp = fs.TraitFactor(t => t.expansion);
                 // Room to grow relative to the world's typical faction size.
                 if (fs.settlements.Count >= Cap(comp, fs) || PartyBudget.CountOf(LWPartyDefOf.LW_Settlers, f) > 0) continue;
@@ -23,7 +29,7 @@ namespace LivingWorld
                 CompSettlementLife origin = null;
                 foreach (CompSettlementLife s in fs.settlements)
                     if (s.population > s.populationCapacity * 0.45f && s.prosperity > 0.38f && s.famineDays == 0 && (origin == null || s.population > origin.population)) origin = s;
-                if (origin == null || !TryFindSite(origin.Settlement.Tile, out PlanetTile site)) continue;
+                if (origin == null || !TryFindSite(f, origin.Settlement.Tile, out PlanetTile site)) continue;
                 float people = Mathf.Max(Tuning.T.minPopulation, origin.population * 0.12f);
                 origin.population -= people;
                 fs.treasury -= 500f;
@@ -41,24 +47,32 @@ namespace LivingWorld
         public static float Cap(LivingWorldComponent comp, FactionState fs) =>
             Mathf.Max(4f, comp.initialAvgSettlements * (0.7f + 0.4f * fs.TraitFactor(t => t.expansion)));
 
-        public static bool TryFindSite(PlanetTile near, out PlanetTile site)
+        /// <summary>Neighbour steps the site search floods: a tile 11 tiles away is at most about 13 steps on the hex grid, more where tiles are small.</summary>
+        private const int SiteSearchSteps = 16;
+
+        private static readonly List<PlanetTile> candidates = new List<PlanetTile>();
+
+        /// <summary>A site for a new settlement of the faction near a tile (with borders on: free or its own land, never a colony's reach).</summary>
+        public static bool TryFindSite(Faction faction, PlanetTile near, out PlanetTile site)
         {
             // Ruins nearby are the first choice.
             foreach (DestroyedSettlement ruin in Find.WorldObjects.DestroyedSettlements)
             {
                 if (ruin.HasMap || ruin.Tile.Layer != near.Layer) continue;
                 float d = Find.WorldGrid.ApproxDistanceInTiles(near, ruin.Tile);
-                if (d >= 3f && d <= 12f && Find.WorldReachability.CanReach(near, ruin.Tile))
+                if (d >= 3f && d <= 12f && Find.WorldReachability.CanReach(near, ruin.Tile) && Territory.CanFound(faction, ruin.Tile))
                 {
                     site = ruin.Tile;
                     return true;
                 }
             }
-            // The fast (job-based) tile finder: a breadth-first search here costs ~30 ms.
-            List<PlanetTile> candidates = near.Layer.FastTileFinder.Query(new FastTileFinder.TileQueryParams(near, 4f, 11f));
+            // Tiles 4 to 11 tiles away, reached over land. Not vanilla's FastTileFinder: its parallel job keeps whichever 50 matches its
+            // threads write first, so the same seed would found towns elsewhere each run (and its result list is vanilla's cache).
+            Territory.PassableWithin(near, SiteSearchSteps, candidates);
+            candidates.RemoveAll(t => { float d = Find.WorldGrid.ApproxDistanceInTiles(near, t); return d < 4f || d > 11f; });
             candidates.Shuffle();
             foreach (PlanetTile t in candidates)
-                if (TileFinder.IsValidTileForNewSettlement(t) && !Find.WorldObjects.AnySettlementBaseAtOrAdjacent(t) && !Find.WorldObjects.AnyWorldObjectAt(t))
+                if (TileFinder.IsValidTileForNewSettlement(t) && !Find.WorldObjects.AnySettlementBaseAtOrAdjacent(t) && !Find.WorldObjects.AnyWorldObjectAt(t) && Territory.CanFound(faction, t))
                 {
                     site = t;
                     return true;
@@ -69,10 +83,17 @@ namespace LivingWorld
 
         public static Settlement Settle(LivingWorldComponent comp, Faction f, Settlement origin, PlanetTile site, float people)
         {
+            // Land can change hands while settlers walk: check again on arrival, before the ruin is touched.
+            if (!Territory.CanFound(f, site))
+            {
+                StatSettleRejected++;
+                return null;
+            }
             DestroyedSettlement ruin = Find.WorldObjects.DestroyedSettlementAt(site);
             if (ruin != null && !ruin.HasMap) ruin.Destroy();
             if (Find.WorldObjects.AnySettlementBaseAtOrAdjacent(site) || (!TileFinder.IsValidTileForNewSettlement(site) && ruin == null)) return null;
             Settlement s = SettlementOps.Found(f, site, people);
+            StatSettled++;
             Rulers.Notify_Founded(comp, f);
             ChronicleEventDef def = ruin != null ? LWChronicleDefOf.LW_RuinResettled : LWChronicleDefOf.LW_SettlementFounded;
             comp.chronicle.Record(def, def.text.Formatted(f.Name.Named("FACTION"), s.Label.Named("SETTLEMENT"), (origin?.Label ?? "?").Named("ORIGIN")).Resolve(), f, wo: s);

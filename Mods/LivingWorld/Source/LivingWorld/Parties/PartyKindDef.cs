@@ -59,6 +59,9 @@ namespace LivingWorld
         /// <summary>Destination vanished or became unreachable on the way.</summary>
         public virtual void DestinationLost(WorldParty p) => p.TurnBack();
 
+        /// <summary>A party on its way home cannot get there (its home is gone, or no path leads to it) and is removed: a chance to say what was lost.</summary>
+        public virtual void ReturnFailed(WorldParty p) { }
+
         public virtual string InspectExtra(WorldParty p) => null;
     }
 
@@ -70,6 +73,7 @@ namespace LivingWorld
         public static PartyKindDef LW_Visitors;
         public static PartyKindDef LW_Envoy;
         public static PartyKindDef LW_Settlers;
+        public static PartyKindDef LW_Tribute;
         public static WorldObjectDef LW_Party;
 
         static LWPartyDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(LWPartyDefOf));

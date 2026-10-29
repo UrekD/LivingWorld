@@ -29,6 +29,29 @@ namespace LivingWorld
             if (avenger != null && avenger != s) Revenge.Schedule(victim, avenger.ID, e.id);
         }
 
+        /// <summary>
+        /// The colony kept a town it took (it is a free town now): chronicled, felt by colonists from there, counted for an ally's war request, and
+        /// resented by the old masters, who send someone to take it back. A town that submits again is none of that (its people are not enemies of
+        /// the colony any more), and a faction left with no other town has nobody to avenge it.
+        /// </summary>
+        public static ChronicleEntry Notify_SettlementTakenByPlayer(Settlement s, Faction old, string name, PlanetTile tile, bool resubmit)
+        {
+            LivingWorldComponent comp = LivingWorldComponent.Instance;
+            if (comp == null) return null;
+            ChronicleEventDef def = LWChronicleDefOf.LW_PlayerTookTown;
+            string text = resubmit ? "LW_PlayerTookTownAgain".Translate(Faction.OfPlayer.Name.Named("COLONY"), name.Named("SETTLEMENT")).Resolve()
+                : def.text.Formatted(Faction.OfPlayer.Name.Named("COLONY"), name.Named("SETTLEMENT"), (old?.Name ?? "?").Named("FACTION")).Resolve();
+            ChronicleEntry e = comp.chronicle.Record(def, text, Faction.OfPlayer, old, wo: s, tile: tile, involvesPlayer: true, silent: true);
+            Roots.Notify(s, HomeNews.Conquered);
+            if (old == null) return e;
+            Demands.Notify_SettlementDestroyed(s.ID, old);
+            if (resubmit) return e;
+            Diplomacy.AddGrudge(comp.StateFor(old), Faction.OfPlayer, 50f, "LW_Grudge_TookTown".Translate(name).Resolve());
+            Settlement avenger = Bridge.NearestSettlement(old, tile);
+            if (avenger != null && avenger != s) Revenge.Schedule(old, avenger.ID, e.id);
+            return e;
+        }
+
         /// <summary>A group from a settlement arrived: they tell what happened lately around their home.</summary>
         public static void TellNews(IncidentContext ctx)
         {
@@ -53,8 +76,20 @@ namespace LivingWorld
     [HarmonyPatch(typeof(SettlementDefeatUtility), nameof(SettlementDefeatUtility.CheckDefeated))]
     public static class Patch_SettlementDefeatUtility_CheckDefeated
     {
-        public static void Prefix(Settlement factionBase, out (Faction, string, PlanetTile) __state) =>
+        /// <summary>False skips vanilla: the town is yielded, or the colony is deciding whether to hold it (the state is set first, on every path).</summary>
+        public static bool Prefix(Settlement factionBase, out (Faction, string, PlanetTile) __state)
+        {
             __state = (factionBase.Faction, factionBase.Label, factionBase.Tile);
+            try
+            {
+                return Tributaries.BeforeDefeatCheck(factionBase);
+            }
+            catch (System.Exception e)
+            {
+                LWLog.ErrorOnce("hold offer: " + e, 0x4c570a31);
+                return true;
+            }
+        }
 
         public static void Postfix(Settlement factionBase, (Faction, string, PlanetTile) __state)
         {

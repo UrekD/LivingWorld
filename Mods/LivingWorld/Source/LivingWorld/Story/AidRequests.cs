@@ -145,6 +145,8 @@ namespace LivingWorld
         public static HistoryEventDef LW_DemandedTribute;
         public static HistoryEventDef LW_AcceptedProposal;
         public static HistoryEventDef LW_DeclinedProposal;
+        public static HistoryEventDef LW_TookEnemyTown;
+        public static HistoryEventDef LW_HiredOurBand;
 
         static LWHistoryDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(LWHistoryDefOf));
     }

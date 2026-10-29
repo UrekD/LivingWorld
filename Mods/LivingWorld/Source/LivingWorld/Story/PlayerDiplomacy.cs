@@ -17,10 +17,12 @@ namespace LivingWorld
         /// <summary>After a tribute was paid, the next demand to the same faction waits this long.</summary>
         public const int TributeCooldownTicks = GenDate.TicksPerDay * 30;
         public static int StatAnswers;
+        /// <summary>Tests: the answers to envoys that asked for peace (the walking envoy is counted apart from the hires' envoys that answer meanwhile).</summary>
+        public static int StatPeaceAnswers;
         /// <summary>Tests: force every answer to yes or no.</summary>
         public static bool? TestOutcome;
 
-        private static bool Roll(float chance) => TestOutcome ?? Rand.Chance(chance);
+        internal static bool Roll(float chance) => TestOutcome ?? Rand.Chance(chance);
 
         public static bool IsPlayerMission(EnvoyMission m) => m >= EnvoyMission.PlayerPeace;
 
@@ -152,7 +154,7 @@ namespace LivingWorld
         public static bool CanDemandTribute(Faction f)
         {
             FactionState fs = LivingWorldComponent.Instance.StateFor(f);
-            return fs != null && f.PlayerRelationKind != FactionRelationKind.Ally && fs.strength < ColonyPoints() * 1.5f
+            return fs != null && !Tributaries.IsClient(f) && f.PlayerRelationKind != FactionRelationKind.Ally && fs.strength < ColonyPoints() * 1.5f
                    && Find.TickManager.TicksGame - fs.lastPlayerTributeTick >= TributeCooldownTicks;
         }
 
@@ -173,11 +175,13 @@ namespace LivingWorld
 
         // ---- Sending and answers -----------------------------------------------------------------------------
 
-        public static WorldParty Send(Faction f, EnvoyMission mission, int gift = 0, Faction enemy = null)
+        /// <param name="dest">The town the envoy walks to (default: the faction's nearest one the colony can reach).</param>
+        /// <param name="recordId">The record the envoy works for (a hire contract), kept on the party.</param>
+        public static WorldParty Send(Faction f, EnvoyMission mission, int gift = 0, Faction enemy = null, Settlement dest = null, int recordId = -1)
         {
             Map home = Neighbourhood.Home;
             if (CannotSend(f) != null) return null;
-            Settlement dest = Destination(f, home);
+            dest ??= Destination(f, home);
             if (gift > 0)
             {
                 if (Demands.ColonySilver(home) < gift) return null;
@@ -188,6 +192,7 @@ namespace LivingWorld
             p.secondFactionId = enemy?.loadID ?? -1;
             p.mission = (byte)mission;
             p.silver = gift;
+            p.recordId = recordId;
             p.strength = 10f;
             LivingWorldComponent.Instance.StateFor(f).lastPlayerEnvoyTick = Find.TickManager.TicksGame;
             Messages.Message("LW_Dipl_EnvoySent".Translate(dest.Label, f.Name, p.TicksToArrive().ToStringTicksToPeriod()), new LookTargets(p), MessageTypeDefOf.NeutralEvent, historical: false);
@@ -201,6 +206,8 @@ namespace LivingWorld
             Faction f = comp.FactionById(p.targetFactionId);
             if (f == null || f.defeated)
             {
+                // The hire that would have been answered is over, and holds no slot while the envoy walks home with the silver.
+                if ((EnvoyMission)p.mission == EnvoyMission.PlayerHireBand) HiredBands.Notify_EnvoyTurnedBack(p);
                 p.TurnBack();
                 return;
             }
@@ -209,6 +216,7 @@ namespace LivingWorld
             switch ((EnvoyMission)p.mission)
             {
                 case EnvoyMission.PlayerPeace:
+                    StatPeaceAnswers++;
                     AnswerPeace(comp, p, f, fs);
                     break;
                 case EnvoyMission.PlayerCallToArms:
@@ -222,6 +230,9 @@ namespace LivingWorld
                     break;
                 case EnvoyMission.PlayerWeregild:
                     AnswerWeregild(comp, p, f, fs);
+                    break;
+                case EnvoyMission.PlayerHireBand:
+                    HiredBands.Answer(comp, p, f, fs);
                     break;
             }
             if (!p.Destroyed) p.TurnBack();

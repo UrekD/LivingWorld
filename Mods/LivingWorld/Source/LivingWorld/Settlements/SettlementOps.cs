@@ -7,16 +7,16 @@ using Verse;
 namespace LivingWorld
 {
     /// <summary>Changes of ownership and existence: founding, capture, razing, faction defeat.</summary>
-    public static class SettlementOps
+    public static partial class SettlementOps
     {
         private static readonly AccessTools.FieldRef<Settlement, Material> cachedMat = AccessTools.FieldRefAccess<Settlement, Material>("cachedMat");
         private static readonly AccessTools.FieldRef<WorldObject, Material> expandingMat = AccessTools.FieldRefAccess<WorldObject, Material>("expandingMaterial");
 
-        /// <summary>Settlements the simulation must not take or destroy: player maps, quest sites.</summary>
-        public static bool Protected(Settlement s) => s.Destroyed || !s.Spawned || s.HasMap || !s.questTags.NullOrEmpty();
+        /// <summary>Settlements the simulation must not take or destroy: player maps, towns a live quest refers to.</summary>
+        public static bool Protected(Settlement s) => s.Destroyed || !s.Spawned || s.HasMap || QuestRelated(s);
 
         /// <summary>A faction whose last settlement must survive (required by the game or DLC content).</summary>
-        public static bool MustSurvive(Faction f) => f.def.requiredCountAtGameStart > 0 || f.def.hidden || f.def.permanentEnemy;
+        public static bool MustSurvive(Faction f) => !Tributaries.WasClient(f) && (f.def.requiredCountAtGameStart > 0 || f.def.hidden || f.def.permanentEnemy);
 
         public static int SettlementCount(Faction f)
         {
@@ -91,13 +91,17 @@ namespace LivingWorld
             }
         }
 
-        public static void Capture(Settlement s, Faction conqueror)
+        /// <param name="ownershipFirst">The town changes hands before the ruler's fall and the faction's progress are applied (a transaction that retries
+        /// the capture sees the new owner and does not apply them twice). Everything else is the same.</param>
+        public static void Capture(Settlement s, Faction conqueror, bool ownershipFirst = false)
         {
             Faction loser = s.Faction;
-            if (loser != null && !loser.IsPlayer && CapitalOf(loser) == s) Notify_CapitalFell(s, loser, conqueror);
+            bool capital = loser != null && !loser.IsPlayer && CapitalOf(loser) == s;
+            if (ownershipFirst) s.SetFaction(conqueror);
+            if (capital) Notify_CapitalFell(s, loser, conqueror);
             Rulers.Notify_Captured(LivingWorldComponent.Instance, conqueror, loser);
             KnowHow.Notify_Captured(LivingWorldComponent.Instance, conqueror, loser);
-            s.SetFaction(conqueror);
+            if (!ownershipFirst) s.SetFaction(conqueror);
             cachedMat(s) = null;
             expandingMat(s) = null;
             s.trader?.TryDestroyStock();
@@ -135,6 +139,7 @@ namespace LivingWorld
         {
             if (loser == null || loser.defeated || SettlementCount(loser) > 0) return;
             loser.defeated = true;
+            HistoryTotals.Defeated++;
             LivingWorldComponent comp = LivingWorldComponent.Instance;
             foreach (War w in comp.wars)
                 if (w.Active && w.Involves(loser.loadID)) Diplomacy.EndWar(w, "LW_WarEnd_Destroyed".Translate(loser.Name).Resolve());

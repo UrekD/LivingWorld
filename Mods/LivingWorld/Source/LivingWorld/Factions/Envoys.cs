@@ -6,7 +6,7 @@ using Verse;
 namespace LivingWorld
 {
     /// <summary>NPC missions, then the colony's own (<see cref="PlayerDiplomacy"/>).</summary>
-    public enum EnvoyMission : byte { Peace, Alliance, PlayerPeace, PlayerCallToArms, PlayerTribute, PlayerMercenary, PlayerWeregild }
+    public enum EnvoyMission : byte { Peace, Alliance, PlayerPeace, PlayerCallToArms, PlayerTribute, PlayerMercenary, PlayerWeregild, PlayerHireBand }
 
     /// <summary>Diplomacy travels: an envoy party carries a peace offer or alliance; it takes effect on arrival.</summary>
     public static class Envoys

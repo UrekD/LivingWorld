@@ -37,6 +37,9 @@ namespace LivingWorld
             nearestCache.Clear();
         }
 
+        /// <summary>The goodwill at which vanilla's relation turns hostile (at or below it).</summary>
+        private const int WarGoodwill = -75;
+
         public static long Key(int a, int b) => a < b ? ((long)a << 32) | (uint)b : ((long)b << 32) | (uint)a;
 
         /// <summary>Can this pair's relation be changed by diplomacy (vanilla allows goodwill changes)?</summary>
@@ -117,9 +120,7 @@ namespace LivingWorld
             War war = ActiveWar(comp, a, b);
             // Natural rivalry: without reasons to be friends, neighbours drift apart.
             float drift = Rand.Range(-0.6f, 0.6f) - 0.1f;
-            float near = NearestDistance(x, y);
-            if (near < 6f) drift -= 0.4f;
-            else if (near < 12f) drift -= 0.15f;
+            drift += NeighbourDrift(x, y);
             drift += Mathf.Min(0.5f, TradeBetween(comp, a, b) / 2000f);
             if (Mathf.Abs((int)KnowHow.Effective(a) - (int)KnowHow.Effective(b)) >= 2) drift -= 0.1f;
             Ideo ia = a.ideos?.PrimaryIdeo, ib = b.ideos?.PrimaryIdeo;
@@ -159,12 +160,34 @@ namespace LivingWorld
             else ConsiderPeace(comp, war, x, y, pace);
         }
 
-        private static void ApplyDrift(Faction a, Faction b, float amount)
+        /// <summary>
+        /// Neighbours drift apart: lands that touch most, settlements close across water or mountains less, farther ones a little.
+        /// Without borders (off, or no snapshot yet) the distance alone decides, as before.
+        /// </summary>
+        private static float NeighbourDrift(FactionState x, FactionState y)
+        {
+            bool borders = Territory.Ready;
+            if (borders && Territory.SharedBorder(x.faction, y.faction) > 0) return -0.4f;
+            float near = NearestDistance(x, y);
+            return near < 6f ? (borders ? -0.25f : -0.4f) : near < 12f ? -0.15f : 0f;
+        }
+
+        internal static void ApplyDrift(Faction a, Faction b, float amount)
         {
             long k = Key(a.loadID, b.loadID);
             driftCarry.TryGetValue(k, out float carry);
             carry += amount;
             int whole = (int)carry;
+            if (whole < 0 && (Tributaries.IsClient(a) || Tributaries.IsClient(b)) && !a.HostileTo(b))
+            {
+                // A free town the colony holds never drifts into a war by itself: it stops short of hostility.
+                int room = a.GoodwillWith(b) - (WarGoodwill + 1);
+                if (-whole > room)
+                {
+                    whole = -Mathf.Max(0, room);
+                    carry = whole; // nothing carries over: the step below takes it out again
+                }
+            }
             if (whole != 0)
             {
                 a.TryAffectGoodwillWith(b, whole, canSendMessage: false, canSendHostilityLetter: false);
@@ -242,10 +265,13 @@ namespace LivingWorld
             return n;
         }
 
-        private static void ConsiderWar(LivingWorldComponent comp, FactionState x, FactionState y, float pace)
+        internal static void ConsiderWar(LivingWorldComponent comp, FactionState x, FactionState y, float pace)
         {
-            // The more eager side decides.
-            FactionState agg = x.TraitFactor(t => t.warPropensity) * (1f - x.warWeariness) >= y.TraitFactor(t => t.warPropensity) * (1f - y.warWeariness) ? x : y;
+            // A free town the colony holds never starts a war (two of them never fight each other); the other side still can.
+            bool xClient = Tributaries.IsClient(x.faction), yClient = Tributaries.IsClient(y.faction);
+            if (xClient && yClient) return;
+            // Otherwise the more eager side decides.
+            FactionState agg = xClient ? y : yClient ? x : x.TraitFactor(t => t.warPropensity) * (1f - x.warWeariness) >= y.TraitFactor(t => t.warPropensity) * (1f - y.warWeariness) ? x : y;
             FactionState def = agg == x ? y : x;
             if (WarsOf(comp, agg.faction) >= 2) return;
             float ratio = (agg.strength + 1f) / (def.strength + 1f);
@@ -256,6 +282,7 @@ namespace LivingWorld
             string cause = agg.GoalAgainst(def.faction) && agg.faction.leader != null ? "LW_WarCause_RulerVow".Translate(agg.faction.leader.Name.ToStringShort, Rulers.GoalLabel(comp, agg)).Resolve()
                 : GrudgeAgainst(agg, def.faction) > 20f ? "LW_WarCause_Grudge".Translate(def.faction.Name).Resolve()
                 : agg.TraitFactor(t => t.expansion) > 1.2f ? "LW_WarCause_Land".Translate().Resolve()
+                : Territory.Ready && Territory.SharedBorder(agg.faction, def.faction) == 0 ? "LW_WarCause_Escalation".Translate().Resolve()
                 : "LW_WarCause_Border".Translate().Resolve();
             DeclareWar(comp, agg.faction, def.faction, cause);
         }
@@ -269,7 +296,7 @@ namespace LivingWorld
             // Allies of the attacked keep their word, depending on their honour.
             foreach (FactionState ally in comp.factionStates)
             {
-                if (ally.faction == null || ally.faction == aggressor || ally.faction == target || !Diplomatic(ally.faction)) continue;
+                if (ally.faction == null || ally.faction == aggressor || ally.faction == target || !Diplomatic(ally.faction) || Tributaries.IsClient(ally.faction)) continue;
                 if (ally.faction.RelationKindWith(target) != FactionRelationKind.Ally || ally.faction.HostileTo(aggressor)) continue;
                 if (!Rand.Chance(0.5f * ally.TraitFactor(t => t.treatyKeeping))) continue;
                 ally.faction.TryAffectGoodwillWith(aggressor, ally.faction.GoodwillToMakeHostile(aggressor), canSendMessage: false, canSendHostilityLetter: false);
@@ -297,6 +324,7 @@ namespace LivingWorld
                 ancient = ancient,
             };
             comp.wars.Add(w);
+            if (!ancient) HistoryTotals.WarsStarted++;
             if (announce)
             {
                 ChronicleEventDef def = LWChronicleDefOf.LW_WarDeclared;

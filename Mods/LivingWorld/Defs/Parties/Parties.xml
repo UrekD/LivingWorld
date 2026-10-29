@@ -57,6 +57,16 @@
     <labelReturning>envoy of {FACTION} (returning)</labelReturning>
   </LivingWorld.PartyKindDef>
   <LivingWorld.PartyKindDef>
+    <defName>LW_Tribute</defName>
+    <label>tribute convoy</label>
+    <workerClass>LivingWorld.PartyWorker_Tribute</workerClass>
+    <iconPath>LivingWorld/World/Merchants</iconPath>
+    <ticksPerTile>3300</ticksPerTile>
+    <expandingIconPriority>58</expandingIconPriority>
+    <labelOutbound>tribute of {ORIGIN}</labelOutbound>
+    <labelReturning>tribute of {ORIGIN} (turned back)</labelReturning>
+  </LivingWorld.PartyKindDef>
+  <LivingWorld.PartyKindDef>
     <defName>LW_Settlers</defName>
     <label>settlers</label>
     <workerClass>LivingWorld.PartyWorker_Settlers</workerClass>

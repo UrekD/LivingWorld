@@ -3,5 +3,113 @@
   <!-- All numeric tuning of the simulation. Defaults live in LivingWorldTuningDef; override fields here. -->
   <LivingWorld.LivingWorldTuningDef>
     <defName>LW_Tuning</defName>
+    <!-- Roads: an NPC pair wants a road when its decayed trade traffic passes the threshold. -->
+    <roadTrafficThreshold>500</roadTrafficThreshold>
+    <roadTrafficDecayPerDay>0.98</roadTrafficDecayPerDay>
+    <roadCheckDays>10</roadCheckDays>
+    <roadPlanAttempts>3</roadPlanAttempts>
+    <roadNpcMaxEdges>24</roadNpcMaxEdges>
+    <roadPlayerMaxEdges>30</roadPlayerMaxEdges>
+    <roadPlanBackoffDays>60</roadPlanBackoffDays>
+    <roadAbandonBackoffDays>120</roadAbandonBackoffDays>
+    <roadOpenPerFaction>2</roadOpenPerFaction>
+    <roadOpenWorldwide>20</roadOpenWorldwide>
+    <roadBlockedDaysToAbandon>30</roadBlockedDaysToAbandon>
+    <roadDegradeDays>30</roadDegradeDays>
+    <roadRedrawMinDays>3</roadRedrawMinDays>
+    <roadDegradeStep>0.25</roadDegradeStep>
+    <roadCostDirt>20</roadCostDirt>
+    <roadCostStone>50</roadCostStone>
+    <roadTerrainStep>0.25</roadTerrainStep>
+    <roadTreasuryReserve>800</roadTreasuryReserve>
+    <roadWorkPerEdge>45000</roadWorkPerEdge>
+    <roadStoneBlocksPerEdge>25</roadStoneBlocksPerEdge>
+    <roadXpPerEdge>1000</roadXpPerEdge>
+    <roadConnectEdges>60</roadConnectEdges>
+    <roadNeighbourFactor>1.5</roadNeighbourFactor>
+    <roadFameGain>0.01</roadFameGain>
+    <roadFameCeiling>0.5</roadFameCeiling>
+    <roadFameDays>10</roadFameDays>
+    <!-- Town maps: a lost attack scars the town in full for this many days, then the scar fades to nothing at the second number. -->
+    <townScarFullDays>10</townScarFullDays>
+    <townScarFadeDays>60</townScarFadeDays>
+    <!-- World overlay heatmaps: a town changes colour band only when its value is this far past the band's edge (prosperity 0-1, price factor). -->
+    <overlayHeatHysteresis>0.02</overlayHeatHysteresis>
+    <overlayPriceHysteresis>0.05</overlayPriceHysteresis>
+    <!-- World overlay war fronts: battles shown this many days back; war band lines in segments of this many tiles; at most this many line segments drawn per frame. -->
+    <overlayBattleDays>30</overlayBattleDays>
+    <overlayLineSegmentTiles>3</overlayLineSegmentTiles>
+    <overlayLineMaxSegments>400</overlayLineMaxSegments>
+    <!-- World overlay trade routes: a ribbon for the busiest this many town pairs with at least this much traffic. -->
+    <overlayTradePairs>150</overlayTradePairs>
+    <overlayTradeMinTraffic>50</overlayTradeMinTraffic>
+    <!-- Town maps: defenders = base points x tier x (garrison / what it regrows toward, bounded) x militarization (bounded) x war factor, held to what the faction's pawn group makers can make; loot is capped. -->
+    <townMapBasePoints>1375</townMapBasePoints>
+    <townMapMinStrength>0.7</townMapMinStrength>
+    <townMapMaxStrength>1.1</townMapMaxStrength>
+    <townMapMilMin>0.85</townMapMilMin>
+    <townMapMilMax>1.15</townMapMilMax>
+    <townMapWarFactor>1.1</townMapWarFactor>
+    <townMapMaxPoints>3200</townMapMaxPoints>
+    <townMapMaxLoot>3000</townMapMaxLoot>
+    <townMapDefenderWords>(1000, 1300, 1700)</townMapDefenderWords>
+    <!-- Town maps: stockpiles thin below this share of the town's target stock (never below the minimum share; food in famine is cut further); famine defenders start mildly malnourished. -->
+    <townFamineFoodFactor>0.3</townFamineFoodFactor>
+    <townMinStockScale>0.05</townMinStockScale>
+    <townStockNormal>1.3</townStockNormal>
+    <townMalnutritionMax>0.25</townMalnutritionMax>
+    <!-- Tributaries: at most this many at once, this many client factions made in a game, this many ended ones kept for the factions page; the goodwill a free town starts with towards the colony; days a yielded town waits for a quest to end. -->
+    <tributaryMax>6</tributaryMax>
+    <tributaryFactionBudget>10</tributaryFactionBudget>
+    <tributaryHistoryMax>24</tributaryHistoryMax>
+    <tributaryStartGoodwill>80</tributaryStartGoodwill>
+    <tributaryTransferWaitDays>15</tributaryTransferWaitDays>
+    <!-- Tribute and loyalty. Days of tribute between payments (and between rate changes). Per rate (suspended, light, normal, heavy): the share of the town's income taken, the tributary term of its unrest target, the share of its garrison the client funds.
+         Never taken below this reserve in the client's treasury; the goods in a payment are worth at most this much. Warn from this unrest; revolt above the line at this daily chance per point (and this share of revolts go back to the old masters).
+         Terms of the unrest target (defenders paid, neglect, a road to the colony); gifts cost this much silver per inhabitant. -->
+    <tributeIntervalDays>15</tributeIntervalDays>
+    <tributeShare>
+      <li>0</li>
+      <li>0.25</li>
+      <li>0.5</li>
+      <li>0.8</li>
+    </tributeShare>
+    <tributeUnrest>
+      <li>0.05</li>
+      <li>0.17</li>
+      <li>0.29</li>
+      <li>0.52</li>
+    </tributeUnrest>
+    <tributeGarrisonFunding>
+      <li>1</li>
+      <li>1</li>
+      <li>0.9</li>
+      <li>0.75</li>
+    </tributeGarrisonFunding>
+    <tributeTreasuryReserve>100</tributeTreasuryReserve>
+    <tributeGoodsMaxValue>400</tributeGoodsMaxValue>
+    <tributaryWarnUnrest>0.45</tributaryWarnUnrest>
+    <tributaryRevoltUnrest>0.55</tributaryRevoltUnrest>
+    <tributaryRevoltHazard>0.2</tributaryRevoltHazard>
+    <tributaryLiberateShare>0.4</tributaryLiberateShare>
+    <tributaryProtectedTerm>-0.1</tributaryProtectedTerm>
+    <tributaryAbandonedTerm>0.15</tributaryAbandonedTerm>
+    <tributaryRoadTerm>-0.03</tributaryRoadTerm>
+    <tributaryGiftPerCapita>2</tributaryGiftPerCapita>
+    <!-- Trade-route planner: the nearest this many reachable towns that trade; at most this many path searches or milliseconds per frame; a good is listed to sell where the player's sell price is at least this multiple of normal (within this many days); a route when the estimated sell price is at least this multiple of the buy price. -->
+    <plannerTowns>40</plannerTowns>
+    <plannerPathsPerFrame>3</plannerPathsPerFrame>
+    <plannerPathMsPerFrame>2</plannerPathMsPerFrame>
+    <plannerMinSellFactor>1.25</plannerMinSellFactor>
+    <plannerMaxDays>20</plannerMaxDays>
+    <plannerMinProfit>1.10</plannerMinProfit>
+    <!-- Hired war bands: half the source garrison goes, at this many silver per point of strength (at least the minimum); a faction needs at least this goodwill; contracts under way at once (in all, and per faction); the share of the fee refunded when a band is called off before it fights. -->
+    <hireShare>0.5</hireShare>
+    <hirePricePerPoint>1.5</hirePricePerPoint>
+    <hireMinPrice>250</hireMinPrice>
+    <hireMinGoodwill>0</hireMinGoodwill>
+    <hireMaxActive>2</hireMaxActive>
+    <hireMaxPerHirer>1</hireMaxPerHirer>
+    <hireRefundShare>0.5</hireRefundShare>
   </LivingWorld.LivingWorldTuningDef>
 </Defs>

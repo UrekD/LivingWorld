@@ -25,11 +25,20 @@ namespace LivingWorld
             // Against another faction's settlement.
             if (p.Destination is not Settlement ts || !ts.Spawned || p.Faction == null)
             {
+                CallOff(p, "LW_Hire_Why_TargetGone");
+                return false;
+            }
+            // A band the colony hired: the contract decides whether it still fights, and it never reinforces a town.
+            HireContract hire = HiredBands.ContractOf(p);
+            if (hire != null && !HiredBands.OnArrival(p, hire, out string why, out bool refund))
+            {
+                HiredBands.CallOff(hire, why, refund);
                 CallOff(p);
                 return false;
             }
+            bool hired = hire != null && hire.phase == HirePhase.Marching;
             CompSettlementLife life = ts.GetComponent<CompSettlementLife>();
-            if (ts.Faction == p.Faction)
+            if (!hired && ts.Faction == p.Faction)
             {
                 // Taken by friends meanwhile: reinforce it.
                 if (life != null) life.garrison += p.strength;
@@ -44,20 +53,22 @@ namespace LivingWorld
             p.strength = r.attackerSurvivors;
             p.silver += r.loot;
             for (int i = 0; i < r.plunder.Length && i < p.cargo.Length; i++) p.cargo[i] += r.plunder[i];
+            if (hired) HiredBands.Complete(hire, ts, r);
             if (p.strength < 5f) return true;
             p.TurnBack();
             return false;
         }
 
-        /// <summary>Goes home without fighting: the strength it took comes back with it.</summary>
-        private static void CallOff(WorldParty p)
+        /// <summary>Goes home without fighting: the strength it took comes back with it. A hired band's contract is called off (half the fee back).</summary>
+        private static void CallOff(WorldParty p, string whyKey = null)
         {
+            if (whyKey != null && HiredBands.ContractOf(p) is HireContract hire) HiredBands.CallOffOrVoid(p, hire, whyKey);
             p.deferredParms = null;
             if (p.strengthPaid > 0f) p.strength = p.strengthPaid;
             p.TurnBack();
         }
 
-        public override void DestinationLost(WorldParty p) => CallOff(p);
+        public override void DestinationLost(WorldParty p) => CallOff(p, p.Destination is not { Spawned: true } ? "LW_Hire_Why_TargetGone" : "LW_Hire_Why_NoRoute");
 
         public override void ArrivedHome(WorldParty p)
         {
@@ -78,8 +89,11 @@ namespace LivingWorld
             if (fs != null) fs.treasury += silver;
         }
 
-        public override string InspectExtra(WorldParty p) =>
-            p.phase == PartyPhase.Outbound && p.deferredParms?.target is Map ? "LW_Party_RaidTarget".Translate().Resolve() : null;
+        public override string InspectExtra(WorldParty p)
+        {
+            string hired = HiredBands.InspectLine(p);
+            return p.phase == PartyPhase.Outbound && p.deferredParms?.target is Map ? "LW_Party_RaidTarget".Translate().Resolve() : hired;
+        }
     }
 
     /// <summary>Merchants: trade at the colony on arrival (bridge), or sell their cargo in another settlement.</summary>

@@ -225,6 +225,14 @@
     <defName>LW_DeclinedProposal</defName>
     <label>turned down our ruler's proposal</label>
   </HistoryEventDef>
+  <HistoryEventDef>
+    <defName>LW_TookEnemyTown</defName>
+    <label>took a town of our enemies</label>
+  </HistoryEventDef>
+  <HistoryEventDef>
+    <defName>LW_HiredOurBand</defName>
+    <label>hired our war band</label>
+  </HistoryEventDef>
   <LivingWorld.ChronicleEventDef>
     <defName>LW_Plague</defName>
     <label>plague</label>
@@ -266,6 +274,34 @@
     <category>Player</category>
     <importance>Major</importance>
     <text>{COLONY} destroyed {SETTLEMENT} of {FACTION}. {FACTION} will remember.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_PlayerTookTown</defName>
+    <label>colony took a town</label>
+    <category>Player</category>
+    <importance>Major</importance>
+    <text>{COLONY} took {SETTLEMENT} from {FACTION} and left its people their homes. {SETTLEMENT} is a free town now, and {FACTION} will want it back.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_TributaryLost</defName>
+    <label>free town lost</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>{SETTLEMENT}, the free town {COLONY} held, is no longer its own: {OWNER} rules it now.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_TributaryRevolted</defName>
+    <label>free town rose against the colony</label>
+    <category>Player</category>
+    <importance>Major</importance>
+    <text>{SETTLEMENT}, the free town {COLONY} held, rose against it: {FACTION} is no friend of the colony now.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_TributaryReleased</defName>
+    <label>free town released</label>
+    <category>Player</category>
+    <importance>Minor</importance>
+    <text>{COLONY} released {SETTLEMENT} of {FACTION}, which no longer has anything to do with the colony.</text>
   </LivingWorld.ChronicleEventDef>
   <LivingWorld.ChronicleEventDef>
     <defName>LW_RulerFell</defName>
@@ -412,6 +448,14 @@
   </LivingWorld.ChronicleEventDef>
 
   <LivingWorld.ChronicleEventDef>
+    <defName>LW_PlayerHiredBand</defName>
+    <label>colony hired a war band</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>{COLONY} paid {HIRER} to send a war band from {SOURCE} against {TARGET} of {ENEMY}: {OUTCOME}.</text>
+  </LivingWorld.ChronicleEventDef>
+
+  <LivingWorld.ChronicleEventDef>
     <defName>LW_FeudSworn</defName>
     <label>blood feud sworn</label>
     <category>People</category>
@@ -470,5 +514,19 @@
     <category>People</category>
     <importance>Notable</importance>
     <text>{NAME}, {ROLE}, has grown old and handed on the work to {HEIR}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_RoadJoined</defName>
+    <label>towns joined by road</label>
+    <category>Economy</category>
+    <importance>Notable</importance>
+    <text>{A} and {B} are joined by a {ROAD}.</text>
+  </LivingWorld.ChronicleEventDef>
+  <LivingWorld.ChronicleEventDef>
+    <defName>LW_ColonyRoadJoined</defName>
+    <label>colony joined by road</label>
+    <category>Player</category>
+    <importance>Notable</importance>
+    <text>{COLONY} is joined to {SETTLEMENT} by a road.</text>
   </LivingWorld.ChronicleEventDef>
 </Defs>

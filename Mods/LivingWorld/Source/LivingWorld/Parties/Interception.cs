@@ -23,6 +23,7 @@ namespace LivingWorld
             foreach (Caravan c in Find.WorldObjects.Caravans)
             {
                 if (!c.IsPlayerControlled || c.Tile != p.Tile) continue;
+                if (Testing.AutoTest.Active && Testing.RoadChecks.IsTestCaravan(c)) continue; // the road job tests' caravans are not ambushed
                 foreach (Pawn x in c.PawnsListForReading)
                     if (x.RaceProps.Humanlike && !x.Downed) caravan = c;
             }

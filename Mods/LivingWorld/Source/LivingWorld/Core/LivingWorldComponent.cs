@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
+using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -26,6 +28,8 @@ namespace LivingWorld
         public List<IncidentContext> contexts = new List<IncidentContext>();
         public List<War> wars = new List<War>();
         public List<PairValue> tradeLinks = new List<PairValue>();
+        /// <summary>Roads: the edge ledger, NPC routes, trade traffic and backoff, joined towns (empty in a pre-roads save).</summary>
+        public RoadState roadState = new RoadState();
         public bool warsSeeded;
         /// <summary>Settlements per faction when the simulation began: the yardstick for expansion.</summary>
         public float initialAvgSettlements;
@@ -42,6 +46,12 @@ namespace LivingWorld
         public List<WarRequest> warRequests = new List<WarRequest>();
         public List<PrisonerRecord> prisoners = new List<PrisonerRecord>();
         public List<Deed> deeds = new List<Deed>();
+        /// <summary>Conquered towns the colony holds or held (Story/Tributaries.cs), the factions made for them (by loadID), and how many were ever made.</summary>
+        public List<TributaryRecord> tributaries = new List<TributaryRecord>();
+        public List<int> clientFactionIds = new List<int>();
+        public int clientFactionsCreated;
+        /// <summary>The colony's contracts with factions to send a war band (Story/HiredBands.cs).</summary>
+        public List<HireContract> hires = new List<HireContract>();
         public int lastWarRequestTick = FactionState.Never, lastTributeTick = FactionState.Never, lastNeighbourVisitTick = FactionState.Never;
         /// <summary>"Prepare this save for removing the mod" was used: the simulation is off in this save.</summary>
         public bool preparedForRemoval;
@@ -69,6 +79,7 @@ namespace LivingWorld
         private static int objectIndexTick = -1;
         private static World objectIndexWorld;
         private static int objectIndexCount = -1;
+        private static bool objectIndexDirty;
 
         /// <summary>Wall-clock cost of the last daily step (ms), for the autotest's performance budget.</summary>
         public double lastDailyMs;
@@ -85,9 +96,17 @@ namespace LivingWorld
             Diplomacy.ResetStatics();
             Figures.ResetCache();
             Neighbourhood.Reset();
+            Territory.Reset();
+            WorldOverlay.Reset();
+            Roads.Reset();
+            TradePlanner.Reset();
+            Expansion.ResetStatics();
+            Tributaries.ResetStatics();
+            HistoryTotals.ResetStatics();
             KnowHow.ResetStatics();
             Feuds.Hunters.Clear();
             objectIndexTick = -1;
+            objectIndexDirty = true;
         }
 
         public int NextId() => nextId++;
@@ -95,8 +114,11 @@ namespace LivingWorld
         public override void FinalizeInit(bool fromLoad)
         {
             Instance = this;
+            WorldOverlay.ForgetWarSet();
             PerfLog.ResetClock();
             if (fromLoad) Testing.AutoTest.Notify_Loaded();
+            // Borders need resolved references and the settlements' sim state: build them once the load or generation is over.
+            Territory.ScheduleInitial(this, world);
         }
 
         [Unsaved] private bool indexesBuilt;
@@ -115,7 +137,10 @@ namespace LivingWorld
                 Feuds.RebuildHunters(this); // not saved: avengers on a map with their nemesis hunt again after a load
             }
             if (!historyDone) StartHistory(ticks);
+            Roads.FlushRedraw(); // before the hourly early return: a burst of road changes costs one rebuild of the roads layer
+            if (ticks % 250 == 0) Tributaries.TickSafe(this); // yielded towns whose maps are gone, and the held ones' identity
             if (ticks % GenDate.TicksPerHour != 7) return;
+            if (Territory.PlayerHomesChanged()) Territory.Rebuild(this); // a colony landed, left or moved
             if (!SimClock.InHistory) VisitorStories.HourlyTick(this);
             if (lastDailyTick < 0 || ticks - lastDailyTick >= GenDate.TicksPerDay)
             {
@@ -135,8 +160,8 @@ namespace LivingWorld
         }
 
         /// <summary>One simulated day for the whole world.</summary>
-        [Unsaved] private readonly double[] sectionMs = new double[8];
-        private static readonly string[] SectionNames = { "index", "economy", "trade", "expand", "shocks", "diplomacy", "military", "rest" };
+        [Unsaved] private readonly double[] sectionMs = new double[10];
+        private static readonly string[] SectionNames = { "index", "territory", "economy", "trade", "expand", "shocks", "diplomacy", "military", "rest", "roads" };
 
         private void Mark(Stopwatch sw, int section, ref double last)
         {
@@ -152,8 +177,11 @@ namespace LivingWorld
             LivingWorldSettings settings = LivingWorldMod.Settings;
             float pace = settings.pace;
             RebuildIndexes(seedMissing: true);
+            Tributaries.ReconcileSafe(this); // identity first, before anything economic or military acts on a town
             if (initialAvgSettlements <= 0f) initialAvgSettlements = Mathf.Max(3f, AverageSettlementsPerFaction());
             Mark(sw, 0, ref last);
+            Territory.Rebuild(this); // before anything that reads territory
+            Mark(sw, 1, ref last);
             if (settings.simulateEconomy)
             {
                 foreach (CompSettlementLife s in activeSettlements)
@@ -165,19 +193,23 @@ namespace LivingWorld
                 foreach (FactionState fs in factionStates)
                     if (fs.faction != null) FactionEconomy.DailyStep(fs, pace);
                 KnowHow.DailyStep(this, pace);
-                Mark(sw, 1, ref last);
-                Trade.DailyStep(this, pace);
                 Mark(sw, 2, ref last);
-                Expansion.DailyStep(this, pace);
+                Trade.DailyStep(this, pace);
                 Mark(sw, 3, ref last);
-                Shocks.DailyStep(this, pace);
+                Expansion.DailyStep(this, pace);
                 Mark(sw, 4, ref last);
+                Shocks.DailyStep(this, pace);
+                Mark(sw, 5, ref last);
             }
+            Roads.DailyStep(this, pace);
+            Mark(sw, 9, ref last);
             Diplomacy.DailyStep(this, pace);
-            Mark(sw, 5, ref last);
-            Military.DailyStep(this, pace);
             Mark(sw, 6, ref last);
+            Military.DailyStep(this, pace);
+            Mark(sw, 7, ref last);
             Rebellion.DailyStep(this, pace);
+            if (!SimClock.InHistory) Tributaries.DailyStepSafe(this, pace); // tribute accrues and is paid, a held town may rise (game time only)
+            if (!SimClock.InHistory) WorldOverlay.Notify_DayDone(this);
             PruneWars();
             // By index: a contested succession can create a rebel faction (and its state) during this loop.
             for (int i = 0; i < factionStates.Count; i++)
@@ -196,9 +228,10 @@ namespace LivingWorld
                 Commissions.DailyCheck(this);
                 Neighbours.DailyCheck(this);
                 PruneContexts();
+                HiredBands.Prune(this);
                 chronicle.DigestTick();
             }
-            Mark(sw, 7, ref last);
+            Mark(sw, 8, ref last);
             lastDailyMs = sw.Elapsed.TotalMilliseconds;
             if (!SimClock.InHistory) PerfLog.Notify_Day(this);
             if (lastDailyMs > 15 && Testing.AutoTest.Active && !SimClock.InHistory)
@@ -258,7 +291,9 @@ namespace LivingWorld
             if (!FactionState.IsSimulated(f)) return null;
             fs = new FactionState { factionId = f.loadID, faction = f };
             fs.RollTraits(f);
-            fs.treasury = 500f + Rand.Range(0f, 1500f);
+            // Seeded per faction like the traits: states are made at the first tick before history pushes its seed (RebuildIndexes in
+            // WorldComponentTick), where the shared stream is seeded from the clock at startup.
+            fs.treasury = 500f + Rand.RangeSeeded(0f, 1500f, Gen.HashCombineInt(f.loadID * 7919 + f.randomKey, 0x4C575452));
             factionStates.Add(fs);
             stateById[f.loadID] = fs;
             return fs;
@@ -310,13 +345,19 @@ namespace LivingWorld
             contexts.RemoveAll(c => !live.Contains(c.lordId) && now - c.createdTicks > GenDate.TicksPerDay);
         }
 
-        /// <summary>World object by id. The index is rebuilt when the world changes, objects come or go, or a lookup misses.</summary>
+        /// <summary>An object was added to or removed from the world: the id index no longer matches (see <see cref="Patch_WorldObjects_Membership"/>).</summary>
+        internal static void Notify_WorldObjectsChanged() => objectIndexDirty = true;
+
+        /// <summary>
+        /// World object by id. The index is rebuilt when the world changes, when any object comes or goes (the count alone misses a
+        /// ruin replaced by a new settlement in the same tick, and history never advances the tick), or when a lookup misses.
+        /// </summary>
         public static WorldObject WorldObjectById(int id)
         {
             if (id < 0) return null;
             List<WorldObject> all = Find.WorldObjects.AllWorldObjects;
             int now = Find.TickManager.TicksGame;
-            if (objectIndexWorld != Find.World || objectIndexCount != all.Count) RebuildObjectIndex(all, now);
+            if (objectIndexWorld != Find.World || objectIndexCount != all.Count || objectIndexDirty) RebuildObjectIndex(all, now);
             if (objectById.TryGetValue(id, out WorldObject o) && !o.Destroyed) return o;
             if (objectIndexTick == now) return null; // already rebuilt this tick: really gone
             RebuildObjectIndex(all, now);
@@ -330,6 +371,7 @@ namespace LivingWorld
             objectIndexTick = now;
             objectIndexCount = all.Count;
             objectIndexWorld = Find.World;
+            objectIndexDirty = false;
         }
 
         public override void ExposeData()
@@ -344,6 +386,7 @@ namespace LivingWorld
             Scribe_Collections.Look(ref contexts, "contexts", LookMode.Deep);
             Scribe_Collections.Look(ref wars, "wars", LookMode.Deep);
             Scribe_Collections.Look(ref tradeLinks, "tradeLinks", LookMode.Deep);
+            Scribe_Deep.Look(ref roadState, "roadState");
             Scribe_Values.Look(ref warsSeeded, "warsSeeded");
             Scribe_Values.Look(ref initialAvgSettlements, "initialAvgSettlements");
             Scribe_Collections.Look(ref figures, "figures", LookMode.Deep);
@@ -359,6 +402,10 @@ namespace LivingWorld
             Scribe_Collections.Look(ref warRequests, "warRequests", LookMode.Deep);
             Scribe_Collections.Look(ref prisoners, "prisoners", LookMode.Deep);
             Scribe_Collections.Look(ref deeds, "deeds", LookMode.Deep);
+            Scribe_Collections.Look(ref tributaries, "tributaries", LookMode.Deep);
+            Scribe_Collections.Look(ref clientFactionIds, "lw_clientFactions", LookMode.Value);
+            Scribe_Values.Look(ref clientFactionsCreated, "lw_clientFactionsCreated");
+            Scribe_Collections.Look(ref hires, "hires", LookMode.Deep);
             Scribe_Values.Look(ref lastWarRequestTick, "lastWarRequestTick", FactionState.Never);
             Scribe_Values.Look(ref lastTributeTick, "lastTributeTick", FactionState.Never);
             Scribe_Values.Look(ref lastNeighbourVisitTick, "lastNeighbourVisitTick", FactionState.Never);
@@ -374,6 +421,7 @@ namespace LivingWorld
                 contexts ??= new List<IncidentContext>();
                 wars ??= new List<War>();
                 tradeLinks ??= new List<PairValue>();
+                roadState ??= new RoadState();
                 figures ??= new List<Figure>();
                 revenge ??= new List<PendingRevenge>();
                 aidRequests ??= new List<AidRequest>();
@@ -382,6 +430,11 @@ namespace LivingWorld
                 warRequests ??= new List<WarRequest>();
                 prisoners ??= new List<PrisonerRecord>();
                 deeds ??= new List<Deed>();
+                tributaries ??= new List<TributaryRecord>();
+                tributaries.RemoveAll(r => r == null);
+                clientFactionIds ??= new List<int>();
+                hires ??= new List<HireContract>();
+                hires.RemoveAll(h => h == null);
                 prisoners.RemoveAll(r => r?.pawn == null);
                 tributeTruces ??= new Dictionary<int, int>();
                 feudEnded ??= new Dictionary<int, int>();
@@ -391,5 +444,18 @@ namespace LivingWorld
                 objectIndexTick = -1;
             }
         }
+    }
+
+    /// <summary>Any world object coming or going invalidates the component's object-id index (see <see cref="LivingWorldComponent.WorldObjectById"/>).</summary>
+    [HarmonyPatch]
+    public static class Patch_WorldObjects_Membership
+    {
+        private static IEnumerable<MethodBase> TargetMethods()
+        {
+            yield return AccessTools.Method(typeof(WorldObjectsHolder), nameof(WorldObjectsHolder.Add));
+            yield return AccessTools.Method(typeof(WorldObjectsHolder), nameof(WorldObjectsHolder.Remove));
+        }
+
+        public static void Postfix() => LivingWorldComponent.Notify_WorldObjectsChanged();
     }
 }

@@ -22,23 +22,32 @@ namespace LivingWorld
         public static void DailyStep(LivingWorldComponent comp)
         {
             if (!LivingWorldMod.Settings.allowExpansion || SimClock.Now - comp.lastRenewalTick < GapTicks) return;
-            int alive = 0;
-            bool simple = false, advanced = false;
-            foreach (FactionState fs in comp.factionStates)
-            {
-                Faction f = fs.faction;
-                if (f == null || f.defeated || fs.settlements.Count == 0) continue;
-                alive++;
-                if (f.def.permanentEnemy) continue; // pirates do not stand for a band of ages
-                simple |= Simple(f);
-                advanced |= Advanced(f);
-            }
+            Census(comp, out int alive, out bool simple, out bool advanced);
             if (comp.initialFactionCount <= 0) comp.initialFactionCount = alive;
             bool fewer = alive < comp.initialFactionCount;
             if (!fewer && simple && advanced) return;
             // Whatever band is missing comes first; otherwise anyone.
             FactionDef def = PickKind(need: !simple ? 1 : !advanced ? 2 : 0);
             if (def != null) Arrive(comp, def);
+        }
+
+        /// <summary>
+        /// The peoples of the world: factions with towns, and whether any is simple (up to medieval) or advanced (industrial and beyond). Free towns the
+        /// colony made are not peoples of the world: renewal acts as if the colony had made none.
+        /// </summary>
+        internal static void Census(LivingWorldComponent comp, out int alive, out bool simple, out bool advanced)
+        {
+            alive = 0;
+            simple = advanced = false;
+            foreach (FactionState fs in comp.factionStates)
+            {
+                Faction f = fs.faction;
+                if (f == null || f.defeated || fs.settlements.Count == 0 || Tributaries.WasClient(f)) continue;
+                alive++;
+                if (f.def.permanentEnemy) continue; // pirates do not stand for a band of ages
+                simple |= Simple(f);
+                advanced |= Advanced(f);
+            }
         }
 
         /// <summary>A kind of people to arrive: need 1 = simple (up to medieval), 2 = advanced (industrial+), 0 = any.</summary>
@@ -62,10 +71,11 @@ namespace LivingWorld
             // Empty land, away from everyone (and from the colony).
             Map home = Neighbourhood.Home;
             PlanetTile tile = TileFinder.RandomSettlementTileFor(f, mustBeAutoChoosable: false, t =>
-                (home == null || Find.WorldGrid.ApproxDistanceInTiles(t, home.Tile) > 12f) && !Find.WorldObjects.AnySettlementBaseAtOrAdjacent(t));
+                (home == null || Find.WorldGrid.ApproxDistanceInTiles(t, home.Tile) > 12f) && !Find.WorldObjects.AnySettlementBaseAtOrAdjacent(t) && Territory.CanFound(f, t));
             // The finder returns tile 0 (not "invalid") when it gives up: check the site for real.
             bool ok = tile.Valid && TileFinder.IsValidTileForNewSettlement(tile) && !Find.WorldObjects.AnyWorldObjectAt(tile)
-                      && !Find.WorldObjects.AnySettlementBaseAtOrAdjacent(tile) && (home == null || Find.WorldGrid.ApproxDistanceInTiles(tile, home.Tile) > 12f);
+                      && !Find.WorldObjects.AnySettlementBaseAtOrAdjacent(tile) && (home == null || Find.WorldGrid.ApproxDistanceInTiles(tile, home.Tile) > 12f)
+                      && Territory.CanFound(f, tile);
             if (!ok)
             {
                 // Nowhere to go: they never come (the faction stays without towns and is ignored).
@@ -75,7 +85,7 @@ namespace LivingWorld
             float people = def.techLevel <= TechLevel.Neolithic ? 70f : 140f;
             Settlement first = SettlementOps.Found(f, tile, people);
             // The second town through the settlers' path (it clears a ruin it settles on).
-            if (Expansion.TryFindSite(tile, out PlanetTile second)) Expansion.Settle(comp, f, first, second, people * 0.6f);
+            if (Expansion.TryFindSite(f, tile, out PlanetTile second)) Expansion.Settle(comp, f, first, second, people * 0.6f);
             // Strangers: wary of everyone, neither friend nor enemy at first (a natural enemy's −80 needs 0 to stop
             // being hostile, then −10 stays neutral). Permanent enemies stay enemies.
             foreach (Faction other in Find.FactionManager.AllFactionsListForReading)

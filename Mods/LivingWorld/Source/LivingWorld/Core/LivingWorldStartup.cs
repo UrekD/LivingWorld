@@ -8,14 +8,16 @@ namespace LivingWorld
     [StaticConstructorOnStartup]
     public static class LivingWorldStartup
     {
+        public const string HarmonyId = "UrekD.LivingWorld";
         public static int PatchFailures;
 
         static LivingWorldStartup()
         {
             Commodities.Init();
             SettlementCompInjector.Inject();
+            RoadCompInjector.Inject();
             Bridge.SwapWorkers();
-            var harmony = new Harmony("UrekD.LivingWorld");
+            var harmony = new Harmony(HarmonyId);
             PatchAllSafely(harmony);
             HospitalityCompat.Init(harmony);
             // The player's performance log (setting): times our systems and known heavy mods, one CSV line per day.
@@ -30,7 +32,11 @@ namespace LivingWorld
                 Testing.PrisonerChecks.Register();
                 Testing.LifeChecks.Register();
                 Testing.AgesChecks.Register();
+                Testing.RoadChecks.Register();
+                Testing.TributaryChecks.RegisterTributaries();
+                Testing.AgencyChecks.Register();
                 Testing.Patch_StartJob_Diagnostics.Apply(harmony);
+                Testing.Patch_Storyteller_NoRoadTestCaravans.Apply(harmony);
                 // Tests of the player's performance log file (normal plan in tools/regression.sh).
                 if (System.Environment.GetEnvironmentVariable("LIVINGWORLD_PERFLOG") == "file")
                 {

@@ -52,6 +52,8 @@ namespace LivingWorld
         public int secondFactionId = -1;
         public byte mission;
         public float population;
+        /// <summary>The record this party works for: a hire contract (the envoy, the war band) or a tribute convoy's tributary record; -1 for none.</summary>
+        public int recordId = -1;
 
         // Trade with player caravans (merchants only): stock generated on first contact.
         private ThingOwner<Thing> stock;
@@ -96,12 +98,13 @@ namespace LivingWorld
             }
         }
 
+        /// <summary>Silver and the goods at their base price per unit.</summary>
         public float CargoValue
         {
             get
             {
                 float v = silver;
-                foreach (float c in cargo) v += c;
+                for (int i = 0; i < cargo.Length && i < Commodities.Count; i++) v += cargo[i] * Commodities.All[i].silverPerUnit;
                 return v;
             }
         }
@@ -172,6 +175,7 @@ namespace LivingWorld
         {
             base.PostRemove();
             All.Remove(this);
+            HiredBands.Notify_PartyRemoved(this);
             if (Testing.AutoTest.Active && deferredParms != null && kind == LWPartyDefOf.LW_WarBand)
                 LWLog.Message($"[bridge] {Label} removed before reaching the colony (phase {phase}, tile {Tile}, path {(nextTile.Valid ? "ok" : "none")})");
             // Colonists travelling with a player party (mercenaries) are never destroyed with it: they come home, or
@@ -280,6 +284,22 @@ namespace LivingWorld
             nextTile = PlanetTile.Invalid;
         }
 
+        /// <summary>Sets a new destination for the leg under way (the path is made again from where the party stands).</summary>
+        public void Retarget(WorldObject destination)
+        {
+            destinationId = destination?.ID ?? -1;
+            destinationTile = destination?.Tile ?? PlanetTile.Invalid;
+            needsPath = true;
+            nextTile = PlanetTile.Invalid;
+        }
+
+        /// <summary>The way home is gone: the party is removed, and its kind may say what that cost.</summary>
+        private void GiveUpGoingHome()
+        {
+            kind.Worker.ReturnFailed(this);
+            Disband();
+        }
+
         /// <summary>Removes the party without arriving anywhere (home gone, nowhere to go).</summary>
         public void Disband()
         {
@@ -317,7 +337,7 @@ namespace LivingWorld
                 if (!goal.Valid)
                 {
                     if (phase == PartyPhase.Outbound) kind.Worker.DestinationLost(this);
-                    else Disband();
+                    else GiveUpGoingHome();
                     return;
                 }
                 if (path == null || pathIndex >= path.Count || path[path.Count - 1] != goal)
@@ -466,7 +486,7 @@ namespace LivingWorld
             if (!goal.Valid)
             {
                 if (phase == PartyPhase.Outbound) kind.Worker.DestinationLost(this);
-                else Disband();
+                else GiveUpGoingHome();
                 return false;
             }
             path ??= new List<PlanetTile>();
@@ -484,7 +504,7 @@ namespace LivingWorld
                 if (wp == null || !wp.Found)
                 {
                     if (phase == PartyPhase.Outbound) kind.Worker.DestinationLost(this);
-                    else Disband();
+                    else GiveUpGoingHome();
                     return false;
                 }
                 // NodesReversed: [0] = destination … [last] = start.
@@ -635,6 +655,7 @@ namespace LivingWorld
             Scribe_Values.Look(ref secondFactionId, "secondFaction", -1);
             Scribe_Values.Look(ref mission, "mission");
             Scribe_Values.Look(ref population, "population");
+            Scribe_Values.Look(ref recordId, "recordId", -1);
             Scribe_Values.Look(ref prevTile, "prevTile", PlanetTile.Invalid);
             Scribe_Values.Look(ref nextTile, "nextTile", PlanetTile.Invalid);
             Scribe_Values.Look(ref costLeft, "costLeft");

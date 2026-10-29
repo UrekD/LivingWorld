@@ -36,7 +36,7 @@ link:
 
 dist: build
 	rm -rf $(DIST_DIR)/LivingWorld && mkdir -p $(DIST_DIR)/LivingWorld
-	cp -r $(MOD_DIR)/About $(MOD_DIR)/Assemblies $(MOD_DIR)/Defs $(MOD_DIR)/Languages $(MOD_DIR)/Textures $(DIST_DIR)/LivingWorld/
+	cp -r $(MOD_DIR)/About $(MOD_DIR)/Assemblies $(MOD_DIR)/Defs $(MOD_DIR)/Patches $(MOD_DIR)/Languages $(MOD_DIR)/Textures $(DIST_DIR)/LivingWorld/
 	cd $(DIST_DIR) && rm -f LivingWorld.zip && python3 -m zipfile -c LivingWorld.zip LivingWorld
 	@echo "Copy $(DIST_DIR)/LivingWorld/ (or unzip LivingWorld.zip) into RimWorld/Mods/ on the gaming PC"
 

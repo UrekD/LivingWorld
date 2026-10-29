@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -22,7 +23,18 @@ namespace LivingWorld.Testing
 
         private const string SaveName = "LivingWorldAutotest";
 
-        private static Phase phase = Phase.Off;
+        private static volatile Phase phaseValue = Phase.Off;
+        private static long phaseSinceMs;
+        /// <summary>The run's phase; every change stamps the time, for the watchdog.</summary>
+        private static Phase phase
+        {
+            get => phaseValue;
+            set
+            {
+                phaseValue = value;
+                Interlocked.Exchange(ref phaseSinceMs, watchClock.ElapsedMilliseconds);
+            }
+        }
         private static int days = 10;
         private static int settleFrames;
         private static int lastDay = -1;
@@ -33,7 +45,19 @@ namespace LivingWorld.Testing
         public static int ErrorCount, UpstreamErrorCount;
         public static readonly List<string> FirstErrors = new List<string>();
 
+        // Watchdog: an unattended run must fail with a reason instead of idling until the harness timeout. While the run is ticking it
+        // looks at two stamps the main thread writes: the last frame (Update ran) and the last game tick. In every other phase except
+        // Off and Done (menu, start, reload: stuck scene changes) it limits the time spent in the phase.
+        private const long NoFrameMs = 180_000, NoTickMs = 240_000, PhaseMs = 600_000;
+        private static readonly Stopwatch watchClock = Stopwatch.StartNew();
+        private static long lastFrameMs, lastTickMs;
+        private static volatile string stage = "start";
+        private static volatile int lastTickSeen;
+        private static Timer watchdog;
+
         public static bool Active => phase != Phase.Off;
+        /// <summary>The run's length in days (the halfway save is at half of it).</summary>
+        internal static int Days => days;
         /// <summary>Between the halfway save and the reload: the old game is being torn down for the main menu.</summary>
         internal static bool TearingDown => phase == Phase.ToMenu;
 
@@ -70,16 +94,86 @@ namespace LivingWorld.Testing
             else if (Environment.GetEnvironmentVariable("LIVINGWORLD_PLAN") is { Length: > 0 } envPlan) Plan = envPlan;
             if (Plan == "history") LivingWorldMod.Stored.historyYears = 10;
             if (Plan == "stress") LivingWorldMod.Stored.historyYears = 5;
+            // LIVINGWORLD_BORDERS=0: the same run with territory off (in memory only), to compare against the old behaviour.
+            if (Environment.GetEnvironmentVariable("LIVINGWORLD_BORDERS") == "0") LivingWorldMod.Stored.borders = false;
+            // LIVINGWORLD_ROADS=0: the same run with roads off (in memory only), the baseline for the roads balance comparison.
+            if (Environment.GetEnvironmentVariable("LIVINGWORLD_ROADS") == "0") LivingWorldMod.Stored.roads = false;
+            // LIVINGWORLD_SETTINGS_OFF=a,b: the named bool settings off for this run (in memory only), read here so they hold from world generation
+            // and history on. The inert proof compares such a run with the golden of a build without the feature (tools/history-golden.sh compare).
+            if (Environment.GetEnvironmentVariable("LIVINGWORLD_SETTINGS_OFF") is { Length: > 0 } off && !ApplySettingsOff(off)) return;
             // Short tests: parties reach the colony within a day (in memory only, settings are not saved).
             LivingWorldMod.Stored.warBandMaxHours = 24f;
             LivingWorldMod.Stored.merchantMaxHours = 24f;
             phase = Phase.WaitMenu;
+            watchdog = new Timer(_ => WatchdogCheck(), null, 30_000, 15_000);
             LWLog.Message($"autotest armed: {days} days, plan {Plan}");
+        }
+
+        /// <summary>Sets the named bool fields of the stored settings to false. An unknown or non-bool name fails the run (nothing is armed).</summary>
+        private static bool ApplySettingsOff(string list)
+        {
+            var applied = new List<string>();
+            foreach (string raw in list.Split(','))
+            {
+                string name = raw.Trim();
+                if (name.Length == 0) continue;
+                System.Reflection.FieldInfo field = typeof(LivingWorldSettings).GetField(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                if (field == null || field.FieldType != typeof(bool))
+                {
+                    Log.Message($"[LivingWorld:test] FAIL plan={Plan} LIVINGWORLD_SETTINGS_OFF: '{name}' is not a bool setting");
+                    Root.Shutdown();
+                    return false;
+                }
+                field.SetValue(LivingWorldMod.Stored, false);
+                applied.Add(name);
+            }
+            LWLog.Message($"autotest settings off: {string.Join(",", applied)}");
+            return true;
+        }
+
+        /// <summary>Runs on a timer thread: reads the stamps and some game statics racily (the long event handler), writes nothing.</summary>
+        private static void WatchdogCheck()
+        {
+            Phase current = phase;
+            if (current == Phase.Off || current == Phase.Done) return;
+            long now = watchClock.ElapsedMilliseconds;
+            string why;
+            if (current == Phase.Running)
+            {
+                long frameAge = now - Interlocked.Read(ref lastFrameMs), tickAge = now - Interlocked.Read(ref lastTickMs);
+                why = frameAge > NoFrameMs ? $"the main thread produced no frame for {frameAge / 1000} s (blocked inside a tick or a hook?)"
+                    : Plan != "uitour" && tickAge > NoTickMs ? $"the game did not tick for {tickAge / 1000} s while frames ran (long event pending: {LongEventHandler.AnyEventNowOrWaiting} {PendingEventKey()})"
+                    : null;
+            }
+            else
+            {
+                long inPhase = now - Interlocked.Read(ref phaseSinceMs);
+                why = inPhase > PhaseMs ? $"stuck in phase {current} for {inPhase / 1000} s (long event pending: {LongEventHandler.AnyEventNowOrWaiting} {PendingEventKey()})" : null;
+            }
+            if (why == null) return;
+            // Written like a log line (time, level) so the harness's summary keeps it.
+            Console.Error.WriteLine($"{DateTime.Now:HH:mm:ss}  INFO [LivingWorld:test] FAIL plan={Plan} watchdog: {why}; last tick {lastTickSeen}, stage '{stage}'");
+            Process.GetCurrentProcess().Kill();
+        }
+
+        /// <summary>The current long event's text key, for the watchdog line (a racy read off the main thread; diagnostics only).</summary>
+        private static string PendingEventKey()
+        {
+            try
+            {
+                object ev = HarmonyLib.AccessTools.Field(typeof(LongEventHandler), "currentEvent")?.GetValue(null);
+                return ev == null ? "(none current)" : "'" + HarmonyLib.Traverse.Create(ev).Field("eventTextKey").GetValue<string>() + "'";
+            }
+            catch (Exception e)
+            {
+                return "(" + e.GetType().Name + ")";
+            }
         }
 
         /// <summary>Called every frame (Root.Update postfix).</summary>
         public static void Update()
         {
+            Interlocked.Exchange(ref lastFrameMs, watchClock.ElapsedMilliseconds);
             try
             {
                 switch (phase)
@@ -121,7 +215,7 @@ namespace LivingWorld.Testing
                         if (Plan == "uitour")
                         {
                             UiTour.Update();
-                            if (!BridgeFiredForTour) RunTicksFor(GenDate.TicksPerHour * 3);
+                            if (!BridgeFiredForTour && !TownShots.Held) RunTicksFor(GenDate.TicksPerHour * 3);
                         }
                         else RunTicks();
                         break;
@@ -139,7 +233,17 @@ namespace LivingWorld.Testing
             // Vanilla's quick test setup with a fixed seed and a small map; the scene change runs InitNewGame.
             Current.ProgramState = ProgramState.Entry;
             Game.ClearCaches();
-            Current.Game = new Game();
+            // Seeded: the Game's UniqueIDsManager starts the thing-id counter at Rand.Range(0, 1000) from the clock-seeded stream, so every
+            // thing id (world-gen leaders included) was shifted by a per-run constant, and vanilla seeds pawn generation from thing ids.
+            Rand.PushState(20261029);
+            try
+            {
+                Current.Game = new Game();
+            }
+            finally
+            {
+                Rand.PopState();
+            }
             Current.Game.InitData = new GameInitData();
             Current.Game.Scenario = ScenarioDefOf.Crashlanded.scenario;
             Find.Scenario.PreConfigure();
@@ -152,7 +256,17 @@ namespace LivingWorld.Testing
                 Plan == "stress" ? OverallPopulation.High : OverallPopulation.Normal, LandmarkDensity.Normal);
             ChooseStartingTile();
             Find.GameInitData.mapSize = 100;
-            Find.Scenario.PostIdeoChosen();
+            // The same colonists every run (seeded like the start tile): they and the relatives the generator gives them are world pawns
+            // and thing ids that history's leader generation reads (redress pool, relations, ids), so a clock-seeded pick made history differ.
+            Rand.PushState(20261028);
+            try
+            {
+                Find.Scenario.PostIdeoChosen();
+            }
+            finally
+            {
+                Rand.PopState();
+            }
             PageUtility.InitGameStart();
         }
 
@@ -215,6 +329,8 @@ namespace LivingWorld.Testing
             }
             Find.TickManager.CurTimeSpeed = Plan == "uitour" ? TimeSpeed.Normal : TimeSpeed.Paused;
             lastDay = GenDate.DaysPassed;
+            Interlocked.Exchange(ref lastTickMs, watchClock.ElapsedMilliseconds);
+            stage = "running";
             phase = Phase.Running;
         }
 
@@ -223,22 +339,39 @@ namespace LivingWorld.Testing
             // Never tick through a long event (autosave, loading): vanilla doesn't, and tearing the world down while
             // one is pending kills the headless game.
             if (LongEventHandler.AnyEventNowOrWaiting) return;
+            try
+            {
+                TickFrame();
+            }
+            finally
+            {
+                KeepUiClosed();
+            }
+        }
+
+        private static void TickFrame()
+        {
             TickManager tm = Find.TickManager;
             tm.CurTimeSpeed = TimeSpeed.Paused;
             var frame = Stopwatch.StartNew();
             while (frame.ElapsedMilliseconds < 80)
             {
+                stage = "tick";
                 tm.DoSingleTick();
+                lastTickSeen = tm.TicksGame;
+                Interlocked.Exchange(ref lastTickMs, watchClock.ElapsedMilliseconds);
                 if (LongEventHandler.AnyEventNowOrWaiting) return;
                 int hour = tm.TicksGame / GenDate.TicksPerHour;
                 if (hour != lastHour)
                 {
                     lastHour = hour;
+                    stage = "hourly hooks";
                     foreach (Action a in Hourly) a();
                 }
                 if (GenDate.DaysPassed != lastDay)
                 {
                     lastDay = GenDate.DaysPassed;
+                    stage = "daily metrics";
                     Metrics();
                 }
                 int elapsed = tm.TicksGame - startTick;
@@ -252,6 +385,29 @@ namespace LivingWorld.Testing
                     Evaluate();
                     return;
                 }
+            }
+        }
+
+        private static readonly HashSet<string> reportedUi = new HashSet<string>();
+
+        /// <summary>
+        /// Defence in depth (not the cure of the normal plan's hang, which was a war band's interception generating an encounter map).
+        /// An unattended run has no use for windows or the world view, and cannot take either (a storyteller incident on a caravan opens a
+        /// dialog and jumps the camera to the world; drawing the planet then waits in a long event the headless engine never finishes). A
+        /// window is reported once, the world view is closed again at once, so the tick loop is never held up behind them.
+        /// </summary>
+        private static void KeepUiClosed()
+        {
+            if (Plan == "uitour" || phase != Phase.Running) return;
+            WindowStack stack = Find.WindowStack;
+            if (stack != null)
+                foreach (Window w in stack.Windows)
+                    if (reportedUi.Add(w.GetType().Name)) LWLog.Warning($"[LivingWorld:test] a window is open in a headless run: {w.GetType().Name}");
+            WorldRenderer renderer = Find.World?.renderer;
+            if (renderer != null && renderer.wantedMode != WorldRenderMode.None)
+            {
+                if (reportedUi.Add("world view")) LWLog.Warning("[LivingWorld:test] the world view was opened in a headless run; closing it");
+                renderer.wantedMode = WorldRenderMode.None;
             }
         }
 

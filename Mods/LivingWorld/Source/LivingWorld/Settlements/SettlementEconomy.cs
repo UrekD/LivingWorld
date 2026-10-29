@@ -109,14 +109,27 @@ namespace LivingWorld
             return Mathf.Clamp01(0.5f + (1f - cons / (prod * 0.95f)) / food.crowdingSensitivity);
         }
 
-        public static float TargetGarrison(CompSettlementLife s, FactionState fs)
+        /// <summary>The garrison on a war footing regrows toward this many times its peace target.</summary>
+        public const float WarGarrisonFactor = 1.25f;
+
+        /// <summary>
+        /// The peace-time garrison the town wants. <paramref name="includePay"/> false leaves out the cut for an empty treasury and the share a held
+        /// town's faction funds: the size the town's people and its faction's temper call for, which does not drop the day the faction goes broke.
+        /// </summary>
+        public static float TargetGarrison(CompSettlementLife s, FactionState fs, bool includePay = true)
         {
             float mil = fs?.TraitFactor(t => t.militarization) ?? 1f;
             if (s.Settlement.Faction != null && s.Settlement.Faction.def.permanentEnemy) mil *= 1.3f;
             // An empty treasury cannot pay soldiers.
-            if (fs != null && fs.treasury <= 1f) mil *= 0.6f;
+            if (includePay && fs != null && fs.treasury <= 1f) mil *= 0.6f;
+            // A held town's faction pays for only part of its defenders when the colony presses it for tribute.
+            if (includePay) mil *= Tributaries.GarrisonFunding(s);
             return s.population * s.Tier.garrisonPerCapita * mil;
         }
+
+        /// <summary>What the garrison actually regrows toward each day: the target, raised on a war footing.</summary>
+        public static float RegrowthTarget(CompSettlementLife s, FactionState fs, bool atWar, bool includePay = true) =>
+            TargetGarrison(s, fs, includePay) * (atWar ? WarGarrisonFactor : 1f);
 
         /// <summary>One day of life. Returns the tier change (+1 grew, -1 shrank, 0 none) for the chronicle.</summary>
         public static int DailyStep(CompSettlementLife s, FactionState fs, float pace, bool atWar)
@@ -179,11 +192,11 @@ namespace LivingWorld
             // Unrest: famine and war raise it, prosperity calms it.
             // Occupied towns resent their new masters for years.
             float occupation = s.Occupied && SimClock.Now - s.occupiedSinceTicks < GenDate.TicksPerYear * 3 ? 0.45f : 0f;
-            float unrestTarget = Mathf.Clamp01(0.6f * hungerShare + (atWar ? 0.1f : 0f) + (0.5f - s.prosperity) * 0.3f + occupation);
+            float unrestTarget = Mathf.Clamp01(0.6f * hungerShare + (atWar ? 0.1f : 0f) + (0.5f - s.prosperity) * 0.3f + occupation + Tributaries.UnrestTerm(s));
             if (s.originalFactionId < 0) s.originalFactionId = s.Settlement.Faction?.loadID ?? -1;
             s.unrest = Mathf.Clamp01(Mathf.MoveTowards(s.unrest, unrestTarget, 0.02f * pace));
             // Garrison recovers toward its target (recruiting), or shrinks if over it.
-            float gTarget = TargetGarrison(s, fs) * (atWar ? 1.25f : 1f);
+            float gTarget = RegrowthTarget(s, fs, atWar);
             s.garrison = Mathf.MoveTowards(s.garrison, gTarget, Mathf.Max(5f, gTarget * t.garrisonRegenPerDay) * pace);
             SettlementTierDef tierAfter = s.Tier;
             return tierAfter.order.CompareTo(tierBefore.order);

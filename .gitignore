@@ -11,4 +11,5 @@ worktrees/
 bin/
 obj/
 /Mods/LivingWorld/Assemblies/
+/tools/removal-probe/Assemblies/
 /dist/

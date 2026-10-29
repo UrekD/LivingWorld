@@ -26,6 +26,8 @@ namespace LivingWorld
         public int worldObjectId = -1;
         public PlanetTile tile = PlanetTile.Invalid;
         public bool involvesPlayer;
+        /// <summary>The settlement's name when this was recorded (null for anything else): ruins and razed towns are nameless once gone (Legends export).</summary>
+        public string placeName;
         /// <summary>Figure ids mentioned (empty for most entries).</summary>
         public List<int> figures;
 
@@ -77,6 +79,7 @@ namespace LivingWorld
             Scribe_Values.Look(ref worldObjectId, "wo", -1);
             Scribe_Values.Look(ref tile, "tile", PlanetTile.Invalid);
             Scribe_Values.Look(ref involvesPlayer, "player");
+            Scribe_Values.Look(ref placeName, "place");
             Scribe_Collections.Look(ref figures, "figures", LookMode.Value);
         }
     }
@@ -108,6 +111,7 @@ namespace LivingWorld
                 worldObjectId = wo?.ID ?? -1,
                 tile = tile ?? wo?.Tile ?? PlanetTile.Invalid,
                 involvesPlayer = involvesPlayer || (a != null && a.IsPlayer) || (b != null && b.IsPlayer),
+                placeName = wo is Settlement ? wo.Label : null,
                 causeId = causeId,
             };
             entries.Add(e);
@@ -179,9 +183,22 @@ namespace LivingWorld
             // Drop the oldest quarter of minor entries in one pass.
             int toDrop = Tuning.T.maxMinorEntries / 4;
             entries.RemoveAll(e => e.def.importance == ChronicleImportance.Minor && toDrop-- > 0);
+            RecountMinor();
+        }
+
+        private void RecountMinor()
+        {
             minorCount = 0;
             foreach (ChronicleEntry e in entries)
                 if (e.def.importance == ChronicleImportance.Minor) minorCount++;
+        }
+
+        /// <summary>Takes back every entry recorded after <paramref name="lastId"/> (tests that make the world write history it must not keep): the entries, their digest lines and the minor count.</summary>
+        internal void RollbackAfter(int lastId)
+        {
+            entries.RemoveAll(e => e.id > lastId);
+            pendingDigest.RemoveAll(id => id > lastId);
+            RecountMinor();
         }
 
         public void ExposeData()
@@ -194,9 +211,7 @@ namespace LivingWorld
                 entries ??= new List<ChronicleEntry>();
                 entries.RemoveAll(e => e == null || e.defName == null);
                 pendingDigest ??= new List<int>();
-                minorCount = 0;
-                foreach (ChronicleEntry e in entries)
-                    if (e.def.importance == ChronicleImportance.Minor) minorCount++;
+                RecountMinor();
             }
         }
     }

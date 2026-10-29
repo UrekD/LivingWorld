@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- The world overlay's two layers on the root surface (territory tint, marks); appended, so vanilla and other mods' draw layers stay as they are. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/PlanetLayerDef[defName="Surface"]/worldDrawLayers</xpath>
+    <value>
+      <li>LivingWorld.WorldDrawLayer_LWBorders</li>
+      <li>LivingWorld.WorldDrawLayer_LWOverlayMarks</li>
+    </value>
+  </Operation>
+</Patch>

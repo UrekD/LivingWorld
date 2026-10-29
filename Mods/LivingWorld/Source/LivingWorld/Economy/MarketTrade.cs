@@ -30,8 +30,12 @@ namespace LivingWorld
             return cachedOrigin;
         }
 
+        /// <summary>Tests: traders that are not world objects, pawns or parties, and the market they stand for (empty outside tests).</summary>
+        internal static readonly Dictionary<ITrader, CompSettlementLife> TestOrigins = new Dictionary<ITrader, CompSettlementLife>();
+
         public static CompSettlementLife OriginOf(ITrader trader)
         {
+            if (TestOrigins.Count > 0 && TestOrigins.TryGetValue(trader, out CompSettlementLife forTest)) return forTest;
             Settlement s = trader switch
             {
                 Settlement st => st,
@@ -61,8 +65,54 @@ namespace LivingWorld
             if (commodity == null) return 1f;
             origin = CurrentOrigin();
             if (origin == null) return 1f;
-            return Mathf.Pow(origin.PriceFactor(commodity), 0.75f);
+            return Scarcity(origin, commodity);
+        }
 
+        private static float Scarcity(CompSettlementLife origin, CommodityDef c) => Mathf.Pow(origin.PriceFactor(c), 0.75f);
+
+        /// <summary>Fame and the yearly fair on what the player pays (buy) and gets (sell) at a market: 1 for no market.</summary>
+        internal static (float buy, float sell) Modifiers(CompSettlementLife origin)
+        {
+            if (origin == null) return (1f, 1f);
+            float buy = Fame.PriceMultiplier(origin, playerBuys: true), sell = Fame.PriceMultiplier(origin, playerBuys: false);
+            if (origin.FairOn)
+            {
+                buy *= Shocks.FairPriceMultiplier(true);
+                sell *= Shocks.FairPriceMultiplier(false);
+            }
+            return (buy, sell);
+        }
+
+        /// <summary>
+        /// What the trade patch makes of the player's price for a good at a market, as a multiple of the vanilla price: 1 with market prices off, no
+        /// market or an unmapped good (the patch applies nothing then), else scarcity × fame × fair. Pure: reads no trade session.
+        /// </summary>
+        public static float PlayerFactorAt(CompSettlementLife origin, CommodityDef c, bool playerBuys)
+        {
+            if (!LivingWorldMod.Settings.marketPrices || origin == null || c == null) return 1f;
+            (float buy, float sell) = Modifiers(origin);
+            return Scarcity(origin, c) * (playerBuys ? buy : sell);
+        }
+
+        /// <summary>
+        /// <see cref="PlayerFactorAt"/> for every good at one market, into two arrays by commodity index (buy, sell): the same values, with the fame and
+        /// fair worked out once and the scarcity once per good.
+        /// </summary>
+        internal static void PlayerFactorsAt(CompSettlementLife origin, float[] buy, float[] sell)
+        {
+            int n = Commodities.Count;
+            if (!LivingWorldMod.Settings.marketPrices || origin == null)
+            {
+                for (int i = 0; i < n; i++) buy[i] = sell[i] = 1f;
+                return;
+            }
+            (float buyModifier, float sellModifier) = Modifiers(origin);
+            for (int i = 0; i < n; i++)
+            {
+                float scarcity = Scarcity(origin, Commodities.All[i]);
+                buy[i] = scarcity * buyModifier;
+                sell[i] = scarcity * sellModifier;
+            }
         }
 
         /// <summary>Things (silver value) moved by a finished deal into or out of the home market.</summary>
@@ -105,12 +155,7 @@ namespace LivingWorld
         {
             if (!__state || __instance.IsCurrency || ___pricePlayerBuy <= 0f) return;
             float f = MarketTrade.PlayerPriceFactor(__instance.ThingDef, out CompSettlementLife origin, out _);
-            float fameBuy = Fame.PriceMultiplier(origin, playerBuys: true), fameSell = Fame.PriceMultiplier(origin, playerBuys: false);
-            if (origin != null && origin.FairOn)
-            {
-                fameBuy *= Shocks.FairPriceMultiplier(true);
-                fameSell *= Shocks.FairPriceMultiplier(false);
-            }
+            (float fameBuy, float fameSell) = MarketTrade.Modifiers(origin);
             if (f == 1f && fameBuy == 1f) return;
             ___pricePlayerBuy *= f * fameBuy;
             ___pricePlayerSell *= f * fameSell;

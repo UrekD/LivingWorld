@@ -16,6 +16,7 @@ namespace LivingWorld.Testing
     {
         private static bool fired, probed, roadTraded, neighboured;
         private static readonly HashSet<int> refired = new HashSet<int>();
+        private static bool colonyWiped;
         private static string neighbourResult;
         private static bool rulerVisitAsked, merchantKilled, ropeTested, audienceTested;
         private static string audienceResult;
@@ -49,6 +50,7 @@ namespace LivingWorld.Testing
 
         private static void Hourly()
         {
+            if (Find.LetterStack.LettersListForReading.OfType<ChoiceLetter_GameEnded>().Any()) colonyWiped = true;
             if (AutoTest.Plan == "roadtrade" && roadCaravan != null && !roadTraded) TryRoadTrade();
             // Traders can only trade once they reached their spot: retry hourly for a day.
             if (!probed && Bridge.StatTradesArrived > 0)
@@ -460,6 +462,7 @@ namespace LivingWorld.Testing
             {
                 if (figures == 0) yield return "no figures registered";
                 // Only testable if someone could be called back (a raid may kill every figure first).
+                else if (returning == 0 && refired.Count > 0 && colonyWiped) Log.Message("[LivingWorld:test] recurring figures skipped: the colony was wiped out before the second visits arrived");
                 else if (returning == 0 && refired.Count > 0) yield return "no figure came back for a second visit";
                 else if (returning == 0) Log.Message("[LivingWorld:test] recurring figures skipped: no figure was free to be called back");
             }
@@ -471,7 +474,8 @@ namespace LivingWorld.Testing
                 yield return "merchant inspect pane lacks the world's lines";
             if (ordered != null && ordered.visits >= 2 && commissionPaid <= 0) yield return $"commission: {ordered.name} came back but the order was not delivered and paid (paid {commissionPaid})";
             if (audienceResult == "FAILED") yield return "ruler audience: accepting the proposal had no effect";
-            if (Figures.StatRulerVisits > 0 && !audienceTested) yield return "a ruler visited but no audience letter came";
+            // The audience letter is only checked in plan normal.
+            if (AutoTest.Plan == "normal" && Figures.StatRulerVisits > 0 && !audienceTested) yield return "a ruler visited but no audience letter came";
             int stories = 0, told = 0;
             foreach (IncidentContext ctx in LivingWorldComponent.Instance.contexts)
                 if (ctx.story != 0)

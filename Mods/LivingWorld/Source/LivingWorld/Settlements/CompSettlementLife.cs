@@ -18,6 +18,8 @@ namespace LivingWorld
     public class CompSettlementLife : WorldObjectComp
     {
         public const int Schema = 1;
+        /// <summary>The least <see cref="Scar"/> that shows: in the inspect line, the history log and what town maps change.</summary>
+        public const float ScarVisible = 0.05f;
 
         public bool initialized;
         public int schemaVersion;
@@ -48,6 +50,9 @@ namespace LivingWorld
         /// <summary>What the town last heard about its people held by the colony, and when (Prisoners).</summary>
         public CaptiveNews captiveNews;
         public int captiveNewsTick = FactionState.Never;
+        /// <summary>The last attack the town lost, in sim time (<see cref="SimClock.Now"/>), and how hard it was (0..1); town maps show it as a scar that fades.</summary>
+        public int sackedTicks = FactionState.Never;
+        public float sackSeverity;
 
         /// <summary>The town's yearly fair falls in one of its six best growing twelfths (the warm half year), fixed per town.</summary>
         public Twelfth FairTwelfth => fairTwelfth ??= ComputeFairTwelfth();
@@ -171,6 +176,28 @@ namespace LivingWorld
             importsDaily[c.index] += amount / 10f;
         }
 
+        /// <summary>How much of the last lost attack still shows (0..1): the severity in full for <c>townScarFullDays</c>, then fading to nothing at <c>townScarFadeDays</c>. Derived, no RNG.</summary>
+        public float Scar()
+        {
+            if (sackSeverity <= 0f || sackedTicks <= FactionState.Never) return 0f;
+            return sackSeverity * ScarFade((SimClock.Now - sackedTicks) / (float)GenDate.TicksPerDay, Tuning.T.townScarFullDays, Tuning.T.townScarFadeDays);
+        }
+
+        /// <summary>The share of a scar left after <paramref name="days"/>: 1 up to <paramref name="fullDays"/>, then linear down to 0 at <paramref name="fadeDays"/>.</summary>
+        public static float ScarFade(float days, int fullDays, int fadeDays)
+        {
+            if (days <= fullDays) return 1f;
+            if (fadeDays <= fullDays || days >= fadeDays) return 0f;
+            return (fadeDays - days) / (fadeDays - fullDays);
+        }
+
+        /// <summary>An attack on the town was lost just now: a worse attack, or a scar still showing, is never made lighter.</summary>
+        public void Notify_Sacked(float severity)
+        {
+            sackSeverity = Mathf.Clamp01(Mathf.Max(severity, Scar()));
+            sackedTicks = SimClock.Now;
+        }
+
         public bool Occupied => originalFactionId >= 0 && parent.Faction != null && parent.Faction.loadID != originalFactionId;
 
         public override string CompInspectStringExtra()
@@ -192,7 +219,17 @@ namespace LivingWorld
             }
             if (Occupied && LivingWorldComponent.Instance.FactionById(originalFactionId) is Faction orig)
                 sb.Append("\n").Append("LW_Inspect_Occupied".Translate(orig.Name));
+            if (Tributaries.InspectLine(Settlement) is string held) sb.Append("\n").Append(held);
+            int territory = Territory.TileCount(parent);
+            if (territory > 0) sb.Append("\n").Append("LW_Inspect_Territory".Translate(territory));
+            if (Roads.InspectLine(Settlement) is string road) sb.Append("\n").Append(road);
             if (famineDays > 0) sb.Append("\n").Append("LW_Inspect_Famine".Translate(famineDays));
+            if (Scar() >= ScarVisible)
+            {
+                int scarDays = Mathf.Max(0, (SimClock.Now - sackedTicks) / GenDate.TicksPerDay);
+                sb.Append("\n").Append(scarDays == 0 ? "LW_Inspect_Scarred_Today".Translate().Resolve() : CountLabel.Of("LW_Inspect_Scarred", scarDays));
+            }
+            if (TownMaps.DefendersLine(this) is string defenders) sb.Append("\n").Append(defenders);
             if (unrest >= 0.3f) sb.Append("\n").Append("LW_Inspect_Restless".Translate(unrest.ToStringPercent()));
             if (FairOn) sb.Append("\n").Append("LW_Inspect_Fair".Translate((fairUntilTicks - Find.TickManager.TicksGame).ToStringTicksToPeriod()));
             AidRequest aid = AidRequests.ActiveFor(parent.ID);
@@ -200,6 +237,12 @@ namespace LivingWorld
             else if (shortest != null) sb.Append("\n").Append("LW_Inspect_ShortOf".Translate(shortest.label, worst.ToStringByStyle(ToStringStyle.FloatTwo)));
             if (Prefs.DevMode) sb.Append($"\n[dev] garrison {garrison:F0} unrest {unrest:P0} trade {recentTrade:F0}");
             return sb.ToString();
+        }
+
+        public override IEnumerable<Gizmo> GetGizmos()
+        {
+            foreach (Gizmo g in Tributaries.Gizmos(Settlement)) yield return g;
+            foreach (Gizmo g in HiredBands.Gizmos(this)) yield return g;
         }
 
         public static string ProsperityLabel(float p) =>
@@ -226,6 +269,8 @@ namespace LivingWorld
             Scribe_Values.Look(ref fairNoticeTicks, "lw_fairNotice", FactionState.Never);
             Scribe_Values.Look(ref captiveNews, "lw_captiveNews");
             Scribe_Values.Look(ref captiveNewsTick, "lw_captiveNewsTick", FactionState.Never);
+            Scribe_Values.Look(ref sackedTicks, "lw_sackedTicks", FactionState.Never);
+            Scribe_Values.Look(ref sackSeverity, "lw_sackSeverity");
             // Stock by commodity defName, so adding/removing commodity defs keeps saves loadable.
             CommodityScribe.Look(ref stock, "lw_stock");
         }

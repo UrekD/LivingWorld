@@ -2,8 +2,8 @@
 
 > **Proof of concept, work in progress. AI-generated.** The code, tests, icons and most of these docs were written by
 > AI coding agents (Claude via Claude Code, with reviews by Claude and GPT models), directed by one person. It passes
-> automated in-game tests in a headless harness, but it has not been played on a real save yet, has not had a
-> line-by-line human review, and is not on the Steam Workshop. Use it on a copy of your save. How it was made and
+> automated in-game tests in a headless harness, but it has had only one short play test, no long play on a real
+> save, no line-by-line human review, and is not on the Steam Workshop. Use it on a copy of your save. How it was made and
 > tested, and what was not tested: [docs/HOW-IT-WAS-MADE.md](docs/HOW-IT-WAS-MADE.md).
 >
 > Community-made mod. Not affiliated with or endorsed by Ludeon Studios. RimWorld is © Ludeon Studios.
@@ -52,9 +52,23 @@ Taken by the automated UI tour (`tools/uitour.sh`) on a test world after two yea
   grow closer, wars are declared for reasons, allies join in, envoys carry peace offers and alliances.
 - **Wars:** war bands march on enemy settlements and plunder, conquer or (rarely) raze them. Factions can be wiped
   out. Occupied towns resent their masters and may rise up. Big factions can split, and rebels found a new faction.
-- **Expansion:** settlers found new towns and rebuild ruins.
+- **Expansion:** settlers found new towns and rebuild ruins, on free land or their own faction's, never close to
+  your colony.
 - **History before you land:** a new world first lives through some years (setting, default 2). It starts with wars,
   ruins, new towns and a chronicle reaching back.
+
+**Land and roads**
+- **Borders:** each town claims the land within a few days' walk; bigger towns and capitals reach further, and your
+  colony's reach grows with its renown. Each tile belongs to the nearest claim. Factions whose lands touch grow
+  rivalrous.
+- **Roads:** towns that trade a lot build roads between them, paid from the treasury. Tribes build dirt roads, others
+  stone. Roads decay when trade stops or the towns fall out. Your caravans can build roads too: *Build road…* on a
+  caravan, then pick a tile up to 30 tiles away. A dirt road is work only; a stone road also needs 25 stone blocks
+  per tile. In vanilla every road is equally fast, so the stone road is only for looks. A town joined to your colony
+  by road sends merchants and visitors more often and thinks better of you.
+- **Town maps follow the world:** when you attack a town, a city has bigger grounds than a hamlet, and the defenders
+  follow its garrison. Loot follows its wealth, and stockpiles are thin when its stores are low. A recent sack leaves
+  damage, rubble and ash, and starving defenders are underfed. The inspect pane says how strongly it would defend.
 
 **You can see it happen**
 - Parties travel on the world map: merchants carrying goods between towns, war bands, envoys, settlers, travellers.
@@ -64,8 +78,18 @@ Taken by the automated UI tour (`tools/uitour.sh`) on a test world after two yea
   - *Factions:* traits, leader, strength, treasury, enemies.
   - *Wars:* causes, battles and who is winning.
   - *Settlements:* sortable table.
-  - *Markets:* what nearby towns pay for each good.
+  - *Markets:* what nearby towns pay for each good, and *Routes*: where a good sells well, and buy-here, sell-there
+    runs from your colony with estimated profit and travel days.
   - *People:* notable figures.
+- **World map overlays:** a button among the world view's bottom-right icons picks one overlay:
+  - *Borders:* faction territory.
+  - *War fronts:* the borders between factions at war, the last 30 days' battles, and lines from war bands to their
+    targets.
+  - *Trade:* the busiest routes and merchants on the road.
+  - *Prosperity:* each town's land, from destitute to thriving, with famine marked.
+  - *Shortage:* overall, or of one good.
+
+  A legend at the top explains the colours. The same choice is in the mod settings.
 - World news comes as a periodic digest letter. Events that involve you get their own letter.
 
 **The storyteller's events come from the world**
@@ -93,7 +117,8 @@ Taken by the automated UI tour (`tools/uitour.sh`) on a test world after two yea
 - **Your own diplomacy:** the *Diplomacy* button on the Chronicle's Factions page sends an envoy walking to a
   faction's nearest town. The envoy can offer peace to an enemy (a gift helps; treacherous hosts may keep it and
   the envoy), call an ally to march against one of your enemies, or demand tribute from a weaker neighbour. The
-  dialog shows each offer's chance of acceptance, and the envoy comes back with the answer.
+  dialog shows each offer's chance of acceptance, and the envoy comes back with the answer. It can also hire a war
+  band (below).
 - **Yearly fairs:** prosperous towns hold a week-long fair at a fixed time in their warm season. You hear of it a
   few days ahead, friendly colonies nearby are invited, the market restocks, and trading there gets better prices.
 - **Visitors bring their world with them:** people from a sacked, starving or warring town are shaken (and the
@@ -126,9 +151,27 @@ Taken by the automated UI tour (`tools/uitour.sh`) on a test world after two yea
   the breakaway.
 - **Rulers can fall:** when a faction's capital is taken, its ruler may die there, and a successor takes over.
 - **Legends:** the Chronicle's *Legends* page shows your colony's renown and each colonist's deeds (a warlord slain,
-  a fight abroad, a refugee taken in), the dead too.
+  a fight abroad, a refugee taken in), the dead too. *Export legends* writes the world's history to
+  `<save data folder>/LivingWorld/Legends/` as a web page and a plain-text file: factions, wars, settlements,
+  figures, your deeds and the chronicle year by year.
 - Each settlement has a *Living world* inspect tab on the world map: people, market, notable people and history. The
   Chronicle also has a *Relations* matrix.
+
+**Your own conquests and hires**
+- **Hold a conquered town:** when your colonists beat the defenders of a hostile town, a dialog lets you *Hold* it or
+  *Raze* it. A held town becomes a free town once your people leave its map, with its own faction ("Free town of …")
+  allied to you. Its old masters go to war to win it back, and their enemies think better of you. You can hold up to
+  six towns.
+- **Tribute and loyalty:** a held town pays tribute every 15 days: silver, plus goods from its surplus, carried by a
+  convoy on the world map (or by drop pod if the convoy can't reach you). You set the rate (suspended, light, normal
+  or heavy) with the town's *Tribute* button, once every 15 days. A heavier rate brings in more and stirs more
+  unrest. *Send a gift* calms it, and a road to your colony helps a little. A restless town warns you; past that it
+  may rise, going back to its old masters or breaking free. *Release town* lets it go on good terms.
+- **Hire a war band:** pay a faction that is not hostile to you, and is already at war with one of your enemies, to
+  send a war band against one of that enemy's towns. Use *Hire a war band* on the town, or the Diplomacy dialog. An
+  envoy carries the silver; the price follows the band's strength, and you see the odds and the ETA first. If they
+  refuse, the silver comes home. If the band is called off before it fights, half comes back. A town the band takes
+  goes to the faction you hired, not to you.
 
 ## Reporting lag
 
@@ -173,7 +216,7 @@ saves and reloads halfway, checks invariants and prints `[LivingWorld:test] PASS
 
 | Plan | What it exercises |
 |---|---|
-| `normal` | storyteller raid, trade caravan and visitors as world parties, market probe, recurring figures, save/load |
+| `normal` | storyteller raid, trade caravan and visitors as world parties, market probe, recurring figures, roads (caravan-built and NPC), world overlays, trade-route planner, save/load |
 | `history` | 10 years of pre-landing history with yearly balance lines |
 | `hospitality` | the same with Hospitality |
 | `spaceports` | a built spaceport with Spaceports + Hospitality: shuttles land |
@@ -183,13 +226,28 @@ saves and reloads halfway, checks invariants and prints `[LivingWorld:test] PASS
 | `demands` | tribute: refusing or ignoring it starts a vendetta, paying uses silver on the map and keeps that faction's raids away; war request rewards; per-save removal switch |
 | `prisoners` | captives (ransom, death in captivity, release), visitors' pleas, mercenary contracts, kin, blood feuds (sworn, hunted, ended, avenged, blood price, warnings) and careers (merchant princes, dread warlords, retirement) |
 | `ages` | raider weapons of a faction's learned age, a faction advancing and its old ways splitting off, a new people arriving, a deposed house leading a breakaway |
-| `diplomacy` | the colony's envoys: peace, tribute, call to arms (forced answers), and one envoy walking there and back; ruling houses |
+| `diplomacy` | the colony's envoys: peace, tribute, call to arms (forced answers), and one envoy walking there and back; ruling houses; hiring a war band |
 | `life` | a month on Peaceful with nothing forced (colonists kept fed): what visits, orders and pleas happen on their own |
+| `townmaps` | real maps of one town in several states: size by tier, defenders, loot, sacked and starving, a faded scar |
+| `agency` | holding conquered towns: the hold or raze choice, handover, tribute payments and rates, gifts, unrest, revolt, release, save/load |
+| `agencycore` | the same with Core only, no expansions |
+| `agencyremoval` | saves with a held town prepared for removal (used by `tools/removal-check.sh`) |
+| `ambush` | a vanilla caravan ambush still makes its map |
+| `load` | continues the last autotest save in a fresh process |
 | `stress` | full planet (about 900 settlements): performance per in-game day |
 | `uitour` | `tools/uitour.sh`: windowed run with a screenshot of every page |
 
 `tools/regression.sh` runs the main plans in parallel on the native Linux build. Every game takes one of five
 machine-wide slots (`tools/rw-slot.sh`) and waits for free memory, so runs from several repositories share the machine.
+It also runs the removal check (`tools/removal-check.sh`): saves with and without a held town, prepared for removal,
+are loaded in a game without Living World.
+
+`tools/history-golden.sh determinism|record|compare <suffix>` checks that history is deterministic: the same seed and
+build must give the same daily history lines and state checksums. `determinism` runs twice and compares the runs,
+`record` writes a golden file, and `compare` diffs a run against the golden, optionally with some settings switched
+off (a feature that is off, or whose expansion is absent, must not change history). `tools/make-savedata.sh <suffix>
+[DLCs…]` writes a save-data folder's `ModsConfig.xml` for a set of expansions; `--all` makes the standard set
+(`-nodlc`, `-ideo`, `-bio`, `-roy`, `-ano`, `-ideobio`).
 
 The games run under the headless harness of [ColonyScale](https://github.com/UrekD/ColonyScale)
 (`tools/headless/run-game.sh`: offline, Xvfb, the Windows build under portable Wine or the native Linux build). Check

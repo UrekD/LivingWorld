@@ -80,6 +80,22 @@ namespace LivingWorld
                     label = "LW_Dipl_Tribute".Translate(PlayerDiplomacy.TributeAmount(faction)), desc = "LW_Dipl_TributeDesc".Translate(),
                     chance = PlayerDiplomacy.TributeChance(faction), send = () => PlayerDiplomacy.Send(faction, EnvoyMission.PlayerTribute),
                 });
+            foreach (HireOffer offer in HiredBands.Offers(faction))
+            {
+                HireOffer o = offer;
+                if (o.target == null || o.source == null)
+                {
+                    // Cannot be made at all (no town of theirs in reach): the reason, with nothing to send.
+                    list.Add(new Option { label = "LW_Hire_NoneLabel".Translate(o.enemy?.Name ?? "?"), desc = "LW_Hire_NoneDesc".Translate(), chance = -1f, disabled = o.cannot });
+                    continue;
+                }
+                list.Add(new Option
+                {
+                    label = "LW_Hire_Option".Translate(o.enemy.Name, Mathf.RoundToInt(o.strength), o.source.Label, o.target.Label, o.price), desc = HiredBands.Describe(o),
+                    chance = o.acceptChance, disabled = o.cannot ?? (silver < o.price ? "LW_Dipl_NotEnoughSilver".Translate().Resolve() : null),
+                    send = () => HiredBands.Send(o),
+                });
+            }
             return list;
         }
 
@@ -149,8 +165,9 @@ namespace LivingWorld
                 Text.Font = GameFont.Tiny;
                 GUI.color = new Color(0.8f, 0.8f, 0.8f);
                 Widgets.Label(new Rect(inner.x, inner.y + 22f, inner.width - 110f, dh), o.desc);
-                GUI.color = o.chance >= 0.6f ? new Color(0.5f, 1f, 0.5f) : o.chance >= 0.3f ? Color.white : new Color(1f, 0.6f, 0.5f);
-                Widgets.Label(new Rect(inner.x, inner.y + 24f + dh, inner.width - 110f, 18f), "LW_Dipl_Chance".Translate(o.chance.ToStringPercent()) + (o.disabled != null ? " — " + o.disabled : ""));
+                GUI.color = o.chance < 0f ? new Color(1f, 0.6f, 0.5f) : o.chance >= 0.6f ? new Color(0.5f, 1f, 0.5f) : o.chance >= 0.3f ? Color.white : new Color(1f, 0.6f, 0.5f);
+                Widgets.Label(new Rect(inner.x, inner.y + 24f + dh, inner.width - 110f, 18f),
+                    o.chance < 0f ? o.disabled : ("LW_Dipl_Chance".Translate(o.chance.ToStringPercent()) + (o.disabled != null ? " — " + o.disabled : "")).Resolve());
                 GUI.color = Color.white;
                 Text.Font = GameFont.Small;
                 var button = new Rect(inner.xMax - 100f, inner.y + 22f, 100f, 30f);

@@ -22,7 +22,7 @@ namespace LivingWorld
             foreach (CompSettlementLife s in comp.activeSettlements)
             {
                 Faction f = s.Settlement.Faction;
-                if (s.unrest < 0.6f || f.def.permanentEnemy || SettlementOps.Protected(s.Settlement) || !SettlementOps.CanFall(s.Settlement)) continue;
+                if (s.unrest < 0.6f || f.def.permanentEnemy || Tributaries.HeldFor(s.Settlement) != null || SettlementOps.Protected(s.Settlement) || !SettlementOps.CanFall(s.Settlement)) continue;
                 FactionState fs = comp.StateFor(f);
                 if (fs == null || !Rand.Chance(0.004f * pace * (s.unrest - 0.5f) * 10f)) continue;
                 // An occupied town returns to its founders if they still exist; otherwise a big faction's town breaks away.
@@ -38,10 +38,12 @@ namespace LivingWorld
             }
         }
 
-        private static void Liberate(LivingWorldComponent comp, CompSettlementLife s, Faction occupier, Faction founders)
+        internal static void Liberate(LivingWorldComponent comp, CompSettlementLife s, Faction occupier, Faction founders)
         {
             Settlement town = s.Settlement;
             string name = town.Label;
+            HistoryTotals.Liberations++;
+            if (s.Occupied) HistoryTotals.LiberationsOccupied++;
             SettlementOps.Capture(town, founders);
             s.unrest = 0.1f;
             s.garrison = s.population * 1.5f;
@@ -70,20 +72,24 @@ namespace LivingWorld
         /// </summary>
         public static Faction CreateFaction(FactionDef def)
         {
-            var ideoParms = new IdeoGenerationParms(def, forceNoExpansionIdeo: false, null, null, name: def.ideoName, styles: def.styles, deities: def.deityPresets,
-                hidden: def.hiddenIdeo, description: def.ideoDescription, forcedMemes: def.forcedMemes, classicExtra: false, forceNoWeaponPreference: false,
-                forNewFluidIdeo: false, fixedIdeo: def.fixedIdeo, requiredPreceptsOnly: def.requiredPreceptsOnly);
-            Faction f = FactionGenerator.NewGeneratedFaction(Find.WorldGrid.Surface, new FactionGeneratorParms(def, ideoParms, hidden: true));
+            Faction f = FactionGenerator.NewGeneratedFaction(Find.WorldGrid.Surface, new FactionGeneratorParms(def, IdeoParms(def), hidden: true));
             Find.FactionManager.Add(f);
             f.hidden = null; // the generator already made a leader
             return f;
         }
+
+        /// <summary>What a new faction of the kind is made with for its ideology (a faith handed to it is checked against the same).</summary>
+        internal static IdeoGenerationParms IdeoParms(FactionDef def) =>
+            new IdeoGenerationParms(def, forceNoExpansionIdeo: false, null, null, name: def.ideoName, styles: def.styles, deities: def.deityPresets,
+                hidden: def.hiddenIdeo, description: def.ideoDescription, forcedMemes: def.forcedMemes, classicExtra: false, forceNoWeaponPreference: false,
+                forNewFluidIdeo: false, fixedIdeo: def.fixedIdeo, requiredPreceptsOnly: def.requiredPreceptsOnly);
 
         private static void Rise(LivingWorldComponent comp, CompSettlementLife s, Faction parent, string cause = null, string claimantHouse = null, int claimantGenerations = 0)
         {
             Faction rebels = CreateFaction(parent.def);
             Settlement town = s.Settlement;
             string townName = town.Label;
+            if (s.Occupied) HistoryTotals.RisingsOccupied++;
             s.unrest = 0.1f;
             s.prosperity = Mathf.Clamp01(s.prosperity + 0.1f);
             SettlementOps.Capture(town, rebels);

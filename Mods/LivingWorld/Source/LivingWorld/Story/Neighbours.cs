@@ -39,7 +39,8 @@ namespace LivingWorld
                 // Daily chance: goodwill (neutral towns come now and then, friends often), the colony's name there, the town's
                 // trade and how close it is.
                 float score = 0.12f * ((f.PlayerGoodwill + 50f) / 125f) * (0.5f + Mathf.Max(0f, s.fame)) * s.Tier.tradeFactor * Mathf.Clamp01(1.3f - d / range) * (s.FairOn ? 2f : 1f)
-                              * (comp.StateFor(f)?.tradePactUntil > now ? 1.5f : 1f); // a trade pact brings their merchants more often
+                              * (comp.StateFor(f)?.tradePactUntil > now ? 1.5f : 1f) // a trade pact brings their merchants more often
+                              * Roads.NeighbourFactor(home, s.Settlement); // so does a road joining the town to the colony
                 candidates.Add((s, score));
                 bestScore = Mathf.Max(bestScore, score);
             }

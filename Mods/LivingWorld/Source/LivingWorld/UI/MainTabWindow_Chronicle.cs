@@ -76,7 +76,7 @@ namespace LivingWorld
                 builtCount = -1;
             }
             Text.Anchor = TextAnchor.MiddleRight;
-            Widgets.Label(top.RightPartPixels(300f), "LW_NewsCount".Translate(log.Count));
+            Widgets.Label(top.RightPartPixels(300f), CountLabel.Of("LW_NewsCount", log.Count));
             Text.Anchor = TextAnchor.UpperLeft;
             if (builtCount != log.Count || builtFilter != filter) Rebuild(log);
             Rect list = rect;
@@ -127,6 +127,7 @@ namespace LivingWorld
     public class Page_Factions : ChroniclePage
     {
         private Vector2 scroll;
+        private readonly List<Faction> bordering = new List<Faction>();
 
         public override string Label => "LW_Tab_Factions".Translate();
 
@@ -159,12 +160,8 @@ namespace LivingWorld
                 foreach (FactionTraitDef t in fs.traits) traits.Add(t.label);
                 GUI.color = new Color(0.8f, 0.8f, 0.8f);
                 Widgets.Label(new Rect(x, inner.y + 26f, nameW, 22f), $"{KnowHow.Label(fs)} · {string.Join(", ", traits)}");
-                if (f.leader != null)
+                if (Rulers.Line(comp, fs) is string ruler)
                 {
-                    string ruler = fs.rulerTraits.Count > 0
-                        ? "LW_Ruler_Line".Translate(f.LeaderTitle.CapitalizeFirst().Named("TITLE"), (f.leader.Name.ToStringFull + Rulers.HouseLabel(fs)).Named("NAME"), Rulers.TraitsLabel(fs).Named("TRAITS"),
-                            Rulers.GoalLabel(comp, fs).Named("GOAL")).Resolve()
-                        : $"{f.LeaderTitle.CapitalizeFirst()}: {f.leader.Name.ToStringFull}";
                     // Two lines for the ruler (name and temperament, then the goal); the full text in the tooltip.
                     var rulerRect = new Rect(x, inner.y + 46f, nameW, 40f);
                     Text.Font = GameFont.Tiny;
@@ -174,9 +171,25 @@ namespace LivingWorld
                 }
                 GUI.color = Color.white;
                 float cx = x + nameW + 10f;
-                Widgets.Label(new Rect(cx, inner.y, statsW, 22f), "LW_Faction_Settlements".Translate(fs.settlements.Count, Mathf.RoundToInt(fs.population)));
+                Widgets.Label(new Rect(cx, inner.y, statsW, 22f), "LW_Faction_Settlements".Translate(CountLabel.Of("LW_Count_Settlements", fs.settlements.Count), CountLabel.Of("LW_Count_People", Mathf.RoundToInt(fs.population))));
                 Widgets.Label(new Rect(cx, inner.y + 20f, statsW, 22f), "LW_Faction_Strength".Translate(Mathf.RoundToInt(fs.strength)));
                 Widgets.Label(new Rect(cx, inner.y + 40f, statsW, 22f), "LW_Faction_Treasury".Translate(Mathf.RoundToInt(fs.treasury)));
+                if (Territory.Ready)
+                {
+                    // Whose land touches this faction's (the tooltip has the length of each border).
+                    Territory.Bordering(f, bordering);
+                    var names = new List<string>();
+                    var detail = new List<string>();
+                    foreach (Faction o in bordering)
+                    {
+                        names.Add(o.Name);
+                        detail.Add($"{o.Name}: {Territory.SharedBorder(f, o)}");
+                    }
+                    string line = names.Count == 0 ? "LW_Faction_BordersNone".Translate().Resolve() : "LW_Faction_Borders".Translate(string.Join(", ", names)).Resolve();
+                    var borderRect = new Rect(cx, inner.y + 60f, statsW, 22f);
+                    Widgets.Label(borderRect, line.Truncate(statsW));
+                    if (names.Count > 0) TooltipHandler.TipRegion(borderRect, string.Join("\n", detail));
+                }
                 float rx = cx + statsW + 10f;
                 bool button = PlayerDiplomacy.Enabled && !f.def.permanentEnemy && f.HasGoodwill;
                 var enemies = new List<string>();
@@ -192,6 +205,7 @@ namespace LivingWorld
                 foreach (Grievance g in fs.grievances)
                     if (g.otherFactionId == Faction.OfPlayer.loadID && g.amount >= 5f && (worst == null || g.amount > worst.amount)) worst = g;
                 if (worst != null) mood += "\n" + "LW_Faction_GrudgeVsYou".Translate(worst.reason);
+                if (Tributaries.FactionLine(f) is string freeTown) mood += "\n" + freeTown;
                 if (PlayerDiplomacy.EnvoyTo(f) is WorldParty envoy) mood += "\n" + PlayerDiplomacy.EnvoyStatus(envoy);
                 string relText = rel + "\n" + mood;
                 Widgets.Label(relRect, relText);

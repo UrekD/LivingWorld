@@ -113,10 +113,22 @@ namespace LivingWorld
 
         private static bool InvolvesPlayer(FactionState fs) => fs.goalTargetId == Faction.OfPlayer.loadID;
 
+        /// <summary>
+        /// The seed of a ruler's temperament: the faction (as in FactionState.RollTraits), the accession tick and the ruler's name. Not the
+        /// thingIDNumber: that counter is shared with every thing the game makes (world generation, the landing, gear, relatives), so the
+        /// same ruler got other traits, hence another goal, in another run of the same seed.
+        /// </summary>
+        internal static int TraitSeed(FactionState fs, Pawn leader)
+        {
+            int faction = fs.factionId * 7919 + (fs.faction?.randomKey ?? 0);
+            int name = GenText.StableStringHash(leader.Name?.ToStringFull ?? "");
+            return Gen.HashCombineInt(Gen.HashCombineInt(faction, SimClock.Now), name ^ 0x4C575254);
+        }
+
         private static void RollTraits(FactionState fs, Pawn leader)
         {
             fs.rulerTraits.Clear();
-            Rand.PushState(leader.thingIDNumber * 104729 + fs.factionId);
+            Rand.PushState(TraitSeed(fs, leader));
             try
             {
                 for (int i = 0; i < 2; i++)
@@ -310,6 +322,17 @@ namespace LivingWorld
             Faction target = comp.FactionById(fs.goalTargetId);
             string name = target == null ? "?" : target.IsPlayer ? (string)"LW_Ruler_TheColony".Translate(target.Name) : target.Name;
             return ("LW_RulerGoal_" + fs.goal).Translate(name).Resolve();
+        }
+
+        /// <summary>"Queen: Name, of House X — ambitious, cruel; wants to conquer Y" (null without a leader); a ruler not yet rolled has only title and name.</summary>
+        public static string Line(LivingWorldComponent comp, FactionState fs)
+        {
+            Faction f = fs.faction;
+            if (f?.leader == null) return null;
+            return fs.rulerTraits.Count > 0
+                ? "LW_Ruler_Line".Translate(f.LeaderTitle.CapitalizeFirst().Named("TITLE"), (f.leader.Name.ToStringFull + HouseLabel(fs)).Named("NAME"), TraitsLabel(fs).Named("TRAITS"),
+                    GoalLabel(comp, fs).Named("GOAL")).Resolve()
+                : $"{f.LeaderTitle.CapitalizeFirst()}: {f.leader.Name.ToStringFull}";
         }
     }
 

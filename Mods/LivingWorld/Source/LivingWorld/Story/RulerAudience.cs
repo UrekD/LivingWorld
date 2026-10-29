@@ -37,7 +37,7 @@ namespace LivingWorld
                     }
                     return AudienceProposal.Gift;
                 case RulerGoalKind.Expand:
-                    return home != null && Expansion.TryFindSite(home.Tile, out _) ? AudienceProposal.SettleNearby : AudienceProposal.Gift;
+                    return home != null && Expansion.TryFindSite(fs.faction, home.Tile, out _) ? AudienceProposal.SettleNearby : AudienceProposal.Gift;
                 default:
                     return AudienceProposal.Gift;
             }
@@ -165,7 +165,7 @@ namespace LivingWorld
                 case AudienceProposal.SettleNearby:
                     Map home = Neighbourhood.Home;
                     Settlement capital = SettlementOps.CapitalOf(f);
-                    if (home != null && Expansion.TryFindSite(home.Tile, out PlanetTile site) && capital?.GetComponent<CompSettlementLife>() is CompSettlementLife cap)
+                    if (home != null && Expansion.TryFindSite(f, home.Tile, out PlanetTile site) && capital?.GetComponent<CompSettlementLife>() is CompSettlementLife cap)
                     {
                         float people = Mathf.Max(Tuning.T.minPopulation, cap.population * 0.08f);
                         cap.population -= people;

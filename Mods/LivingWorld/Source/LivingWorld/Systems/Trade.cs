@@ -111,6 +111,7 @@ namespace LivingWorld
             buyer.recentTrade += amount;
             profit = amount * Mathf.Max(0.1f, price - 0.8f);
             Diplomacy.AddTrade(seller?.Faction, buyer.Settlement.Faction, amount);
+            Roads.NoteDelivery(seller, buyer.Settlement, amount);
         }
 
         public static void Earn(LivingWorldComponent comp, Settlement home, float profit, float volume)

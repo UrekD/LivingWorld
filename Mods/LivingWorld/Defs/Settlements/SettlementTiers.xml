@@ -8,6 +8,10 @@
     <garrisonPerCapita>2.2</garrisonPerCapita>
     <tradeFactor>0.6</tradeFactor>
     <fortification>1.0</fortification>
+    <townMapRectScale>0.7</townMapRectScale>
+    <townMapPointsFactor>0.6</townMapPointsFactor>
+    <townMapLootFactor>0.5</townMapLootFactor>
+    <townMapEdgeDefense>0</townMapEdgeDefense>
   </LivingWorld.SettlementTierDef>
   <LivingWorld.SettlementTierDef>
     <defName>LW_Village</defName>
@@ -17,6 +21,10 @@
     <garrisonPerCapita>2.0</garrisonPerCapita>
     <tradeFactor>1.0</tradeFactor>
     <fortification>1.15</fortification>
+    <townMapRectScale>0.85</townMapRectScale>
+    <townMapPointsFactor>0.8</townMapPointsFactor>
+    <townMapLootFactor>0.8</townMapLootFactor>
+    <townMapEdgeDefense>-1</townMapEdgeDefense>
   </LivingWorld.SettlementTierDef>
   <LivingWorld.SettlementTierDef>
     <defName>LW_Town</defName>
@@ -26,6 +34,10 @@
     <garrisonPerCapita>1.8</garrisonPerCapita>
     <tradeFactor>1.4</tradeFactor>
     <fortification>1.4</fortification>
+    <townMapRectScale>1.0</townMapRectScale>
+    <townMapPointsFactor>1.0</townMapPointsFactor>
+    <townMapLootFactor>1.0</townMapLootFactor>
+    <townMapEdgeDefense>-1</townMapEdgeDefense>
   </LivingWorld.SettlementTierDef>
   <LivingWorld.SettlementTierDef>
     <defName>LW_City</defName>
@@ -35,5 +47,9 @@
     <garrisonPerCapita>1.6</garrisonPerCapita>
     <tradeFactor>2.0</tradeFactor>
     <fortification>1.8</fortification>
+    <townMapRectScale>1.3</townMapRectScale>
+    <townMapPointsFactor>1.3</townMapPointsFactor>
+    <townMapLootFactor>1.4</townMapLootFactor>
+    <townMapEdgeDefense>4</townMapEdgeDefense>
   </LivingWorld.SettlementTierDef>
 </Defs>
